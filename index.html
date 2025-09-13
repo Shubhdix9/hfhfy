@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,6 +87,15 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         
+        #map {
+            z-index: 1;
+            position: relative;
+        }
+        
+        .leaflet-container {
+            z-index: 1;
+        }
+        
         .category-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -101,6 +112,15 @@
         .item-card:hover {
             transform: translateY(-4px);
             box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.15), -8px -8px 20px rgba(255, 255, 255, 0.9);
+        }
+        
+        .location-pulse {
+            animation: locationPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes locationPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
     </style>
 </head>
@@ -150,7 +170,7 @@
                     </p>
                     <div class="flex flex-wrap justify-center gap-4">
                         <button class="bg-white text-green-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 harvest-glow">
-                            🚀 Start Listing
+                            🚀 Start Listings
                         </button>
                         <button class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-600 transition-all duration-300">
                             📱 Download App
@@ -259,14 +279,43 @@
                     <h2 class="text-3xl font-bold text-green-800 flex items-center">
                         <span class="mr-3">🗺️</span> Live Agricultural Marketplace
                     </h2>
-                    <div class="flex space-x-3">
-                        <button id="filterAll" class="filter-btn bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">All</button>
-                        <button id="filterBuy" class="filter-btn bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium">Buy</button>
-                        <button id="filterSell" class="filter-btn bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium">Sell</button>
-                        <button id="filterRent" class="filter-btn bg-purple-500 text-white px-4 py-2 rounded-lg text-sm font-medium">Rent</button>
+                    <div class="flex space-x-2 flex-wrap gap-2">
+                        <button id="filterAll" class="filter-btn bg-green-600 text-white px-3 py-2 rounded-lg text-xs font-medium">All</button>
+                        <button id="filterBuy" class="filter-btn bg-blue-500 text-white px-3 py-2 rounded-lg text-xs font-medium">Buy</button>
+                        <button id="filterSell" class="filter-btn bg-orange-500 text-white px-3 py-2 rounded-lg text-xs font-medium">Sell</button>
+                        <button id="filterRent" class="filter-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-xs font-medium">Rent</button>
+                        <button id="nearbyBtn" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-indigo-700">📍 Nearby</button>
+                        <button id="weatherToggle" class="bg-yellow-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-yellow-700">🌤️ Weather</button>
+                        <button id="heatmapToggle" class="bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-red-700">🔥 Heatmap</button>
+                        <button id="routeBtn" class="bg-teal-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-teal-700">🛣️ Routes</button>
+                        <button id="priceAnalysis" class="bg-pink-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-pink-700">💹 Prices</button>
+                        <button id="farmZones" class="bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-emerald-700">🌾 Zones</button>
+                        <button id="liveTracking" class="bg-violet-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-violet-700">📡 Live</button>
                     </div>
                 </div>
-                <div id="map" class="w-full h-96 rounded-2xl shadow-inner"></div>
+                <div class="relative">
+                    <div id="map" class="w-full h-96 rounded-2xl shadow-inner"></div>
+                    <div id="weatherOverlay" class="weather-overlay hidden">
+                        <div class="text-sm font-semibold mb-2">🌤️ Weather Info</div>
+                        <div id="weatherData" class="text-xs space-y-1">
+                            <div>Temp: <span id="temperature">28°C</span></div>
+                            <div>Humidity: <span id="humidity">65%</span></div>
+                            <div>Wind: <span id="windSpeed">12 km/h</span></div>
+                            <div class="text-green-600 font-medium">Perfect for farming!</div>
+                        </div>
+                    </div>
+                    <div id="heatmapLegend" class="heatmap-legend hidden">
+                        <div class="font-semibold mb-2">Activity Heatmap</div>
+                        <div class="flex items-center space-x-2 text-xs">
+                            <div class="w-3 h-3 bg-green-300 rounded"></div>
+                            <span>Low</span>
+                            <div class="w-3 h-3 bg-yellow-400 rounded"></div>
+                            <span>Medium</span>
+                            <div class="w-3 h-3 bg-red-500 rounded"></div>
+                            <span>High</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="text-center">
@@ -308,8 +357,8 @@
     </section>
 
     <!-- Category Items Modal -->
-    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm">
-        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
             <div class="flex justify-between items-center mb-6">
                 <h3 id="categoryTitle" class="text-3xl font-bold text-green-800"></h3>
                 <button id="closeCategoryModal" class="text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
@@ -326,8 +375,8 @@
     </div>
 
     <!-- Add Item Modal -->
-    <div id="addItemModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div id="addItemModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-green-800">Add New Item</h3>
                 <button id="closeAddModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
@@ -376,10 +425,125 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                     <textarea id="itemDescription" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" rows="3" placeholder="Detailed description..."></textarea>
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload Images</label>
+                    <input type="file" id="itemImages" multiple accept="image/*" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <p class="text-xs text-gray-500 mt-1">Upload up to 5 images (Max 5MB each)</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                        <button type="button" id="detectLocationBtn" class="w-full bg-blue-100 text-blue-700 py-3 rounded-lg hover:bg-blue-200 transition-colors font-medium">
+                            📍 Use My Location
+                        </button>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Trust Score</label>
+                        <div class="flex items-center space-x-2 py-3">
+                            <span class="trust-badge">⭐ 4.8</span>
+                            <span class="verified-seller trust-badge">✓ Verified</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="locationStatus" class="hidden text-sm text-green-600 bg-green-50 p-2 rounded-lg">
+                    📍 Location detected successfully!
+                </div>
                 <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-all font-semibold">
                     🚀 Add to Marketplace
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- AI Chatbot -->
+    <div id="aiChatbot" class="fixed bottom-6 right-6 z-40">
+        <button id="aiChatBtn" class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg hover:shadow-xl transition-all harvest-glow">
+            🤖
+        </button>
+        <div id="aiChatWindow" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-2xl shadow-2xl border">
+            <div class="p-4 border-b bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-t-2xl">
+                <div class="flex justify-between items-center">
+                    <h4 class="font-bold">🤖 KrishiSetu AI Assistant</h4>
+                    <button id="closeChatBtn" class="text-white hover:text-gray-200">&times;</button>
+                </div>
+            </div>
+            <div id="chatMessages" class="p-4 space-y-3 max-h-60 overflow-y-auto">
+                <div class="ai-recommendation text-sm">
+                    👋 Hi! I'm your AI farming assistant. I can help you with:
+                    <br>• Find nearby equipment
+                    <br>• Crop recommendations
+                    <br>• Weather insights
+                    <br>• Price predictions
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex space-x-2">
+                    <input type="text" id="chatInput" class="flex-1 p-2 border border-gray-300 rounded-lg text-sm" placeholder="Ask me anything...">
+                    <button id="sendChatBtn" class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600">Send</button>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <button onclick="quickChat('Best time to sell wheat?')" class="text-xs bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">🌾 Wheat prices</button>
+                    <button onclick="quickChat('Irrigation equipment near me')" class="text-xs bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">💧 Irrigation</button>
+                    <button onclick="quickChat('Weather forecast')" class="text-xs bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">🌤️ Weather</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Smart Notifications -->
+    <div id="smartNotifications" class="fixed top-20 right-4 z-50 space-y-2">
+        <!-- Notifications will appear here -->
+    </div>
+
+    <!-- Analytics Dashboard (Admin) -->
+    <div id="analyticsModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-3xl font-bold text-green-800">📊 Marketplace Analytics</h3>
+                <button id="closeAnalyticsModal" class="text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="agri-card p-6 text-center">
+                    <div class="text-3xl mb-2">📈</div>
+                    <h4 class="text-xl font-bold text-green-800">Total Listings</h4>
+                    <p class="text-3xl font-bold text-blue-600" id="totalListings">0</p>
+                </div>
+                <div class="agri-card p-6 text-center">
+                    <div class="text-3xl mb-2">🎯</div>
+                    <h4 class="text-xl font-bold text-green-800">Active Users</h4>
+                    <p class="text-3xl font-bold text-green-600" id="activeUsers">0</p>
+                </div>
+                <div class="agri-card p-6 text-center">
+                    <div class="text-3xl mb-2">💰</div>
+                    <h4 class="text-xl font-bold text-green-800">Total Value</h4>
+                    <p class="text-3xl font-bold text-purple-600" id="totalValue">₹0</p>
+                </div>
+            </div>
+            <div class="mt-8">
+                <h4 class="text-xl font-bold text-green-800 mb-4">Regional Demand Heatmap</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-green-100 p-4 rounded-lg text-center">
+                        <div class="text-2xl mb-2">🚜</div>
+                        <p class="font-semibold">Machinery</p>
+                        <p class="text-green-600">High Demand</p>
+                    </div>
+                    <div class="bg-yellow-100 p-4 rounded-lg text-center">
+                        <div class="text-2xl mb-2">🔧</div>
+                        <p class="font-semibold">Equipment</p>
+                        <p class="text-yellow-600">Medium Demand</p>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded-lg text-center">
+                        <div class="text-2xl mb-2">♻️</div>
+                        <p class="font-semibold">Agro Waste</p>
+                        <p class="text-blue-600">Growing</p>
+                    </div>
+                    <div class="bg-purple-100 p-4 rounded-lg text-center">
+                        <div class="text-2xl mb-2">🏠</div>
+                        <p class="font-semibold">Rentals</p>
+                        <p class="text-purple-600">Trending</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -391,27 +555,51 @@
         let cart = [];
         let currentFilter = 'all';
         let currentSection = 'home';
+        let userLocation = null;
+        let markerClusterGroup;
+        let weatherData = null;
+        let aiRecommendations = [];
+        let trustScores = new Map();
+        let notifications = [];
 
-        // Sample data for different categories
+        // Sample data for different categories with enhanced features - Jaipur/JKLU area
         const categoryData = {
             agrowaste: [
-                { id: 1, name: "Rice Straw Bales", price: 500, type: "sell", condition: "good", description: "Fresh rice straw bales, perfect for composting", contact: "+91 98765 43210", image: "🌾" },
-                { id: 2, name: "Wheat Residue", price: 300, type: "sell", condition: "excellent", description: "High-quality wheat residue for bio-fuel", contact: "+91 87654 32109", image: "🌾" },
-                { id: 3, name: "Organic Compost", price: 200, type: "buy", condition: "new", description: "Looking for organic compost in bulk", contact: "+91 76543 21098", image: "♻️" },
-                { id: 4, name: "Sugarcane Bagasse", price: 400, type: "sell", condition: "good", description: "Fresh sugarcane bagasse for paper industry", contact: "+91 65432 10987", image: "🎋" }
+                { id: 1, name: "Rice Straw Bales", price: 500, type: "sell", condition: "good", description: "Fresh rice straw bales, perfect for composting", contact: "+91 98765 43210", image: "🌾", farmer: "Rajesh Kumar", rating: 4.8, verified: true, lat: 26.8467, lng: 75.8056 },
+                { id: 2, name: "Wheat Residue", price: 300, type: "sell", condition: "excellent", description: "High-quality wheat residue for bio-fuel", contact: "+91 87654 32109", image: "🌾", farmer: "Priya Sharma", rating: 4.9, verified: true, lat: 26.8567, lng: 75.8156 },
+                { id: 3, name: "Organic Compost", price: 200, type: "buy", condition: "new", description: "Looking for organic compost in bulk", contact: "+91 76543 21098", image: "♻️", farmer: "Suresh Patel", rating: 4.7, verified: false, lat: 26.8667, lng: 75.8256 },
+                { id: 4, name: "Sugarcane Bagasse", price: 400, type: "sell", condition: "good", description: "Fresh sugarcane bagasse for paper industry", contact: "+91 65432 10987", image: "🎋", farmer: "Amit Singh", rating: 4.6, verified: true, lat: 26.8367, lng: 75.7956 },
+                { id: 13, name: "Mustard Crop Residue", price: 350, type: "sell", condition: "excellent", description: "Fresh mustard crop residue from JKLU area farms", contact: "+91 94567 89012", image: "🌻", farmer: "Kailash Meena", rating: 4.7, verified: true, lat: 26.8456, lng: 75.8045 },
+                { id: 14, name: "Cotton Stalks", price: 250, type: "sell", condition: "good", description: "Cotton stalks available near JKLU campus", contact: "+91 85678 90123", image: "🌿", farmer: "Sunita Jangir", rating: 4.5, verified: true, lat: 26.8478, lng: 75.8067 }
             ],
             machinery: [
-                { id: 5, name: "John Deere 5050D Tractor", price: 850000, type: "sell", condition: "excellent", description: "50 HP tractor, well maintained, 2020 model", contact: "+91 98765 43210", image: "🚜" },
-                { id: 6, name: "Mahindra 575 DI Tractor", price: 2000, type: "rent", condition: "good", description: "Available for rent, per day basis", contact: "+91 87654 32109", image: "🚜" },
-                { id: 7, name: "Combine Harvester", price: 1200000, type: "buy", condition: "new", description: "Looking for new combine harvester", contact: "+91 76543 21098", image: "🌾" },
-                { id: 8, name: "Rotavator", price: 45000, type: "sell", condition: "good", description: "7 feet rotavator, excellent condition", contact: "+91 65432 10987", image: "🔧" }
+                { id: 5, name: "John Deere 5050D Tractor", price: 850000, type: "sell", condition: "excellent", description: "50 HP tractor, well maintained, 2020 model", contact: "+91 98765 43210", image: "🚜", farmer: "Mohan Lal", rating: 4.9, verified: true, lat: 26.8567, lng: 75.8156 },
+                { id: 6, name: "Mahindra 575 DI Tractor", price: 2000, type: "rent", condition: "good", description: "Available for rent, per day basis", contact: "+91 87654 32109", image: "🚜", farmer: "Ravi Kumar", rating: 4.8, verified: true, lat: 26.8667, lng: 75.8256 },
+                { id: 7, name: "Combine Harvester", price: 1200000, type: "buy", condition: "new", description: "Looking for new combine harvester", contact: "+91 76543 21098", image: "🌾", farmer: "Sunita Devi", rating: 4.7, verified: false, lat: 26.8767, lng: 75.8356 },
+                { id: 8, name: "Rotavator", price: 45000, type: "sell", condition: "good", description: "7 feet rotavator, excellent condition", contact: "+91 65432 10987", image: "🔧", farmer: "Vikram Singh", rating: 4.5, verified: true, lat: 26.8367, lng: 75.7956 },
+                { id: 15, name: "Swaraj 744 FE Tractor", price: 750000, type: "sell", condition: "good", description: "45 HP tractor, perfect for JKLU area farming", contact: "+91 76789 01234", image: "🚜", farmer: "Dinesh Sharma", rating: 4.6, verified: true, lat: 26.8445, lng: 75.8034 },
+                { id: 16, name: "Thresher Machine", price: 1500, type: "rent", condition: "excellent", description: "Wheat thresher available for rent near JKLU", contact: "+91 67890 12345", image: "⚙️", farmer: "Ramesh Choudhary", rating: 4.8, verified: true, lat: 26.8489, lng: 75.8078 }
             ],
             equipment: [
-                { id: 9, name: "Drip Irrigation System", price: 25000, type: "sell", condition: "new", description: "Complete drip irrigation system for 1 acre", contact: "+91 98765 43210", image: "💧" },
-                { id: 10, name: "Sprayer Pump", price: 500, type: "rent", condition: "excellent", description: "High-pressure sprayer pump for rent", contact: "+91 87654 32109", image: "💦" },
-                { id: 11, name: "Seed Drill", price: 35000, type: "buy", condition: "good", description: "Need seed drill for wheat sowing", contact: "+91 76543 21098", image: "🌱" },
-                { id: 12, name: "Cultivator", price: 18000, type: "sell", condition: "fair", description: "5 tyne cultivator, working condition", contact: "+91 65432 10987", image: "🔧" }
+                { id: 9, name: "Drip Irrigation System", price: 25000, type: "sell", condition: "new", description: "Complete drip irrigation system for 1 acre", contact: "+91 98765 43210", image: "💧", farmer: "Deepak Sharma", rating: 4.8, verified: true, lat: 26.8567, lng: 75.8156 },
+                { id: 10, name: "Sprayer Pump", price: 500, type: "rent", condition: "excellent", description: "High-pressure sprayer pump for rent", contact: "+91 87654 32109", image: "💦", farmer: "Anita Kumari", rating: 4.9, verified: true, lat: 26.8667, lng: 75.8256 },
+                { id: 11, name: "Seed Drill", price: 35000, type: "buy", condition: "good", description: "Need seed drill for wheat sowing", contact: "+91 76543 21098", image: "🌱", farmer: "Ramesh Gupta", rating: 4.6, verified: false, lat: 26.8767, lng: 75.8356 },
+                { id: 12, name: "Cultivator", price: 18000, type: "sell", condition: "fair", description: "5 tyne cultivator, working condition", contact: "+91 65432 10987", image: "🔧", farmer: "Kavita Singh", rating: 4.4, verified: true, lat: 26.8367, lng: 75.7956 },
+                { id: 17, name: "Solar Water Pump", price: 45000, type: "sell", condition: "new", description: "5HP solar water pump, ideal for JKLU area", contact: "+91 58901 23456", image: "☀️", farmer: "Mahesh Agarwal", rating: 4.9, verified: true, lat: 26.8467, lng: 75.8056 },
+                { id: 18, name: "Plough Set", price: 800, type: "rent", condition: "good", description: "Complete plough set for rent near JKLU", contact: "+91 49012 34567", image: "🔨", farmer: "Geeta Kumari", rating: 4.4, verified: true, lat: 26.8501, lng: 75.8089 },
+                { id: 19, name: "Harvesting Tools", price: 5000, type: "sell", condition: "excellent", description: "Complete set of harvesting tools", contact: "+91 90123 45678", image: "🔪", farmer: "Bharat Singh", rating: 4.7, verified: true, lat: 26.8423, lng: 75.8012 },
+                { id: 20, name: "Fertilizer Spreader", price: 1200, type: "rent", condition: "good", description: "Mechanical fertilizer spreader for rent", contact: "+91 81234 56789", image: "🌱", farmer: "Pooja Meena", rating: 4.5, verified: true, lat: 26.8512, lng: 75.8101 }
             ]
+        };
+
+        // AI responses for chatbot
+        const aiResponses = {
+            'wheat': "🌾 Wheat prices are trending upward! Current market rate: ₹2,200/quintal. Best time to sell is next week based on weather forecasts.",
+            'irrigation': "💧 I found 3 irrigation systems near you: Drip system (₹25,000), Sprinkler set (₹15,000), and Pump rental (₹500/day). Which interests you?",
+            'weather': "🌤️ Weather looks perfect for farming! 28°C, 65% humidity, light winds. Great conditions for harvesting and equipment operation.",
+            'tractor': "🚜 Found 2 tractors nearby: John Deere 5050D (₹8.5L) and Mahindra 575 DI (₹2K/day rental). Both have excellent ratings!",
+            'price': "📊 Based on market analysis: Machinery prices stable, Equipment demand high, Agro waste market growing 15% monthly.",
+            'default': "🤖 I can help you with equipment recommendations, price predictions, weather insights, and finding nearby items. What would you like to know?"
         };
 
         // Initialize the application
@@ -449,6 +637,46 @@
 
             // Category type change
             document.getElementById('itemCategory').addEventListener('change', updateTypeOptions);
+
+            // GPS location detection
+            document.getElementById('detectLocationBtn').addEventListener('click', detectUserLocation);
+
+            // AI Chatbot
+            document.getElementById('aiChatBtn').addEventListener('click', () => {
+                document.getElementById('aiChatWindow').classList.toggle('hidden');
+            });
+
+            document.getElementById('closeChatBtn').addEventListener('click', () => {
+                document.getElementById('aiChatWindow').classList.add('hidden');
+            });
+
+            document.getElementById('sendChatBtn').addEventListener('click', handleChatMessage);
+            document.getElementById('chatInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleChatMessage();
+            });
+
+            // Weather toggle
+            document.getElementById('weatherToggle').addEventListener('click', toggleWeatherOverlay);
+
+            // Nearby items
+            document.getElementById('nearbyBtn').addEventListener('click', showNearbyItems);
+
+            // New map options
+            document.getElementById('heatmapToggle').addEventListener('click', toggleHeatmap);
+            document.getElementById('routeBtn').addEventListener('click', showOptimalRoutes);
+            document.getElementById('priceAnalysis').addEventListener('click', showPriceAnalysis);
+            document.getElementById('farmZones').addEventListener('click', toggleFarmZones);
+            document.getElementById('liveTracking').addEventListener('click', toggleLiveTracking);
+
+            // Analytics (Admin shortcut - double click logo)
+            document.querySelector('.floating-farm').addEventListener('dblclick', () => {
+                document.getElementById('analyticsModal').classList.remove('hidden');
+                updateAnalytics();
+            });
+
+            document.getElementById('closeAnalyticsModal').addEventListener('click', () => {
+                document.getElementById('analyticsModal').classList.add('hidden');
+            });
         }
 
         function showSection(section) {
@@ -514,19 +742,40 @@
                 items = items.filter(item => item.type === filter);
             }
 
+            // Sort by distance if user location is available
+            if (userLocation) {
+                items = items.map(item => ({
+                    ...item,
+                    distance: calculateDistance(userLocation.lat, userLocation.lng, item.lat, item.lng)
+                })).sort((a, b) => a.distance - b.distance);
+            }
+
             itemsContainer.innerHTML = items.map(item => `
                 <div class="item-card p-6">
                     <div class="flex justify-between items-start mb-4">
                         <div class="text-4xl">${item.image}</div>
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}">
-                            ${item.type.toUpperCase()}
-                        </span>
+                        <div class="flex flex-col items-end space-y-1">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}">
+                                ${item.type.toUpperCase()}
+                            </span>
+                            ${item.distance ? `<span class="distance-badge">${item.distance.toFixed(1)} km</span>` : ''}
+                        </div>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">${item.name}</h3>
                     <p class="text-gray-600 mb-3">${item.description}</p>
-                    <div class="flex justify-between items-center mb-4">
+                    <div class="flex justify-between items-center mb-3">
                         <span class="text-2xl font-bold text-green-600">₹${item.price.toLocaleString()}</span>
                         <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">${item.condition}</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm font-medium">${item.farmer}</span>
+                            ${item.verified ? '<span class="verified-seller trust-badge">✓</span>' : ''}
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <span class="text-yellow-500">⭐</span>
+                            <span class="text-sm font-medium">${item.rating}</span>
+                        </div>
                     </div>
                     <div class="flex space-x-2">
                         <button onclick="addToCart(${item.id})" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors font-semibold">
@@ -725,13 +974,293 @@
             updateCartUI();
         }
 
+        // GPS and utility functions
+        function detectUserLocation() {
+            const btn = document.getElementById('detectLocationBtn');
+            const status = document.getElementById('locationStatus');
+            
+            btn.innerHTML = '🔄 Detecting Location...';
+            btn.disabled = true;
+            
+            if (!navigator.geolocation) {
+                showSmartNotification('❌ Geolocation not supported by this browser', 'error');
+                fallbackToDefaultLocation(btn, status);
+                return;
+            }
+            
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 60000
+            };
+            
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Success - got real GPS coordinates
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        accuracy: position.coords.accuracy
+                    };
+                    
+                    btn.innerHTML = '✅ Real Location Detected';
+                    btn.disabled = false;
+                    status.innerHTML = `
+                        <div class="flex items-center space-x-2">
+                            <span class="text-green-600">📍 GPS Location: ${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}</span>
+                            <span class="text-xs text-gray-500">(±${Math.round(userLocation.accuracy)}m accuracy)</span>
+                        </div>
+                    `;
+                    status.classList.remove('hidden');
+                    
+                    // Generate location-based items around user's real location
+                    generateLocationBasedItems(userLocation.lat, userLocation.lng);
+                    
+                    // Update map center if map is initialized
+                    if (map) {
+                        map.setView([userLocation.lat, userLocation.lng], 13);
+                        addUserLocationMarker();
+                        
+                        // Add location accuracy circle
+                        L.circle([userLocation.lat, userLocation.lng], {
+                            color: '#3b82f6',
+                            fillColor: '#3b82f6',
+                            fillOpacity: 0.1,
+                            radius: userLocation.accuracy
+                        }).addTo(map).bindPopup(`📍 Location accuracy: ±${Math.round(userLocation.accuracy)}m`);
+                    }
+                    
+                    showSmartNotification(`📍 Real GPS location detected! Generated ${getLocationBasedItemsCount()} nearby agricultural items.`, 'success');
+                },
+                (error) => {
+                    // Error handling
+                    let errorMessage = '';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = '❌ Location access denied. Using default area.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = '❌ Location unavailable. Using default area.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = '⏰ Location timeout. Using default area.';
+                            break;
+                        default:
+                            errorMessage = '❌ Location error. Using default area.';
+                            break;
+                    }
+                    
+                    showSmartNotification(errorMessage, 'warning');
+                    fallbackToDefaultLocation(btn, status);
+                },
+                options
+            );
+        }
+        
+        function fallbackToDefaultLocation(btn, status) {
+            // Fallback to JKLU area
+            userLocation = {
+                lat: 26.8467,
+                lng: 75.8056,
+                isDefault: true
+            };
+            
+            btn.innerHTML = '📍 Default Area (JKLU)';
+            btn.disabled = false;
+            status.innerHTML = `
+                <div class="text-amber-600">
+                    📍 Using default location: JKLU Campus Area, Jaipur
+                    <br><span class="text-xs">Enable GPS for your actual location</span>
+                </div>
+            `;
+            status.classList.remove('hidden');
+            
+            // Update map center if map is initialized
+            if (map) {
+                map.setView([userLocation.lat, userLocation.lng], 13);
+                addUserLocationMarker();
+            }
+        }
+        
+        function generateLocationBasedItems(centerLat, centerLng) {
+            // Clear existing generated items (keep original sample data)
+            const originalItemCount = 20; // Keep first 20 original items
+            marketItems = marketItems.slice(0, originalItemCount);
+            
+            // Generate new items around user's real location
+            const locationBasedItems = [];
+            let itemId = 1000; // Start from high ID to avoid conflicts
+            
+            // Generate items within 5km radius of user location
+            const itemTypes = [
+                // Tractors and Heavy Machinery
+                { category: 'machinery', name: 'Local Tractor Rental', type: 'rent', price: 2500, icon: '🚜', description: 'Daily tractor rental service in your area' },
+                { category: 'machinery', name: 'Harvester for Sale', type: 'sell', price: 1200000, icon: '🌾', description: 'Well-maintained combine harvester' },
+                { category: 'machinery', name: 'Tractor Wanted', type: 'buy', price: 800000, icon: '🚜', description: 'Looking for 50HP tractor in good condition' },
+                
+                // Equipment
+                { category: 'equipment', name: 'Irrigation System', type: 'sell', price: 35000, icon: '💧', description: 'Complete drip irrigation setup' },
+                { category: 'equipment', name: 'Sprayer Rental', type: 'rent', price: 800, icon: '💦', description: 'High-pressure crop sprayer available' },
+                { category: 'equipment', name: 'Plough Set', type: 'sell', price: 25000, icon: '🔨', description: 'Professional ploughing equipment' },
+                { category: 'equipment', name: 'Seed Drill Needed', type: 'buy', price: 40000, icon: '🌱', description: 'Urgently need seed drilling machine' },
+                
+                // Agro Waste
+                { category: 'agrowaste', name: 'Fresh Crop Residue', type: 'sell', price: 400, icon: '🌾', description: 'Organic crop residue from local farms' },
+                { category: 'agrowaste', name: 'Compost Available', type: 'sell', price: 300, icon: '♻️', description: 'High-quality organic compost' },
+                { category: 'agrowaste', name: 'Bulk Waste Needed', type: 'buy', price: 200, icon: '🌿', description: 'Looking for agricultural waste in bulk' }
+            ];
+            
+            // Generate 15-20 items around user location
+            for (let i = 0; i < 18; i++) {
+                const baseItem = itemTypes[i % itemTypes.length];
+                
+                // Generate random position within 5km radius
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = Math.random() * 0.045; // ~5km in degrees
+                const lat = centerLat + (distance * Math.cos(angle));
+                const lng = centerLng + (distance * Math.sin(angle));
+                
+                const item = {
+                    id: itemId++,
+                    ...baseItem,
+                    lat: lat,
+                    lng: lng,
+                    condition: ['new', 'excellent', 'good', 'fair'][Math.floor(Math.random() * 4)],
+                    contact: `+91 ${Math.floor(Math.random() * 90000) + 10000} ${Math.floor(Math.random() * 90000) + 10000}`,
+                    farmer: generateLocalFarmerName(),
+                    rating: (4.0 + Math.random() * 1.0).toFixed(1),
+                    verified: Math.random() > 0.3,
+                    isLocationGenerated: true
+                };
+                
+                locationBasedItems.push(item);
+            }
+            
+            // Add to market items and category data
+            marketItems.push(...locationBasedItems);
+            
+            // Update category data
+            locationBasedItems.forEach(item => {
+                if (!categoryData[item.category]) {
+                    categoryData[item.category] = [];
+                }
+                categoryData[item.category].push(item);
+            });
+            
+            // Add markers to map if initialized
+            if (map) {
+                locationBasedItems.forEach(item => {
+                    addMarkerToMap(item);
+                });
+            }
+            
+            console.log(`Generated ${locationBasedItems.length} location-based items around coordinates: ${centerLat.toFixed(4)}, ${centerLng.toFixed(4)}`);
+        }
+        
+        function generateLocalFarmerName() {
+            const firstNames = ['Rajesh', 'Priya', 'Suresh', 'Anita', 'Vikram', 'Sunita', 'Ramesh', 'Kavita', 'Deepak', 'Geeta', 'Mahesh', 'Pooja', 'Dinesh', 'Kiran', 'Bharat'];
+            const lastNames = ['Kumar', 'Sharma', 'Patel', 'Singh', 'Devi', 'Gupta', 'Yadav', 'Meena', 'Jangir', 'Choudhary', 'Agarwal', 'Kumari'];
+            
+            const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+            
+            return `${firstName} ${lastName}`;
+        }
+        
+        function getLocationBasedItemsCount() {
+            return marketItems.filter(item => item.isLocationGenerated).length;
+        }
+
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function addJKLUCampusMarker() {
+            if (!map) return;
+            
+            const jkluIcon = L.divIcon({
+                className: 'jklu-campus-marker',
+                html: `
+                    <div class="relative">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg border-2 border-white">
+                            🏫
+                        </div>
+                        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-blue-600"></div>
+                    </div>
+                `,
+                iconSize: [48, 48],
+                iconAnchor: [24, 48]
+            });
+
+            const jkluPopupContent = `
+                <div class="p-4 min-w-64">
+                    <div class="text-center mb-3">
+                        <h3 class="text-lg font-bold text-blue-800 mb-2">🏫 JK Lakshmipat University</h3>
+                        <p class="text-sm text-gray-600">Mahapura, Jaipur, Rajasthan</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-3 rounded-lg mb-3">
+                        <p class="text-sm text-blue-800 font-medium">📍 Campus Location</p>
+                        <p class="text-xs text-gray-600">Agricultural marketplace hub for JKLU area</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button onclick="showNearbyItems()" class="bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-blue-700">
+                            🌾 View Nearby Items
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            L.marker([26.8467, 75.8056], { icon: jkluIcon })
+                .addTo(map)
+                .bindPopup(jkluPopupContent, {
+                    maxWidth: 300,
+                    className: 'custom-popup'
+                });
+        }
+
+        function addUserLocationMarker() {
+            if (!userLocation || !map) return;
+            
+            const userIcon = L.divIcon({
+                className: 'user-location-marker',
+                html: `
+                    <div class="w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-lg location-pulse">
+                        <div class="w-8 h-8 bg-blue-200 rounded-full absolute -top-2 -left-2 animate-ping opacity-75"></div>
+                    </div>
+                `,
+                iconSize: [16, 16],
+                iconAnchor: [8, 8]
+            });
+
+            L.marker([userLocation.lat, userLocation.lng], { icon: userIcon })
+                .addTo(map)
+                .bindPopup(`📍 Your Location${userLocation.isDefault ? ' (Default)' : ''}`)
+                .openPopup();
+        }
+
         // Map functionality
         function initMap() {
-            map = L.map('map').setView([28.6139, 77.2090], 8);
+            map = L.map('map').setView([26.8467, 75.8056], 12);
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
+
+            // Initialize marker clustering
+            markerClusterGroup = L.markerClusterGroup({
+                chunkedLoading: true,
+                maxClusterRadius: 50
+            });
+            map.addLayer(markerClusterGroup);
 
             // Add sample markers
             marketItems.forEach(item => {
@@ -740,11 +1269,20 @@
 
             // Setup filter buttons
             setupMapFilters();
+            
+            // Add JKLU campus marker
+            addJKLUCampusMarker();
+            
+            // Add user location if available
+            if (userLocation) {
+                addUserLocationMarker();
+            }
         }
 
         function addMarkerToMap(item) {
-            const lat = 28.6139 + (Math.random() - 0.5) * 0.3;
-            const lng = 77.2090 + (Math.random() - 0.5) * 0.3;
+            // Use actual coordinates from item data, or generate near JKLU if not available
+            const lat = item.lat || (26.8467 + (Math.random() - 0.5) * 0.1);
+            const lng = item.lng || (75.8056 + (Math.random() - 0.5) * 0.1);
             
             const typeColors = {
                 sell: '#10B981',
@@ -780,7 +1318,7 @@
                         <span class="px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}">
                             ${item.type.toUpperCase()}
                         </span>
-                        <span class="text-xs text-gray-500">Just now</span>
+                        <span class="text-xs text-gray-500">${item.isLocationGenerated ? 'Near you' : 'Just now'}</span>
                     </div>
                     
                     <h3 class="text-lg font-bold text-gray-800 mb-2">${item.name}</h3>
@@ -842,26 +1380,299 @@
             }
         }
 
-        function showNotification(message, type = 'info') {
+        // AI and Smart Features
+        function handleChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim().toLowerCase();
+            if (!message) return;
+
+            addChatMessage(input.value, 'user');
+            input.value = '';
+
+            // AI response logic
+            setTimeout(() => {
+                let response = aiResponses.default;
+                
+                for (const [key, value] of Object.entries(aiResponses)) {
+                    if (message.includes(key)) {
+                        response = value;
+                        break;
+                    }
+                }
+                
+                // Add smart recommendations
+                if (message.includes('near') || message.includes('nearby')) {
+                    response += generateNearbyRecommendations();
+                }
+                
+                addChatMessage(response, 'ai');
+            }, 1000);
+        }
+
+        function quickChat(message) {
+            document.getElementById('chatInput').value = message;
+            handleChatMessage();
+        }
+
+        function addChatMessage(message, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            
+            if (sender === 'user') {
+                messageDiv.className = 'bg-gray-100 p-3 rounded-lg ml-8 text-sm';
+                messageDiv.textContent = message;
+            } else {
+                messageDiv.className = 'ai-recommendation text-sm';
+                messageDiv.innerHTML = `🤖 ${message}`;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function generateNearbyRecommendations() {
+            if (!userLocation) return " Enable location to see nearby items!";
+            
+            const nearbyItems = marketItems
+                .map(item => ({
+                    ...item,
+                    distance: calculateDistance(userLocation.lat, userLocation.lng, item.lat, item.lng)
+                }))
+                .filter(item => item.distance < 10)
+                .sort((a, b) => a.distance - b.distance)
+                .slice(0, 3);
+                
+            if (nearbyItems.length === 0) return " No items found within 10km.";
+            
+            return `<br><br>📍 Nearby items:<br>${nearbyItems.map(item => 
+                `• ${item.name} - ${item.distance.toFixed(1)}km away`
+            ).join('<br>')}`;
+        }
+
+        function toggleWeatherOverlay() {
+            const overlay = document.getElementById('weatherOverlay');
+            overlay.classList.toggle('hidden');
+            
+            if (!overlay.classList.contains('hidden')) {
+                updateWeatherData();
+            }
+        }
+
+        function updateWeatherData() {
+            // Simulate weather API call
+            const temps = [25, 26, 27, 28, 29, 30];
+            const humidity = [60, 65, 70, 75];
+            const winds = [10, 12, 15, 18];
+            
+            document.getElementById('temperature').textContent = `${temps[Math.floor(Math.random() * temps.length)]}°C`;
+            document.getElementById('humidity').textContent = `${humidity[Math.floor(Math.random() * humidity.length)]}%`;
+            document.getElementById('windSpeed').textContent = `${winds[Math.floor(Math.random() * winds.length)]} km/h`;
+        }
+
+        function showNearbyItems() {
+            // Set default location to JKLU if not set
+            if (!userLocation) {
+                userLocation = { lat: 26.8467, lng: 75.8056 };
+            }
+            
+            const nearbyItems = marketItems
+                .map(item => ({
+                    ...item,
+                    distance: calculateDistance(userLocation.lat, userLocation.lng, item.lat, item.lng)
+                }))
+                .filter(item => item.distance < 20)
+                .sort((a, b) => a.distance - b.distance);
+                
+            if (nearbyItems.length === 0) {
+                showSmartNotification('No items found within 20km of your location.', 'info');
+                return;
+            }
+            
+            // Focus map on nearby items
+            if (map) {
+                const bounds = L.latLngBounds(nearbyItems.map(item => [item.lat, item.lng]));
+                map.fitBounds(bounds, { padding: [20, 20] });
+            }
+            
+            showSmartNotification(`Found ${nearbyItems.length} items within 20km of your location!`, 'success');
+        }
+
+        function toggleHeatmap() {
+            const legend = document.getElementById('heatmapLegend');
+            legend.classList.toggle('hidden');
+            
+            if (!legend.classList.contains('hidden')) {
+                // Add heatmap circles
+                marketItems.forEach(item => {
+                    const intensity = Math.random() * 0.8 + 0.2;
+                    const color = intensity > 0.6 ? '#ef4444' : intensity > 0.4 ? '#eab308' : '#22c55e';
+                    
+                    L.circle([item.lat, item.lng], {
+                        color: color,
+                        fillColor: color,
+                        fillOpacity: 0.3,
+                        radius: 500
+                    }).addTo(map);
+                });
+                showSmartNotification('🔥 Activity heatmap enabled!', 'success');
+            } else {
+                // Remove heatmap (simplified - in real app would track circles)
+                showSmartNotification('Heatmap disabled', 'info');
+            }
+        }
+
+        function showOptimalRoutes() {
+            if (!userLocation) {
+                userLocation = { lat: 26.8467, lng: 75.8056 };
+            }
+            
+            // Create sample routes to nearby items
+            const nearbyItems = marketItems.slice(0, 3);
+            
+            nearbyItems.forEach((item, index) => {
+                const colors = ['#3b82f6', '#10b981', '#f59e0b'];
+                
+                L.polyline([
+                    [userLocation.lat, userLocation.lng],
+                    [item.lat, item.lng]
+                ], {
+                    color: colors[index],
+                    weight: 4,
+                    opacity: 0.7,
+                    dashArray: '10, 10'
+                }).addTo(map).bindPopup(`Route to ${item.name} - ${calculateDistance(userLocation.lat, userLocation.lng, item.lat, item.lng).toFixed(1)}km`);
+            });
+            
+            showSmartNotification('🛣️ Optimal routes calculated!', 'success');
+        }
+
+        function showPriceAnalysis() {
+            const priceData = {
+                machinery: marketItems.filter(i => i.id >= 5 && i.id <= 8).map(i => i.price),
+                equipment: marketItems.filter(i => i.id >= 9 && i.id <= 12).map(i => i.price),
+                agrowaste: marketItems.filter(i => i.id <= 4).map(i => i.price)
+            };
+            
+            let analysis = '💹 Price Analysis:\n\n';
+            
+            Object.entries(priceData).forEach(([category, prices]) => {
+                const avg = prices.reduce((a, b) => a + b, 0) / prices.length;
+                const min = Math.min(...prices);
+                const max = Math.max(...prices);
+                
+                analysis += `${category.toUpperCase()}:\n`;
+                analysis += `• Average: ₹${avg.toLocaleString()}\n`;
+                analysis += `• Range: ₹${min.toLocaleString()} - ₹${max.toLocaleString()}\n\n`;
+            });
+            
+            showSmartNotification(analysis, 'info', 8000);
+        }
+
+        function toggleFarmZones() {
+            // Add colored zones for different farming areas
+            const zones = [
+                { name: 'JKLU Campus Zone', coords: [[26.84, 75.80], [26.85, 75.80], [26.85, 75.81], [26.84, 75.81]], color: '#3b82f6' },
+                { name: 'Wheat Belt', coords: [[26.85, 75.81], [26.86, 75.81], [26.86, 75.82], [26.85, 75.82]], color: '#eab308' },
+                { name: 'Cotton Fields', coords: [[26.83, 75.79], [26.84, 75.79], [26.84, 75.80], [26.83, 75.80]], color: '#22c55e' },
+                { name: 'Mustard Region', coords: [[26.86, 75.82], [26.87, 75.82], [26.87, 75.83], [26.86, 75.83]], color: '#f59e0b' }
+            ];
+            
+            zones.forEach(zone => {
+                L.polygon(zone.coords, {
+                    color: zone.color,
+                    fillColor: zone.color,
+                    fillOpacity: 0.2,
+                    weight: 2
+                }).addTo(map).bindPopup(`🌾 ${zone.name}`);
+            });
+            
+            showSmartNotification('🌾 Farm zones displayed!', 'success');
+        }
+
+        function toggleLiveTracking() {
+            // Simulate live tracking of vehicles/deliveries
+            const vehicles = [
+                { name: 'Tractor Delivery #1', lat: 26.845, lng: 75.803, icon: '🚜' },
+                { name: 'Equipment Transport #2', lat: 26.848, lng: 75.807, icon: '🚛' },
+                { name: 'Fertilizer Truck #3', lat: 26.844, lng: 75.801, icon: '🚚' }
+            ];
+            
+            vehicles.forEach(vehicle => {
+                const vehicleIcon = L.divIcon({
+                    className: 'live-vehicle-marker',
+                    html: `
+                        <div class="relative">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white animate-pulse">
+                                ${vehicle.icon}
+                            </div>
+                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-ping"></div>
+                        </div>
+                    `,
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                });
+                
+                L.marker([vehicle.lat, vehicle.lng], { icon: vehicleIcon })
+                    .addTo(map)
+                    .bindPopup(`📡 ${vehicle.name}<br>Status: En Route<br>ETA: 15 mins`);
+            });
+            
+            showSmartNotification('📡 Live tracking enabled! 3 vehicles tracked.', 'success');
+        }
+
+        function showSmartNotification(message, type = 'info', duration = 4000) {
+            const container = document.getElementById('smartNotifications');
             const notification = document.createElement('div');
-            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
             
-            notification.className = `fixed top-20 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300`;
-            notification.textContent = message;
-            document.body.appendChild(notification);
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                info: 'bg-blue-500',
+                warning: 'bg-yellow-500'
+            };
             
+            notification.className = `notification-popup ${colors[type]} text-white p-4 rounded-lg shadow-lg`;
+            notification.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <div class="text-xl">
+                        ${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-gray-200">×</button>
+                </div>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Show animation
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Auto remove
             setTimeout(() => {
-                notification.classList.remove('translate-x-full');
-            }, 100);
-            
-            setTimeout(() => {
-                notification.classList.add('translate-x-full');
+                notification.classList.remove('show');
                 setTimeout(() => {
-                    document.body.removeChild(notification);
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
                 }, 300);
-            }, 4000);
+            }, duration);
+        }
+
+        function updateAnalytics() {
+            const totalListings = marketItems.length;
+            const totalValue = marketItems.reduce((sum, item) => sum + item.price, 0);
+            const activeUsers = new Set(marketItems.map(item => item.farmer)).size;
+            
+            document.getElementById('totalListings').textContent = totalListings;
+            document.getElementById('totalValue').textContent = `₹${totalValue.toLocaleString()}`;
+            document.getElementById('activeUsers').textContent = activeUsers;
+        }
+
+        function showNotification(message, type = 'info') {
+            showSmartNotification(message, type);
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e46c3de6375988',t:'MTc1NzczMjcyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e49b4641f5a346',t:'MTc1NzczNDY1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
