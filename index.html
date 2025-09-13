@@ -3,724 +3,865 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KrishiSetu - Farm to Table</title>
+    <title>KrishiSetu - Smart Agriculture Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        /* Base Styles & Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #e0e5ec;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Poppins', sans-serif;
         }
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 15px;
+        
+        .agri-card {
+            background: linear-gradient(145deg, #f0f9f0, #e8f5e8);
+            border-radius: 20px;
+            box-shadow: 8px 8px 20px rgba(76, 175, 80, 0.1), -8px -8px 20px rgba(255, 255, 255, 0.9);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(76, 175, 80, 0.1);
         }
-        .hidden {
+        
+        .agri-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 12px 12px 30px rgba(76, 175, 80, 0.15), -12px -12px 30px rgba(255, 255, 255, 0.9);
+        }
+        
+        .agri-gradient {
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 50%, #CDDC39 100%);
+        }
+        
+        .earth-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(76, 175, 80, 0.1) 0%, transparent 50%);
+        }
+        
+        .floating-farm {
+            animation: floatFarm 8s ease-in-out infinite;
+        }
+        
+        @keyframes floatFarm {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(1deg); }
+            50% { transform: translateY(-5px) rotate(0deg); }
+            75% { transform: translateY(-15px) rotate(-1deg); }
+        }
+        
+        .grow-animation {
+            animation: grow 0.6s ease-out;
+        }
+        
+        @keyframes grow {
+            0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        
+        .harvest-glow {
+            box-shadow: 0 0 25px rgba(255, 193, 7, 0.4);
+            animation: harvestPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes harvestPulse {
+            0%, 100% { box-shadow: 0 0 25px rgba(255, 193, 7, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(255, 193, 7, 0.6); }
+        }
+        
+        .section-hidden {
             display: none;
         }
-        .neumorphism {
-            background: #e0e5ec;
-            border-radius: 12px;
-            box-shadow: 6px 6px 12px #b8babe, -6px -6px 12px #ffffff;
-            transition: all 0.2s ease-in-out;
-        }
-        .neumorphism:hover {
-            box-shadow: 3px 3px 6px #b8babe, -3px -3px 6px #ffffff;
-        }
-        .neumorphism:active {
-            box-shadow: inset 6px 6px 12px #b8babe, inset -6px -6px 12px #ffffff;
+        
+        .nav-active {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
         
-        /* Header & Navigation */
-        .header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 1.8em;
-            letter-spacing: 1px;
-        }
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .nav-links a:hover {
-            background-color: #388E3C;
+        .leaflet-popup-content-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         
-        /* Hero Banner */
-        .hero-banner {
-            background: url('https://via.placeholder.com/1500x500.png?text=Fresh+From+Farmers+to+You') no-repeat center center/cover;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-            text-align: center;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        }
-        .hero-banner h2 {
-            font-size: 3.5em;
-            margin: 0;
-            letter-spacing: 2px;
-        }
-        
-        /* Categories Section */
-        .categories {
-            text-align: center;
-            padding: 40px 0;
-        }
-        .categories h2 {
-            font-size: 2.2em;
-            margin-bottom: 30px;
-            color: #4CAF50;
-        }
         .category-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-        .category-card {
-            padding: 20px;
-            text-decoration: none;
-            color: #333;
-            width: 150px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 6px 6px 12px #b8babe, -6px -6px 12px #ffffff;
+        
+        .item-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), -4px -4px 12px rgba(255, 255, 255, 0.9);
             transition: all 0.3s ease;
         }
-        .category-card:hover {
-            transform: scale(1.05);
-            box-shadow: 8px 8px 16px #b8babe, -8px -8px 16px #ffffff;
-        }
-        .category-card img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
         
-        /* Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        .product-card {
-            background-color: #e0e5ec;
-            border-radius: 12px;
-            box-shadow: 6px 6px 12px #b8babe, -6px -6px 12px #ffffff;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 10px 10px 20px #b8babe, -10px -10px 20px #ffffff;
-        }
-        .product-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-        }
-        .product-info {
-            padding: 20px;
-        }
-        .product-info h3 {
-            margin-top: 0;
-            font-size: 1.3em;
-            color: #2c3e50;
-        }
-        .product-info p {
-            font-size: 0.9em;
-            color: #666;
-        }
-        .product-info .price {
-            font-weight: bold;
-            color: #E67E22;
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
-        
-        /* Buttons */
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-        .btn-primary {
-            background-color: #4CAF50;
-            color: white;
-            box-shadow: 4px 4px 8px #388E3C, -4px -4px 8px #5cb85c;
-        }
-        .btn-primary:hover {
-            background-color: #388E3C;
-        }
-        .buy-sell-options {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .buy-sell-options button {
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        .buy-sell-options button.active {
-            background-color: #4CAF50;
-            color: white;
-            box-shadow: inset 4px 4px 8px #388E3C, inset -4px -4px 8px #5cb85c;
-        }
-        
-        /* Cart & Dashboard */
-        .cart-container, .dashboard-container {
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 8px 8px 16px #b8babe, -8px -8px 16px #ffffff;
-        }
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 15px 0;
-            border-bottom: 1px solid #ccc;
-        }
-        .cart-item img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .total-price {
-            font-size: 1.8em;
-            text-align: right;
-            margin-top: 20px;
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        .checkout-btn {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.2em;
-            margin-top: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            box-shadow: inset 2px 2px 5px #b8babe, inset -2px -2px 5px #ffffff;
-            outline: none;
-            transition: box-shadow 0.3s;
-        }
-        .add-product-btn {
-            background-color: #4CAF50;
-            color: white;
-            box-shadow: 4px 4px 8px #388E3C, -4px -4px 8px #5cb85c;
-        }
-        .add-product-btn:hover {
-            background-color: #388E3C;
-        }
-        .remove-from-cart-btn {
-            background-color: #f44336;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            box-shadow: 4px 4px 8px #b8babe, -4px -4px 8px #ffffff;
-            font-size: 0.9em;
-        }
-        .remove-from-cart-btn:hover {
-            background-color: #d32f2f;
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.15), -8px -8px 20px rgba(255, 255, 255, 0.9);
         }
     </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-green-50 via-lime-50 to-yellow-50 min-h-screen">
+    <!-- Header -->
+    <header class="agri-gradient shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center floating-farm shadow-lg">
+                        <span class="text-3xl">🌾</span>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-white tracking-wide">KrishiSetu</h1>
+                        <p class="text-green-100 text-sm">Smart Agriculture Platform</p>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-2">
+                    <button onclick="showSection('home')" class="nav-btn nav-active px-6 py-3 rounded-full font-semibold transition-all duration-300">
+                        🏠 Home
+                    </button>
+                    <button onclick="showSection('map')" class="nav-btn px-6 py-3 rounded-full font-semibold text-white hover:bg-white hover:bg-opacity-20 transition-all duration-300">
+                        🗺️ Live Map
+                    </button>
+                    <button onclick="showSection('cart')" class="nav-btn px-6 py-3 rounded-full font-semibold text-white hover:bg-white hover:bg-opacity-20 transition-all duration-300 relative">
+                        🛒 Cart
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                </nav>
+                <button class="md:hidden text-white text-2xl">☰</button>
+            </div>
+        </div>
+    </header>
 
-    <div class="header">
-        <h1>KrishiSetu</h1>
-        <div class="nav-links">
-            <a href="#" data-section="homepage-section">Home</a>
-            <a href="#" data-section="product-categories-section">Products</a>
-            <a href="#" data-section="cart-section">Cart</a>
-            <a href="#" data-section="dashboard-section">Dashboard</a>
+    <!-- Home Section -->
+    <section id="homeSection" class="section">
+        <!-- Hero Section -->
+        <div class="agri-gradient earth-pattern py-20 text-white">
+            <div class="container mx-auto px-6 text-center">
+                <div class="floating-farm">
+                    <h2 class="text-6xl md:text-7xl font-bold mb-6 leading-tight">
+                        Smart Agriculture
+                        <br><span class="text-yellow-300">Marketplace</span>
+                    </h2>
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+                        Connect, Trade, and Innovate - Your one-stop platform for agricultural equipment, machinery, and waste management
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button class="bg-white text-green-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 harvest-glow">
+                            🚀 Start Listing
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-600 transition-all duration-300">
+                            📱 Download App
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Categories -->
+        <div class="container mx-auto px-6 py-16">
+            <h2 class="text-4xl font-bold text-center mb-4 text-green-800">Agricultural Categories</h2>
+            <p class="text-center text-gray-600 mb-12 text-lg">Choose your category to explore products and services</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Agro Waste -->
+                <div class="agri-card p-8 text-center cursor-pointer grow-animation" onclick="showCategoryItems('agrowaste')">
+                    <div class="text-6xl mb-6">♻️</div>
+                    <h3 class="text-2xl font-bold text-green-800 mb-4">Agro Waste Management</h3>
+                    <p class="text-gray-600 mb-6">Convert agricultural waste into valuable resources. Buy and sell crop residues, organic waste, and bio-materials.</p>
+                    <div class="flex flex-wrap justify-center gap-2 mb-6">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Crop Residues</span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Organic Waste</span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Bio-materials</span>
+                    </div>
+                    <button class="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                        Explore Waste Solutions
+                    </button>
+                </div>
+
+                <!-- Machinery -->
+                <div class="agri-card p-8 text-center cursor-pointer grow-animation" onclick="showCategoryItems('machinery')">
+                    <div class="text-6xl mb-6">🚜</div>
+                    <h3 class="text-2xl font-bold text-green-800 mb-4">Farm Machinery</h3>
+                    <p class="text-gray-600 mb-6">Heavy-duty agricultural machinery for large-scale farming operations. Buy, sell, or rent tractors, harvesters, and more.</p>
+                    <div class="flex flex-wrap justify-center gap-2 mb-6">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Buy</span>
+                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Sell</span>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Rent</span>
+                    </div>
+                    <button class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors">
+                        Browse Machinery
+                    </button>
+                </div>
+
+                <!-- Equipment -->
+                <div class="agri-card p-8 text-center cursor-pointer grow-animation" onclick="showCategoryItems('equipment')">
+                    <div class="text-6xl mb-6">🔧</div>
+                    <h3 class="text-2xl font-bold text-green-800 mb-4">Farm Equipment</h3>
+                    <p class="text-gray-600 mb-6">Essential farming tools and equipment for daily agricultural activities. Find everything from hand tools to irrigation systems.</p>
+                    <div class="flex flex-wrap justify-center gap-2 mb-6">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Buy</span>
+                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Sell</span>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Rent</span>
+                    </div>
+                    <button class="bg-amber-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-amber-700 transition-colors">
+                        View Equipment
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="bg-white py-16">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12 text-green-800">Why Choose KrishiSetu?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🤝</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Direct Connect</h3>
+                        <p class="text-gray-600">Connect directly with farmers and dealers</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">💰</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Best Prices</h3>
+                        <p class="text-gray-600">Competitive pricing with no middlemen</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">📍</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Location Based</h3>
+                        <p class="text-gray-600">Find products and services near you</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🛡️</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Secure Trading</h3>
+                        <p class="text-gray-600">Safe and secure transactions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="mapSection" class="section section-hidden">
+        <div class="container mx-auto px-6 py-8">
+            <div class="agri-card p-6 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-green-800 flex items-center">
+                        <span class="mr-3">🗺️</span> Live Agricultural Marketplace
+                    </h2>
+                    <div class="flex space-x-3">
+                        <button id="filterAll" class="filter-btn bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">All</button>
+                        <button id="filterBuy" class="filter-btn bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium">Buy</button>
+                        <button id="filterSell" class="filter-btn bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium">Sell</button>
+                        <button id="filterRent" class="filter-btn bg-purple-500 text-white px-4 py-2 rounded-lg text-sm font-medium">Rent</button>
+                    </div>
+                </div>
+                <div id="map" class="w-full h-96 rounded-2xl shadow-inner"></div>
+            </div>
+            
+            <div class="text-center">
+                <button id="addItemBtn" class="bg-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-700 transition-colors harvest-glow">
+                    ➕ Add New Item to Map
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cartSection" class="section section-hidden">
+        <div class="container mx-auto px-6 py-8">
+            <div class="agri-card p-8">
+                <h2 class="text-3xl font-bold text-green-800 mb-8 flex items-center">
+                    <span class="mr-3">🛒</span> Your Cart
+                </h2>
+                <div id="cartItems" class="space-y-4">
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">🛒</div>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-500 mb-6">Start adding items from our marketplace</p>
+                        <button onclick="showSection('home')" class="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                            Continue Shopping
+                        </button>
+                    </div>
+                </div>
+                <div id="cartSummary" class="hidden border-t pt-6 mt-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xl font-semibold">Total:</span>
+                        <span id="cartTotal" class="text-2xl font-bold text-green-600">₹0</span>
+                    </div>
+                    <button onclick="checkout()" class="w-full bg-green-600 text-white py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Items Modal -->
+    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="categoryTitle" class="text-3xl font-bold text-green-800"></h3>
+                <button id="closeCategoryModal" class="text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
+            </div>
+            
+            <div id="categoryFilters" class="flex flex-wrap gap-3 mb-8">
+                <!-- Filters will be added dynamically -->
+            </div>
+            
+            <div id="categoryItems" class="category-grid">
+                <!-- Items will be loaded here -->
+            </div>
         </div>
     </div>
 
-    <div class="container" id="main-content">
-        <section id="homepage-section">
-            <div class="hero-banner">
-                <h2>Fresh from Farmers to You</h2>
+    <!-- Add Item Modal -->
+    <div id="addItemModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-green-800">Add New Item</h3>
+                <button id="closeAddModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
             </div>
-            
-            <div class="categories">
-                <h2>Shop by Category</h2>
-                <div class="category-grid">
-                    <a href="#" class="category-card neumorphism category-link" data-category="vegetables">
-                        <img src="images (4).jpg" alt="Vegetables">
-                        <p>Vegetables</p>
-                    </a>
-                    <a href="#" class="category-card neumorphism category-link" data-category="fruits">
-                        <img src="https://via.placeholder.com/100x100.png?text=Fruits" alt="Fruits">
-                        <p>Fruits</p>
-                    </a>
-                    <a href="#" class="category-card neumorphism category-link" data-category="seeds">
-                        <img src="https://via.placeholder.com/100x100.png?text=Seeds" alt="Seeds">
-                        <p>Seeds</p>
-                    </a>
-                    <a href="#" class="category-card neumorphism category-link" data-category="tractors">
-                        <img src="https://via.placeholder.com/100x100.png?text=Tractor" alt="Tractors">
-                        <p>Tractors</p>
-                    </a>
+            <form id="addItemForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select id="itemCategory" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <option value="agrowaste">♻️ Agro Waste</option>
+                        <option value="machinery">🚜 Machinery</option>
+                        <option value="equipment">🔧 Equipment</option>
+                    </select>
                 </div>
-            </div>
-            
-            <div class="featured-products">
-                <h2>Featured Products</h2>
-                <div class="product-grid">
-                    <div class="product-card" data-name="Organic Tomatoes" data-price="40" data-img="https://via.placeholder.com/400x300.png?text=Organic+Tomatoes">
-                        <img src="https://via.placeholder.com/400x300.png?text=Organic+Tomatoes" alt="Fresh Tomatoes">
-                        <div class="product-info">
-                            <h3>Organic Tomatoes</h3>
-                            <p>Locally grown, ripe and juicy.</p>
-                            <p class="price">₹ 40 / kg</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                    <select id="itemType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <option value="sell">🟢 Selling</option>
+                        <option value="buy">🔵 Buying</option>
+                        <option value="rent">🟣 Renting</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Item Name</label>
+                    <input type="text" id="itemName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., John Deere Tractor">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (₹)</label>
+                        <input type="number" id="itemPrice" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="50000">
                     </div>
-                    <div class="product-card" data-name="Alphonso Mangoes" data-price="150" data-img="https://via.placeholder.com/400x300.png?text=Alphonso+Mangoes">
-                        <img src="https://via.placeholder.com/400x300.png?text=Alphonso+Mangoes" alt="Alphonso Mangoes">
-                        <div class="product-info">
-                            <h3>Alphonso Mangoes</h3>
-                            <p>Sweet and aromatic seasonal delight.</p>
-                            <p class="price">₹ 150 / kg</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-name="Fresh Cow Milk" data-price="60" data-img="https://via.placeholder.com/400x300.png?text=Milk">
-                        <img src="https://via.placeholder.com/400x300.png?text=Milk" alt="Fresh Cow Milk">
-                        <div class="product-info">
-                            <h3>Fresh Cow Milk</h3>
-                            <p>Pure and unadulterated, delivered daily.</p>
-                            <p class="price">₹ 60 / liter</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Condition</label>
+                        <select id="itemCondition" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <option value="new">New</option>
+                            <option value="excellent">Excellent</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                        </select>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="vegetables-section" class="hidden">
-            <div class="buy-sell-options">
-                <button class="buy-btn neumorphism active">Buy Vegetables</button>
-                <button class="sell-btn neumorphism">Sell Vegetables</button>
-            </div>
-            
-            <div id="buy-vegetables-content">
-                <h2>Buy Vegetables</h2>
-                <div class="product-grid">
-                    <div class="product-card" data-name="Potatoes" data-price="25" data-img="https://via.placeholder.com/400x300.png?text=Potatoes">
-                        <img src="https://via.placeholder.com/400x300.png?text=Potatoes" alt="Potatoes">
-                        <div class="product-info">
-                            <h3>Potatoes</h3>
-                            <p>Freshly harvested potatoes.</p>
-                            <p class="price">₹ 25 / kg</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-name="Onions" data-price="30" data-img="https://via.placeholder.com/400x300.png?text=Onions">
-                        <img src="https://via.placeholder.com/400x300.png?text=Onions" alt="Onions">
-                        <div class="product-info">
-                            <h3>Onions</h3>
-                            <p>High-quality, pungent onions.</p>
-                            <p class="price">₹ 30 / kg</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-name="Organic Carrots" data-price="50" data-img="https://via.placeholder.com/400x300.png?text=Carrots">
-                        <img src="https://via.placeholder.com/400x300.png?text=Carrots" alt="Carrots">
-                        <div class="product-info">
-                            <h3>Organic Carrots</h3>
-                            <p>Sweet, crunchy and organic.</p>
-                            <p class="price">₹ 50 / kg</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Contact</label>
+                    <input type="text" id="itemContact" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Your phone number">
                 </div>
-            </div>
-            
-            <div id="sell-vegetables-content" class="hidden">
-                <h2>Sell Your Vegetables</h2>
-                <div class="dashboard-container neumorphism">
-                    <h3>List a New Vegetable Product</h3>
-                    <div class="form-group">
-                        <label for="vegName">Product Name</label>
-                        <input type="text" id="vegName" placeholder="e.g., Green Beans">
-                    </div>
-                    <div class="form-group">
-                        <label for="vegPrice">Price (per kg)</label>
-                        <input type="number" id="vegPrice" placeholder="e.g., 45">
-                    </div>
-                    <div class="form-group">
-                        <label for="vegDesc">Description</label>
-                        <textarea id="vegDesc" rows="4" placeholder="Briefly describe your product..."></textarea>
-                    </div>
-                    <button class="add-product-btn btn btn-primary">List Product</button>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="itemDescription" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" rows="3" placeholder="Detailed description..."></textarea>
                 </div>
-            </div>
-        </section>
-
-        <section id="fruits-section" class="hidden">
-            <div class="buy-sell-options">
-                <button class="buy-btn neumorphism active">Buy Fruits</button>
-                <button class="sell-btn neumorphism">Sell Fruits</button>
-            </div>
-            
-            <div id="buy-fruits-content">
-                <h2>Buy Fruits</h2>
-                <div class="product-grid">
-                    <div class="product-card" data-name="Bananas" data-price="50" data-img="https://via.placeholder.com/400x300.png?text=Bananas">
-                        <img src="https://via.placeholder.com/400x300.png?text=Bananas" alt="Bananas">
-                        <div class="product-info">
-                            <h3>Bananas</h3>
-                            <p>Sweet and nutritious bananas.</p>
-                            <p class="price">₹ 50 / dozen</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-name="Apples" data-price="120" data-img="https://via.placeholder.com/400x300.png?text=Apples">
-                        <img src="https://via.placeholder.com/400x300.png?text=Apples" alt="Apples">
-                        <div class="product-info">
-                            <h3>Apples</h3>
-                            <p>Crisp and delicious apples.</p>
-                            <p class="price">₹ 120 / kg</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-name="Grapes" data-price="80" data-img="https://via.placeholder.com/400x300.png?text=Grapes">
-                        <img src="https://via.placeholder.com/400x300.png?text=Grapes" alt="Grapes">
-                        <div class="product-info">
-                            <h3>Grapes</h3>
-                            <p>Juicy green grapes.</p>
-                            <p class="price">₹ 80 / kg</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="sell-fruits-content" class="hidden">
-                <h2>Sell Your Fruits</h2>
-                <div class="dashboard-container neumorphism">
-                    <h3>List a New Fruit Product</h3>
-                    <div class="form-group">
-                        <label for="fruitName">Product Name</label>
-                        <input type="text" id="fruitName" placeholder="e.g., Pomegranate">
-                    </div>
-                    <div class="form-group">
-                        <label for="fruitPrice">Price (per kg)</label>
-                        <input type="number" id="fruitPrice" placeholder="e.g., 90">
-                    </div>
-                    <div class="form-group">
-                        <label for="fruitDesc">Description</label>
-                        <textarea id="fruitDesc" rows="4" placeholder="Briefly describe your product..."></textarea>
-                    </div>
-                    <button class="add-product-btn btn btn-primary">List Product</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="seeds-section" class="hidden">
-            <div class="buy-sell-options">
-                <button class="buy-btn neumorphism active">Buy Seeds</button>
-                <button class="sell-btn neumorphism">Sell Seeds</button>
-            </div>
-            
-            <div id="buy-seeds-content">
-                <h2>Buy Seeds</h2>
-                <div class="product-grid">
-                    <div class="product-card" data-name="Wheat Seeds" data-price="2000" data-img="https://via.placeholder.com/400x300.png?text=Wheat+Seeds">
-                        <img src="https://via.placeholder.com/400x300.png?text=Wheat+Seeds" alt="Wheat Seeds">
-                        <div class="product-info">
-                            <h3>Wheat Seeds</h3>
-                            <p>High-yield wheat seeds.</p>
-                            <p class="price">₹ 2,000 / Quintal</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-name="Paddy Seeds" data-price="3500" data-img="https://via.placeholder.com/400x300.png?text=Paddy+Seeds">
-                        <img src="https://via.placeholder.com/400x300.png?text=Paddy+Seeds" alt="Paddy Seeds">
-                        <div class="product-info">
-                            <h3>Paddy Seeds</h3>
-                            <p>Certified paddy seeds.</p>
-                            <p class="price">₹ 3,500 / bag</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="sell-seeds-content" class="hidden">
-                <h2>Sell Your Seeds</h2>
-                <div class="dashboard-container neumorphism">
-                    <h3>List a New Seeds Product</h3>
-                    <div class="form-group">
-                        <label for="seedName">Product Name</label>
-                        <input type="text" id="seedName" placeholder="e.g., Hybrid Corn Seeds">
-                    </div>
-                    <div class="form-group">
-                        <label for="seedPrice">Price (per kg/bag)</label>
-                        <input type="number" id="seedPrice" placeholder="e.g., 500">
-                    </div>
-                    <div class="form-group">
-                        <label for="seedDesc">Description</label>
-                        <textarea id="seedDesc" rows="4" placeholder="Briefly describe your product..."></textarea>
-                    </div>
-                    <button class="add-product-btn btn btn-primary">List Product</button>
-                </div>
-            </div>
-        </section>
-        
-        <section id="tractors-section" class="hidden">
-            <div class="buy-sell-options">
-                <button class="buy-btn neumorphism active">Buy Tractors</button>
-                <button class="sell-btn neumorphism">Sell Tractors</button>
-            </div>
-            
-            <div id="buy-tractors-content">
-                <h2>Buy Tractors</h2>
-                <div class="product-grid">
-                    <div class="product-card" data-name="FarmPro 500 Tractor" data-price="750000" data-img="https://via.placeholder.com/400x300.png?text=FarmPro+Tractor">
-                        <img src="https://via.placeholder.com/400x300.png?text=FarmPro+Tractor" alt="Tractor">
-                        <div class="product-info">
-                            <h3>FarmPro 500 Tractor</h3>
-                            <p>Powerful and reliable tractor.</p>
-                            <p class="price">₹ 7,50,000</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-name="Mini Tractor" data-price="210000" data-img="https://via.placeholder.com/400x300.png?text=Mini+Tractor">
-                        <img src="https://via.placeholder.com/400x300.png?text=Mini+Tractor" alt="Mini Tractor">
-                        <div class="product-info">
-                            <h3>Mini Tractor</h3>
-                            <p>Compact and efficient for small farms.</p>
-                            <p class="price">₹ 2,10,000</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                    <div class="product-card" data-name="High-Performance Tractor" data-price="1200000" data-img="https://via.placeholder.com/400x300.png?text=Heavy+Duty+Tractor">
-                        <img src="https://via.placeholder.com/400x300.png?text=Heavy+Duty+Tractor" alt="Heavy Duty Tractor">
-                        <div class="product-info">
-                            <h3>High-Performance Tractor</h3>
-                            <p>For large-scale agricultural operations.</p>
-                            <p class="price">₹ 12,00,000</p>
-                            <button class="add-to-cart-btn btn btn-primary">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="sell-tractors-content" class="hidden">
-                <h2>Sell Your Tractor</h2>
-                <div class="dashboard-container neumorphism">
-                    <h3>List a New Tractor Product</h3>
-                    <div class="form-group">
-                        <label for="tractorName">Product Name</label>
-                        <input type="text" id="tractorName" placeholder="e.g., Used FarmPro 500">
-                    </div>
-                    <div class="form-group">
-                        <label for="tractorPrice">Price</label>
-                        <input type="number" id="tractorPrice" placeholder="e.g., 500000">
-                    </div>
-                    <div class="form-group">
-                        <label for="tractorDesc">Description</label>
-                        <textarea id="tractorDesc" rows="4" placeholder="Add model, year, hours, and condition..."></textarea>
-                    </div>
-                    <button class="add-product-btn btn btn-primary">List Product</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="cart-section" class="hidden">
-            <h2>Your Cart</h2>
-            <div class="cart-container neumorphism">
-                <div id="cart-items-container">
-                    </div>
-                <div class="total-price">
-                    Total: ₹ <span id="cart-total-price">0</span>
-                </div>
-                <button class="checkout-btn btn btn-primary">Proceed to Checkout</button>
-            </div>
-        </section>
-
-        <section id="dashboard-section" class="hidden">
-            <h2>Farmer Dashboard</h2>
-            <div class="dashboard-container neumorphism">
-                <div class="dashboard-section">
-                    <h3>Your Listings</h3>
-                    <p>No products currently listed.</p>
-                </div>
-                <div class="dashboard-section">
-                    <h3>Orders Received</h3>
-                    <p>No new orders.</p>
-                </div>
-            </div>
-        </section>
-
-    </div>
-
-    <div class="footer">
-        <p>&copy; 2025 KrishiSetu. All rights reserved.</p>
+                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-all font-semibold">
+                    🚀 Add to Marketplace
+                </button>
+            </form>
+        </div>
     </div>
 
     <script>
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-links a');
-        const categoryLinks = document.querySelectorAll('.category-card');
-        const buySellContainers = document.querySelectorAll('.buy-sell-options');
-        const cartItemsContainer = document.getElementById('cart-items-container');
-        const cartTotalPriceSpan = document.getElementById('cart-total-price');
-        
+        // Global variables
+        let map;
+        let markers = [];
+        let marketItems = [];
         let cart = [];
-        
-        function showSection(sectionId) {
-            sections.forEach(section => section.classList.add('hidden'));
-            document.getElementById(sectionId).classList.remove('hidden');
+        let currentFilter = 'all';
+        let currentSection = 'home';
+
+        // Sample data for different categories
+        const categoryData = {
+            agrowaste: [
+                { id: 1, name: "Rice Straw Bales", price: 500, type: "sell", condition: "good", description: "Fresh rice straw bales, perfect for composting", contact: "+91 98765 43210", image: "🌾" },
+                { id: 2, name: "Wheat Residue", price: 300, type: "sell", condition: "excellent", description: "High-quality wheat residue for bio-fuel", contact: "+91 87654 32109", image: "🌾" },
+                { id: 3, name: "Organic Compost", price: 200, type: "buy", condition: "new", description: "Looking for organic compost in bulk", contact: "+91 76543 21098", image: "♻️" },
+                { id: 4, name: "Sugarcane Bagasse", price: 400, type: "sell", condition: "good", description: "Fresh sugarcane bagasse for paper industry", contact: "+91 65432 10987", image: "🎋" }
+            ],
+            machinery: [
+                { id: 5, name: "John Deere 5050D Tractor", price: 850000, type: "sell", condition: "excellent", description: "50 HP tractor, well maintained, 2020 model", contact: "+91 98765 43210", image: "🚜" },
+                { id: 6, name: "Mahindra 575 DI Tractor", price: 2000, type: "rent", condition: "good", description: "Available for rent, per day basis", contact: "+91 87654 32109", image: "🚜" },
+                { id: 7, name: "Combine Harvester", price: 1200000, type: "buy", condition: "new", description: "Looking for new combine harvester", contact: "+91 76543 21098", image: "🌾" },
+                { id: 8, name: "Rotavator", price: 45000, type: "sell", condition: "good", description: "7 feet rotavator, excellent condition", contact: "+91 65432 10987", image: "🔧" }
+            ],
+            equipment: [
+                { id: 9, name: "Drip Irrigation System", price: 25000, type: "sell", condition: "new", description: "Complete drip irrigation system for 1 acre", contact: "+91 98765 43210", image: "💧" },
+                { id: 10, name: "Sprayer Pump", price: 500, type: "rent", condition: "excellent", description: "High-pressure sprayer pump for rent", contact: "+91 87654 32109", image: "💦" },
+                { id: 11, name: "Seed Drill", price: 35000, type: "buy", condition: "good", description: "Need seed drill for wheat sowing", contact: "+91 76543 21098", image: "🌱" },
+                { id: 12, name: "Cultivator", price: 18000, type: "sell", condition: "fair", description: "5 tyne cultivator, working condition", contact: "+91 65432 10987", image: "🔧" }
+            ]
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+        });
+
+        function initializeApp() {
+            // Populate market items
+            Object.values(categoryData).forEach(category => {
+                marketItems.push(...category);
+            });
+            
+            updateCartUI();
         }
 
-        function updateCart() {
-            cartItemsContainer.innerHTML = '';
-            let total = 0;
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty.</p>';
-            } else {
-                cart.forEach((item, index) => {
-                    const itemElement = document.createElement('div');
-                    itemElement.classList.add('cart-item', 'neumorphism');
-                    itemElement.innerHTML = `
-                        <img src="${item.img}" alt="${item.name}">
-                        <div style="flex-grow: 1;">
-                            <h3 style="margin: 0; font-weight: 600;">${item.name}</h3>
-                            <p style="margin: 5px 0 0; color: #666;">₹ ${item.price.toFixed(2)} x ${item.quantity}</p>
-                        </div>
-                        <div style="font-weight: bold;">₹ ${(item.price * item.quantity).toFixed(2)}</div>
-                        <button class="remove-from-cart-btn" data-index="${index}">Remove</button>
-                    `;
-                    itemElement.querySelector('.remove-from-cart-btn').addEventListener('click', () => {
-                        cart.splice(index, 1);
-                        updateCart();
-                    });
-                    cartItemsContainer.appendChild(itemElement);
-                    total += item.price * item.quantity;
-                });
+        function setupEventListeners() {
+            // Category modal
+            document.getElementById('closeCategoryModal').addEventListener('click', () => {
+                document.getElementById('categoryModal').classList.add('hidden');
+            });
+
+            // Add item modal
+            document.getElementById('addItemBtn').addEventListener('click', () => {
+                document.getElementById('addItemModal').classList.remove('hidden');
+            });
+
+            document.getElementById('closeAddModal').addEventListener('click', () => {
+                document.getElementById('addItemModal').classList.add('hidden');
+            });
+
+            // Form submission
+            document.getElementById('addItemForm').addEventListener('submit', handleAddItem);
+
+            // Category type change
+            document.getElementById('itemCategory').addEventListener('change', updateTypeOptions);
+        }
+
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.classList.add('section-hidden');
+            });
+
+            // Show selected section
+            document.getElementById(section + 'Section').classList.remove('section-hidden');
+
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('nav-active');
+            });
+            event.target.classList.add('nav-active');
+
+            currentSection = section;
+
+            // Initialize map if map section is shown
+            if (section === 'map' && !map) {
+                setTimeout(initMap, 100);
             }
-            cartTotalPriceSpan.textContent = total.toFixed(2);
         }
 
-        // Navigation links handler
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                showSection(link.dataset.section);
+        function showCategoryItems(category) {
+            const modal = document.getElementById('categoryModal');
+            const title = document.getElementById('categoryTitle');
+            const filters = document.getElementById('categoryFilters');
+            const itemsContainer = document.getElementById('categoryItems');
+
+            // Set title
+            const titles = {
+                agrowaste: '♻️ Agro Waste Management',
+                machinery: '🚜 Farm Machinery',
+                equipment: '🔧 Farm Equipment'
+            };
+            title.textContent = titles[category];
+
+            // Set filters
+            const filterOptions = category === 'agrowaste' 
+                ? ['all', 'sell', 'buy'] 
+                : ['all', 'sell', 'buy', 'rent'];
+
+            filters.innerHTML = filterOptions.map(filter => `
+                <button onclick="filterCategoryItems('${category}', '${filter}')" 
+                        class="category-filter-btn ${filter === 'all' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'} px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors">
+                    ${filter.charAt(0).toUpperCase() + filter.slice(1)}
+                </button>
+            `).join('');
+
+            // Load items
+            loadCategoryItems(category, 'all');
+
+            modal.classList.remove('hidden');
+        }
+
+        function loadCategoryItems(category, filter) {
+            const itemsContainer = document.getElementById('categoryItems');
+            let items = categoryData[category];
+
+            if (filter !== 'all') {
+                items = items.filter(item => item.type === filter);
+            }
+
+            itemsContainer.innerHTML = items.map(item => `
+                <div class="item-card p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">${item.image}</div>
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}">
+                            ${item.type.toUpperCase()}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${item.name}</h3>
+                    <p class="text-gray-600 mb-3">${item.description}</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-2xl font-bold text-green-600">₹${item.price.toLocaleString()}</span>
+                        <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">${item.condition}</span>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="addToCart(${item.id})" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors font-semibold">
+                            Add to Cart
+                        </button>
+                        <button onclick="contactSeller('${item.contact}', '${item.name}')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            📞
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategoryItems(category, filter) {
+            // Update filter buttons
+            document.querySelectorAll('.category-filter-btn').forEach(btn => {
+                btn.className = 'category-filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors';
             });
-        });
+            event.target.className = 'category-filter-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors';
 
-        // Category card handler
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const category = link.dataset.category;
-                showSection(`${category}-section`);
+            loadCategoryItems(category, filter);
+        }
 
-                // Set initial Buy/Sell state for the new category page
-                const buyBtn = document.querySelector(`#${category}-section .buy-btn`);
-                const sellBtn = document.querySelector(`#${category}-section .sell-btn`);
-                const buyContent = document.querySelector(`#${category}-section #buy-${category}-content`);
-                const sellContent = document.querySelector(`#${category}-section #sell-${category}-content`);
+        function getTypeColor(type) {
+            const colors = {
+                sell: 'bg-green-100 text-green-800',
+                buy: 'bg-blue-100 text-blue-800',
+                rent: 'bg-purple-100 text-purple-800'
+            };
+            return colors[type] || 'bg-gray-100 text-gray-800';
+        }
 
-                buyBtn.classList.add('active');
-                sellBtn.classList.remove('active');
-                buyContent.classList.remove('hidden');
-                sellContent.classList.add('hidden');
-            });
-        });
+        function updateTypeOptions() {
+            const category = document.getElementById('itemCategory').value;
+            const typeSelect = document.getElementById('itemType');
+            
+            if (category === 'agrowaste') {
+                typeSelect.innerHTML = `
+                    <option value="sell">🟢 Selling</option>
+                    <option value="buy">🔵 Buying</option>
+                `;
+            } else {
+                typeSelect.innerHTML = `
+                    <option value="sell">🟢 Selling</option>
+                    <option value="buy">🔵 Buying</option>
+                    <option value="rent">🟣 Renting</option>
+                `;
+            }
+        }
 
-        // Buy/Sell toggle handler for each category
-        buySellContainers.forEach(container => {
-            container.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') {
-                    const buyBtn = container.querySelector('.buy-btn');
-                    const sellBtn = container.querySelector('.sell-btn');
-                    const category = container.closest('section').id.split('-')[0];
-                    const buyContent = document.getElementById(`buy-${category}-content`);
-                    const sellContent = document.getElementById(`sell-${category}-content`);
+        function handleAddItem(e) {
+            e.preventDefault();
+            
+            const formData = {
+                category: document.getElementById('itemCategory').value,
+                type: document.getElementById('itemType').value,
+                name: document.getElementById('itemName').value,
+                price: parseInt(document.getElementById('itemPrice').value),
+                condition: document.getElementById('itemCondition').value,
+                contact: document.getElementById('itemContact').value,
+                description: document.getElementById('itemDescription').value
+            };
 
-                    if (e.target.classList.contains('buy-btn')) {
-                        buyBtn.classList.add('active');
-                        sellBtn.classList.remove('active');
-                        buyContent.classList.remove('hidden');
-                        sellContent.classList.add('hidden');
-                    } else if (e.target.classList.contains('sell-btn')) {
-                        sellBtn.classList.add('active');
-                        buyBtn.classList.remove('active');
-                        sellContent.classList.remove('hidden');
-                        buyContent.classList.add('hidden');
-                    }
+            // Add to appropriate category
+            const newItem = {
+                id: Date.now(),
+                ...formData,
+                image: getCategoryIcon(formData.category)
+            };
+
+            categoryData[formData.category].push(newItem);
+            marketItems.push(newItem);
+
+            // Add to map if map is initialized
+            if (map) {
+                addMarkerToMap(newItem);
+            }
+
+            showNotification(`${newItem.name} added successfully! 🎉`, 'success');
+            document.getElementById('addItemModal').classList.add('hidden');
+            document.getElementById('addItemForm').reset();
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                agrowaste: '♻️',
+                machinery: '🚜',
+                equipment: '🔧'
+            };
+            return icons[category] || '📦';
+        }
+
+        function addToCart(itemId) {
+            const item = marketItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const existingItem = cart.find(i => i.id === itemId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+
+            updateCartUI();
+            showNotification(`${item.name} added to cart! 🛒`, 'success');
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                cartCount.textContent = totalItems;
+                cartCount.classList.remove('hidden');
+            } else {
+                cartCount.classList.add('hidden');
+            }
+
+            // Update cart section
+            updateCartSection();
+        }
+
+        function updateCartSection() {
+            const cartItems = document.getElementById('cartItems');
+            const cartSummary = document.getElementById('cartSummary');
+            const cartTotal = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">🛒</div>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-500 mb-6">Start adding items from our marketplace</p>
+                        <button onclick="showSection('home')" class="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                            Continue Shopping
+                        </button>
+                    </div>
+                `;
+                cartSummary.classList.add('hidden');
+            } else {
+                let total = 0;
+                cartItems.innerHTML = cart.map(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    return `
+                        <div class="item-card p-4 flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <div class="text-3xl">${item.image}</div>
+                                <div>
+                                    <h4 class="font-semibold text-lg">${item.name}</h4>
+                                    <p class="text-gray-600">₹${item.price.toLocaleString()} each</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button onclick="updateCartQuantity(${item.id}, -1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">-</button>
+                                <span class="w-8 text-center font-semibold">${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.id}, 1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">+</button>
+                                <button onclick="removeFromCart(${item.id})" class="ml-4 text-red-500 hover:text-red-700">🗑️</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                cartTotal.textContent = `₹${total.toLocaleString()}`;
+                cartSummary.classList.remove('hidden');
+            }
+        }
+
+        function updateCartQuantity(itemId, change) {
+            const item = cart.find(i => i.id === itemId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(itemId);
+                } else {
+                    updateCartUI();
                 }
+            }
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(i => i.id !== itemId);
+            updateCartUI();
+        }
+
+        function contactSeller(contact, itemName) {
+            showNotification(`Contact: ${contact} for ${itemName}`, 'info');
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            showNotification(`Order placed successfully! Total: ₹${total.toLocaleString()}`, 'success');
+            cart = [];
+            updateCartUI();
+        }
+
+        // Map functionality
+        function initMap() {
+            map = L.map('map').setView([28.6139, 77.2090], 8);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add sample markers
+            marketItems.forEach(item => {
+                addMarkerToMap(item);
             });
-        });
-        
-        // Add to cart handler
-        document.querySelectorAll('.product-grid').forEach(grid => {
-            grid.addEventListener('click', (e) => {
-                if (e.target.classList.contains('add-to-cart-btn')) {
-                    const productCard = e.target.closest('.product-card');
-                    const name = productCard.dataset.name;
-                    const price = parseFloat(productCard.dataset.price);
-                    const img = productCard.dataset.img;
+
+            // Setup filter buttons
+            setupMapFilters();
+        }
+
+        function addMarkerToMap(item) {
+            const lat = 28.6139 + (Math.random() - 0.5) * 0.3;
+            const lng = 77.2090 + (Math.random() - 0.5) * 0.3;
+            
+            const typeColors = {
+                sell: '#10B981',
+                buy: '#3B82F6',
+                rent: '#8B5CF6'
+            };
+            
+            const typeSymbols = {
+                sell: '🟢',
+                buy: '🔵',
+                rent: '🟣'
+            };
+
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-bounce" 
+                             style="background-color: ${typeColors[item.type]};">
+                            ${typeSymbols[item.type]}
+                        </div>
+                    </div>
+                `,
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
+            });
+
+            const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+            
+            const popupContent = `
+                <div class="p-4 min-w-64">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}">
+                            ${item.type.toUpperCase()}
+                        </span>
+                        <span class="text-xs text-gray-500">Just now</span>
+                    </div>
                     
-                    const existingItem = cart.find(item => item.name === name);
-                    if (existingItem) {
-                        existingItem.quantity += 1;
-                    } else {
-                        cart.push({ name, price, quantity: 1, img });
-                    }
-                    updateCart();
-                    alert(`${name} added to cart!`);
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">${item.name}</h3>
+                    <p class="text-sm text-gray-700 mb-3">${item.description}</p>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xl font-bold text-green-600">₹${item.price.toLocaleString()}</span>
+                        <span class="text-sm bg-gray-100 px-2 py-1 rounded">${item.condition}</span>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button onclick="addToCart(${item.id})" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-green-700">
+                            Add to Cart
+                        </button>
+                        <button onclick="contactSeller('${item.contact}', '${item.name}')" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            📞
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            marker.bindPopup(popupContent, {
+                maxWidth: 300,
+                className: 'custom-popup'
+            });
+
+            markers.push({ marker, item });
+        }
+
+        function setupMapFilters() {
+            document.getElementById('filterAll').addEventListener('click', () => filterMapMarkers('all'));
+            document.getElementById('filterBuy').addEventListener('click', () => filterMapMarkers('buy'));
+            document.getElementById('filterSell').addEventListener('click', () => filterMapMarkers('sell'));
+            document.getElementById('filterRent').addEventListener('click', () => filterMapMarkers('rent'));
+        }
+
+        function filterMapMarkers(type) {
+            markers.forEach(({ marker, item }) => {
+                if (type === 'all' || item.type === type) {
+                    marker.addTo(map);
+                } else {
+                    map.removeLayer(marker);
                 }
             });
-        });
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-green-600', 'bg-blue-500', 'bg-orange-500', 'bg-purple-500');
+                btn.classList.add('bg-gray-400');
+            });
+            
+            const activeBtn = document.getElementById(`filter${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-gray-400');
+                if (type === 'all') activeBtn.classList.add('bg-green-600');
+                else if (type === 'buy') activeBtn.classList.add('bg-blue-500');
+                else if (type === 'sell') activeBtn.classList.add('bg-orange-500');
+                else if (type === 'rent') activeBtn.classList.add('bg-purple-500');
+            }
+        }
 
-        // Initial setup
-        showSection('homepage-section');
-        updateCart();
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            
+            notification.className = `fixed top-20 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 4000);
+        }
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e46c3de6375988',t:'MTc1NzczMjcyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
