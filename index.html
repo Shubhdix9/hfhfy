@@ -16,10 +16,6 @@
             min-height: 100vh;
         }
         
-
-        
-
-        
         .agri-card {
             background: white;
             border-radius: 12px;
@@ -101,6 +97,168 @@
         .location-pulse {
             opacity: 1;
         }
+
+        /* AI Chatbot Enhanced Styles */
+        .ai-typing {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            margin: 8px 0;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #6b7280;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .ai-suggestion-btn {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ai-suggestion-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .ai-prediction {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .ai-alert {
+            background: linear-gradient(135deg, #fecaca, #fca5a5);
+            border-left: 4px solid #ef4444;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .ai-success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-left: 4px solid #10b981;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        /* Enhanced notification styles */
+        .notification-popup {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification-popup.show {
+            transform: translateX(0);
+        }
+
+        /* AI Analysis Cards */
+        .ai-analysis-card {
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border: 1px solid #a5b4fc;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 8px 0;
+        }
+
+        .ai-score {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .rental-option {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .rental-option:hover {
+            transform: translateY(-2px);
+        }
+
+        .rental-option.selected {
+            border-color: #10b981 !important;
+            background-color: #d1fae5 !important;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #d1d5db;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+
+        .item-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-buy {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-sell {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-rent {
+            background: #f3e8ff;
+            color: #7c3aed;
+        }
     </style>
 </head>
 <body class="bg-white min-h-screen">
@@ -171,14 +329,14 @@
                 <!-- Agro Waste -->
                 <div class="agri-card text-center cursor-pointer grow-animation" onclick="showCategoryItems('agrowaste')">
                     <div class="text-5xl mb-4">♻️</div>
-                    <h3 class="text-xl font-bold text-green-800 mb-3">Agro Waste Processing Equipment</h3>
-                    <p class="text-gray-600 mb-4 text-sm">Rent specialized equipment for processing agricultural waste. Balers, shredders, and composting machines available for lease.</p>
+                    <h3 class="text-xl font-bold text-green-800 mb-3">Agro Waste Trading</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Buy and sell agricultural waste directly. Rice straw, wheat residue, cotton stalks, and other crop residues available for trading.</p>
                     <div class="flex flex-wrap justify-center gap-2 mb-4">
-                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Rent</span>
-                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Lease</span>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Buy</span>
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Sell</span>
                     </div>
                     <button class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors text-sm">
-                        Rent Equipment
+                        Buy & Sell Waste
                     </button>
                 </div>
 
@@ -248,100 +406,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Customer Reviews Section -->
-        <div class="bg-gradient-to-br from-green-50 to-lime-50 py-20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-green-800 mb-4">What Our Farmers Say</h2>
-                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Real stories from farmers who transformed their agricultural business with KrishiSetu</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                    <!-- Review 1 -->
-                    <div class="agri-card p-8 text-center">
-                        <div class="w-20 h-20 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <span class="text-3xl text-white">👨‍🌾</span>
-                        </div>
-                        <div class="flex justify-center mb-4">
-                            <span class="text-yellow-400 text-2xl">⭐⭐⭐⭐⭐</span>
-                        </div>
-                        <p class="text-gray-700 mb-6 italic">"KrishiSetu helped me sell my old tractor within 2 days and buy a new one at 20% less price. The platform is amazing for connecting with genuine buyers and sellers."</p>
-                        <div class="border-t pt-4">
-                            <h4 class="font-bold text-green-800">Rajesh Kumar</h4>
-                            <p class="text-sm text-gray-600">Wheat Farmer, Jaipur</p>
-                            <p class="text-xs text-green-600 mt-1">✓ Verified Farmer</p>
-                        </div>
-                    </div>
-
-                    <!-- Review 2 -->
-                    <div class="agri-card p-8 text-center">
-                        <div class="w-20 h-20 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <span class="text-3xl text-white">👩‍🌾</span>
-                        </div>
-                        <div class="flex justify-center mb-4">
-                            <span class="text-yellow-400 text-2xl">⭐⭐⭐⭐⭐</span>
-                        </div>
-                        <p class="text-gray-700 mb-6 italic">"I found the perfect irrigation system for my 5-acre farm through KrishiSetu. The seller was nearby and the equipment was exactly as described. Saved me ₹15,000!"</p>
-                        <div class="border-t pt-4">
-                            <h4 class="font-bold text-green-800">Priya Sharma</h4>
-                            <p class="text-sm text-gray-600">Vegetable Farmer, Sikar</p>
-                            <p class="text-xs text-green-600 mt-1">✓ Verified Farmer</p>
-                        </div>
-                    </div>
-
-                    <!-- Review 3 -->
-                    <div class="agri-card p-8 text-center">
-                        <div class="w-20 h-20 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <span class="text-3xl text-white">👨‍💼</span>
-                        </div>
-                        <div class="flex justify-center mb-4">
-                            <span class="text-yellow-400 text-2xl">⭐⭐⭐⭐⭐</span>
-                        </div>
-                        <p class="text-gray-700 mb-6 italic">"As an equipment dealer, KrishiSetu expanded my reach to farmers across Rajasthan. I've increased my sales by 40% in just 3 months. Highly recommended!"</p>
-                        <div class="border-t pt-4">
-                            <h4 class="font-bold text-green-800">Suresh Patel</h4>
-                            <p class="text-sm text-gray-600">Equipment Dealer, Jodhpur</p>
-                            <p class="text-xs text-green-600 mt-1">✓ Verified Dealer</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                    <div class="agri-card p-6">
-                        <div class="text-3xl font-bold text-green-600 mb-2">4.8/5</div>
-                        <p class="text-sm text-gray-600">Average Rating</p>
-                    </div>
-                    <div class="agri-card p-6">
-                        <div class="text-3xl font-bold text-blue-600 mb-2">2,500+</div>
-                        <p class="text-sm text-gray-600">Happy Farmers</p>
-                    </div>
-                    <div class="agri-card p-6">
-                        <div class="text-3xl font-bold text-purple-600 mb-2">15,000+</div>
-                        <p class="text-sm text-gray-600">Successful Deals</p>
-                    </div>
-                    <div class="agri-card p-6">
-                        <div class="text-3xl font-bold text-orange-600 mb-2">₹50Cr+</div>
-                        <p class="text-sm text-gray-600">Total Transactions</p>
-                    </div>
-                </div>
-
-                <!-- Call to Action -->
-                <div class="text-center mt-16">
-                    <h3 class="text-2xl font-bold text-green-800 mb-4">Join Thousands of Satisfied Farmers</h3>
-                    <p class="text-gray-600 mb-8 max-w-2xl mx-auto">Start your agricultural trading journey today and experience the difference KrishiSetu makes</p>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <button class="bg-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-700 transform hover:scale-105 transition-all duration-300 harvest-glow">
-                            🚀 Start Listing Now
-                        </button>
-                        <button class="border-2 border-green-600 text-green-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-600 hover:text-white transition-all duration-300">
-                            📞 Contact Support
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- Map Section -->
@@ -353,44 +417,19 @@
                         <span class="mr-3">🗺️</span> Live Agricultural Marketplace
                     </h2>
                     <div class="flex space-x-2 flex-wrap gap-2">
-                        <button id="filterAll" class="filter-btn bg-purple-600 text-white px-3 py-2 rounded-lg text-xs font-medium">All Rentals</button>
-                        <button id="filterRent" class="filter-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-xs font-medium">Available Now</button>
-                        <button id="nearbyBtn" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-indigo-700">📍 Nearby</button>
-                        <button id="weatherToggle" class="bg-yellow-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-yellow-700">🌤️ Weather</button>
-                        <button id="heatmapToggle" class="bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-red-700">🔥 Heatmap</button>
-                        <button id="routeBtn" class="bg-teal-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-teal-700">🛣️ Routes</button>
-                        <button id="priceAnalysis" class="bg-pink-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-pink-700">💹 Prices</button>
-                        <button id="farmZones" class="bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-emerald-700">🌾 Zones</button>
-                        <button id="liveTracking" class="bg-violet-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-violet-700">📡 Live</button>
+                        <button onclick="filterItems('all')" class="filter-btn bg-purple-600 text-white px-3 py-2 rounded-lg text-xs font-medium">All Items</button>
+                        <button onclick="filterItems('rent')" class="filter-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-xs font-medium">For Rent</button>
+                        <button onclick="filterItems('buy')" class="filter-btn bg-green-500 text-white px-3 py-2 rounded-lg text-xs font-medium">For Sale</button>
+                        <button onclick="showNearbyItems()" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-indigo-700">📍 Nearby</button>
                     </div>
                 </div>
                 <div class="relative">
                     <div id="map" class="w-full h-96 rounded-2xl shadow-inner"></div>
-                    <div id="weatherOverlay" class="weather-overlay hidden">
-                        <div class="text-sm font-semibold mb-2">🌤️ Weather Info</div>
-                        <div id="weatherData" class="text-xs space-y-1">
-                            <div>Temp: <span id="temperature">28°C</span></div>
-                            <div>Humidity: <span id="humidity">65%</span></div>
-                            <div>Wind: <span id="windSpeed">12 km/h</span></div>
-                            <div class="text-green-600 font-medium">Perfect for farming!</div>
-                        </div>
-                    </div>
-                    <div id="heatmapLegend" class="heatmap-legend hidden">
-                        <div class="font-semibold mb-2">Activity Heatmap</div>
-                        <div class="flex items-center space-x-2 text-xs">
-                            <div class="w-3 h-3 bg-green-300 rounded"></div>
-                            <span>Low</span>
-                            <div class="w-3 h-3 bg-yellow-400 rounded"></div>
-                            <span>Medium</span>
-                            <div class="w-3 h-3 bg-red-500 rounded"></div>
-                            <span>High</span>
-                        </div>
-                    </div>
                 </div>
             </div>
             
             <div class="text-center">
-                <button id="addItemBtn" class="bg-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-700 transition-colors harvest-glow">
+                <button onclick="showAddItemModal()" class="bg-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-700 transition-colors harvest-glow">
                     ➕ Add New Item to Map
                 </button>
             </div>
@@ -420,7 +459,7 @@
                         <span id="cartTotal" class="text-2xl font-bold text-green-600">₹0</span>
                     </div>
                     <button onclick="checkout()" class="w-full bg-green-600 text-white py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg">
-                        ${translations[currentLanguage].proceedCheckout}
+                        Proceed to Checkout
                     </button>
                 </div>
             </div>
@@ -432,11 +471,7 @@
         <div class="bg-white rounded-2xl p-8 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
             <div class="flex justify-between items-center mb-6">
                 <h3 id="categoryTitle" class="text-3xl font-bold text-green-800"></h3>
-                <button id="closeCategoryModal" class="text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
-            </div>
-            
-            <div id="categoryFilters" class="flex flex-wrap gap-3 mb-8">
-                <!-- Filters will be added dynamically -->
+                <button onclick="closeCategoryModal()" class="text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
             </div>
             
             <div id="categoryItems" class="category-grid">
@@ -445,197 +480,12 @@
         </div>
     </div>
 
-    <!-- Add Item Modal -->
-    <div id="addItemModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden flex items-center justify-center backdrop-blur-sm">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-green-800">Add New Item</h3>
-                <button id="closeAddModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-            </div>
-            <form id="addItemForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                    <select id="itemCategory" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                        <option value="agrowaste">♻️ Agro Waste</option>
-                        <option value="machinery">🚜 Machinery</option>
-                        <option value="equipment">🔧 Equipment</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
-                    <select id="itemType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                        <option value="rent">🟣 Available for Rent</option>
-                        <option value="lease">🟡 Long-term Lease</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Rental Rates (₹)</label>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
-                        <input type="number" id="dailyRate" class="p-2 border border-gray-300 rounded-lg text-sm" placeholder="Daily">
-                        <input type="number" id="weeklyRate" class="p-2 border border-gray-300 rounded-lg text-sm" placeholder="Weekly">
-                        <input type="number" id="monthlyRate" class="p-2 border border-gray-300 rounded-lg text-sm" placeholder="Monthly">
-                        <input type="number" id="seasonalRate" class="p-2 border border-gray-300 rounded-lg text-sm" placeholder="Seasonal">
-                        <input type="number" id="yearlyRate" class="p-2 border border-gray-300 rounded-lg text-sm" placeholder="Yearly">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Capacity/Output</label>
-                        <input type="text" id="itemCapacity" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., 2000 kg/hour">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Quality Grade</label>
-                        <select id="itemQuality" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                            <option value="Premium Grade">Premium Grade</option>
-                            <option value="Industrial Grade">Industrial Grade</option>
-                            <option value="Standard Grade">Standard Grade</option>
-                            <option value="Export Quality">Export Quality</option>
-                            <option value="Organic Certified">Organic Certified</option>
-                            <option value="Eco-Friendly">Eco-Friendly</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Technical Specifications</label>
-                    <textarea id="itemSpecifications" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" rows="2" placeholder="e.g., Fuel: 12L/hour, PTO: 540 RPM, Weight: 2100kg"></textarea>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Weight (kg)</label>
-                        <input type="text" id="itemWeight" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., 2850 kg">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Dimensions</label>
-                        <input type="text" id="itemDimensions" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., 4.1m × 2.2m × 2.9m">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Power Requirement</label>
-                        <input type="text" id="itemPowerReq" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., 55 HP">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Fuel Consumption</label>
-                        <input type="text" id="itemFuelConsumption" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., 10L/hour">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Warranty Period</label>
-                        <input type="text" id="itemWarranty" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., 3 years">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Efficiency (%)</label>
-                        <input type="text" id="itemEfficiency" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., 95%">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Certifications (comma separated)</label>
-                    <input type="text" id="itemCertifications" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., ISO 9001, CE Certified, BIS Approved">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Item Name</label>
-                    <input type="text" id="itemName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., John Deere Tractor">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (₹)</label>
-                        <input type="number" id="itemPrice" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="50000">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Condition</label>
-                        <select id="itemCondition" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                            <option value="new">New</option>
-                            <option value="excellent">Excellent</option>
-                            <option value="good">Good</option>
-                            <option value="fair">Fair</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Contact</label>
-                    <input type="text" id="itemContact" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Your phone number">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                    <textarea id="itemDescription" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" rows="3" placeholder="Detailed description..."></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload Images</label>
-                    <input type="file" id="itemImages" multiple accept="image/*" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                    <p class="text-xs text-gray-500 mt-1">Upload up to 5 images (Max 5MB each)</p>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
-                        <button type="button" id="detectLocationBtn" class="w-full bg-blue-100 text-blue-700 py-3 rounded-lg hover:bg-blue-200 transition-colors font-medium">
-                            📍 Use My Location
-                        </button>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Trust Score</label>
-                        <div class="flex items-center space-x-2 py-3">
-                            <span class="trust-badge">⭐ 4.8</span>
-                            <span class="verified-seller trust-badge">✓ Verified</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="locationStatus" class="hidden text-sm text-green-600 bg-green-50 p-2 rounded-lg">
-                    📍 Location detected successfully!
-                </div>
-                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-all font-semibold">
-                    🚀 Add to Marketplace
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- AI Chatbot -->
-    <div id="aiChatbot" class="fixed bottom-6 right-6 z-40">
-        <button id="aiChatBtn" class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg hover:shadow-xl transition-all harvest-glow">
-            🤖
-        </button>
-        <div id="aiChatWindow" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-2xl shadow-2xl border">
-            <div class="p-4 border-b bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-t-2xl">
-                <div class="flex justify-between items-center">
-                    <h4 class="font-bold">🤖 KrishiSetu AI Assistant</h4>
-                    <button id="closeChatBtn" class="text-white hover:text-gray-200">&times;</button>
-                </div>
-            </div>
-            <div id="chatMessages" class="p-4 space-y-3 max-h-60 overflow-y-auto">
-                <div class="ai-recommendation text-sm">
-                    👋 Hi! I'm your AI farming assistant. I can help you with:
-                    <br>• Find nearby equipment
-                    <br>• Crop recommendations
-                    <br>• Weather insights
-                    <br>• Price predictions
-                </div>
-            </div>
-            <div class="p-4 border-t">
-                <div class="flex space-x-2">
-                    <input type="text" id="chatInput" class="flex-1 p-2 border border-gray-300 rounded-lg text-sm" placeholder="Ask me anything...">
-                    <button id="sendChatBtn" class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600">Send</button>
-                </div>
-                <div class="flex flex-wrap gap-2 mt-2">
-                    <button onclick="quickChat('Best time to sell wheat?')" class="text-xs bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">🌾 Wheat prices</button>
-                    <button onclick="quickChat('Irrigation equipment near me')" class="text-xs bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">💧 Irrigation</button>
-                    <button onclick="quickChat('Weather forecast')" class="text-xs bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">🌤️ Weather</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Smart Notifications -->
-    <div id="smartNotifications" class="fixed top-20 right-4 z-50 space-y-2">
-        <!-- Notifications will appear here -->
-    </div>
-
     <!-- Rental Options Modal -->
     <div id="rentalOptionsModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden flex items-center justify-center backdrop-blur-sm">
         <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
             <div class="flex justify-between items-center mb-6">
                 <h3 id="rentalItemTitle" class="text-2xl font-bold text-green-800">Rental Options</h3>
-                <button id="closeRentalModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                <button onclick="closeRentalModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
             </div>
             
             <div id="rentalItemDetails" class="mb-6">
@@ -684,36 +534,10 @@
                     </div>
                 </div>
                 
-                <div class="rental-option bg-orange-50 border-2 border-orange-200 rounded-lg p-3 cursor-pointer hover:border-orange-400 transition-colors" onclick="selectRentalPeriod('seasonal')">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h5 class="font-semibold text-orange-800 text-sm">Seasonal Lease</h5>
-                            <p class="text-xs text-orange-600">3-6 months - Save 35%</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-lg font-bold text-orange-800" id="seasonalPrice">₹0</p>
-                            <p class="text-xs text-orange-600">per season</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="rental-option bg-red-50 border-2 border-red-200 rounded-lg p-3 cursor-pointer hover:border-red-400 transition-colors" onclick="selectRentalPeriod('yearly')">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h5 class="font-semibold text-red-800 text-sm">Yearly Lease</h5>
-                            <p class="text-xs text-red-600">Maximum savings - Save 50%</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-lg font-bold text-red-800" id="yearlyPrice">₹0</p>
-                            <p class="text-xs text-red-600">per year</p>
-                        </div>
-                    </div>
-                </div>
-                
                 <div class="mt-6">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Rental Duration</label>
                     <div class="flex space-x-2">
-                        <input type="number" id="rentalQuantity" class="flex-1 p-3 border border-gray-300 rounded-lg" placeholder="1" min="1" value="1">
+                        <input type="number" id="rentalQuantity" class="flex-1 p-3 border border-gray-300 rounded-lg" placeholder="1" min="1" value="1" onchange="updateRentalCost()">
                         <span id="rentalUnit" class="flex items-center px-3 bg-gray-100 rounded-lg text-sm text-gray-600">day(s)</span>
                     </div>
                 </div>
@@ -726,63 +550,110 @@
                     <p class="text-xs text-gray-600">Includes equipment, basic maintenance, and support</p>
                 </div>
                 
-                <button id="confirmRental" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg">
+                <button onclick="confirmRental()" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg">
                     🛒 Add to Cart
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Analytics Dashboard (Admin) -->
-    <div id="analyticsModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden flex items-center justify-center backdrop-blur-sm">
-        <div class="bg-white rounded-2xl p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
+    <!-- Add Item Modal -->
+    <div id="addItemModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-3xl font-bold text-green-800">📊 Marketplace Analytics</h3>
-                <button id="closeAnalyticsModal" class="text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
+                <h3 class="text-2xl font-bold text-green-800">Add New Item</h3>
+                <button onclick="closeAddModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="agri-card p-6 text-center">
-                    <div class="text-3xl mb-2">📈</div>
-                    <h4 class="text-xl font-bold text-green-800">Total Listings</h4>
-                    <p class="text-3xl font-bold text-blue-600" id="totalListings">0</p>
+            <form onsubmit="handleAddItem(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select id="itemCategory" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <option value="agrowaste">♻️ Agro Waste</option>
+                        <option value="machinery">🚜 Machinery</option>
+                        <option value="equipment">🔧 Equipment</option>
+                    </select>
                 </div>
-                <div class="agri-card p-6 text-center">
-                    <div class="text-3xl mb-2">🎯</div>
-                    <h4 class="text-xl font-bold text-green-800">Active Users</h4>
-                    <p class="text-3xl font-bold text-green-600" id="activeUsers">0</p>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                    <select id="itemType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <option value="rent">🟣 Available for Rent</option>
+                        <option value="buy">🟢 Available to Buy</option>
+                        <option value="sell">🔵 For Sale</option>
+                    </select>
                 </div>
-                <div class="agri-card p-6 text-center">
-                    <div class="text-3xl mb-2">💰</div>
-                    <h4 class="text-xl font-bold text-green-800">Total Value</h4>
-                    <p class="text-3xl font-bold text-purple-600" id="totalValue">₹0</p>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Item Name</label>
+                    <input type="text" name="itemName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="e.g., John Deere Tractor" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Price (₹)</label>
+                    <input type="number" name="itemPrice" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="50000" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Contact</label>
+                    <input type="text" name="itemContact" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Your phone number" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea name="itemDescription" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" rows="3" placeholder="Detailed description..." required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-all font-semibold">
+                    🚀 Add to Marketplace
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enhanced AI Chatbot -->
+    <div id="aiChatbot" class="fixed bottom-6 right-6 z-40">
+        <button onclick="toggleAIChat()" class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg hover:shadow-xl transition-all harvest-glow">
+            🤖
+        </button>
+        <div id="aiChatWindow" class="hidden absolute bottom-20 right-0 w-96 bg-white rounded-2xl shadow-2xl border">
+            <div class="p-4 border-b bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-t-2xl">
+                <div class="flex justify-between items-center">
+                    <h4 class="font-bold">🤖 KrishiSetu AI Assistant</h4>
+                    <button onclick="toggleAIChat()" class="text-white hover:text-gray-200">&times;</button>
+                </div>
+                <p class="text-xs opacity-90 mt-1">Advanced Agricultural Intelligence</p>
+            </div>
+            <div id="chatMessages" class="p-4 space-y-3 max-h-80 overflow-y-auto">
+                <div class="ai-recommendation text-sm">
+                    👋 <strong>Namaste! I'm your AI farming assistant.</strong><br>
+                    I can help you with:
+                    <br>• 🌾 Crop planning & market analysis
+                    <br>• 🚜 Equipment recommendations
+                    <br>• 🌤️ Weather forecasts & farming tips
+                    <br>• 💰 Loan guidance & subsidies
+                    <br>• 🐛 Pest alerts & soil analysis
+                    <br><br><em>Ask me anything in Hindi or English!</em>
                 </div>
             </div>
-            <div class="mt-8">
-                <h4 class="text-xl font-bold text-green-800 mb-4">Regional Demand Heatmap</h4>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-green-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl mb-2">🚜</div>
-                        <p class="font-semibold">Machinery</p>
-                        <p class="text-green-600">High Demand</p>
-                    </div>
-                    <div class="bg-yellow-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl mb-2">🔧</div>
-                        <p class="font-semibold">Equipment</p>
-                        <p class="text-yellow-600">Medium Demand</p>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl mb-2">♻️</div>
-                        <p class="font-semibold">Agro Waste</p>
-                        <p class="text-blue-600">Growing</p>
-                    </div>
-                    <div class="bg-purple-100 p-4 rounded-lg text-center">
-                        <div class="text-2xl mb-2">🏠</div>
-                        <p class="font-semibold">Rentals</p>
-                        <p class="text-purple-600">Trending</p>
-                    </div>
+            <div id="aiTyping" class="ai-typing hidden">
+                <span class="text-sm text-gray-600 mr-2">AI is thinking</span>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex space-x-2 mb-2">
+                    <input type="text" id="chatInput" class="flex-1 p-2 border border-gray-300 rounded-lg text-sm" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter') sendAIMessage()">
+                    <button onclick="sendAIMessage()" class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600">Send</button>
+                </div>
+                <div id="aiSuggestions" class="flex flex-wrap gap-1">
+                    <button onclick="quickChat('गेहूं की कीमत क्या है?')" class="ai-suggestion-btn">🌾 गेहूं की कीमत</button>
+                    <button onclick="quickChat('Best tractor for 5 acres?')" class="ai-suggestion-btn">🚜 Tractor advice</button>
+                    <button onclick="quickChat('मौसम कैसा रहेगा?')" class="ai-suggestion-btn">🌤️ मौसम</button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Smart Notifications -->
+    <div id="smartNotifications" class="fixed top-20 right-4 z-50 space-y-2">
+        <!-- Notifications will appear here -->
     </div>
 
     <script>
@@ -794,1600 +665,627 @@
         let currentFilter = 'all';
         let currentSection = 'home';
         let userLocation = null;
-        let markerClusterGroup;
-        let weatherData = null;
-        let aiRecommendations = [];
-        let trustScores = new Map();
-        let notifications = [];
         let currentLanguage = 'en';
         let currentRentalItem = null;
         let selectedRentalPeriod = 'daily';
 
-        // Language translations
-        const translations = {
-            en: {
-                home: "🏠 Home",
-                map: "🗺️ Live Map", 
-                cart: "🛒 Cart",
-                languageBtn: "🌐 हिंदी",
-                title: "KrishiSetu",
-                subtitle: "Smart Agriculture Platform",
-                heroTitle: "Smart Agriculture Marketplace",
-                heroSubtitle: "Connect, Trade, and Innovate - Your one-stop platform for agricultural equipment, machinery, and waste management",
-                startTrading: "🚀 Start Listing",
-                downloadApp: "📱 Download App",
-                categoriesTitle: "Agricultural Categories",
-                categoriesSubtitle: "Choose your category to explore products and services",
-                agroWasteTitle: "Agro Waste Management",
-                agroWasteDesc: "Convert agricultural waste into valuable resources. Buy and sell crop residues, organic waste, and bio-materials.",
-                machineryTitle: "Farm Machinery", 
-                machineryDesc: "Heavy-duty agricultural machinery for large-scale farming operations. Buy, sell, or rent tractors, harvesters, and more.",
-                equipmentTitle: "Farm Equipment",
-                equipmentDesc: "Essential farming tools and equipment for daily agricultural activities. Find everything from hand tools to irrigation systems.",
-                exploreWaste: "Explore Waste Solutions",
-                browseMachinery: "Browse Machinery",
-                viewEquipment: "View Equipment",
-                whyChoose: "Why Choose KrishiSetu?",
-                directConnect: "Direct Connect",
-                directConnectDesc: "Connect directly with farmers and dealers",
-                bestPrices: "Best Prices",
-                bestPricesDesc: "Competitive pricing with no middlemen",
-                locationBased: "Location Based",
-                locationBasedDesc: "Find products and services near you",
-                secureTrading: "Secure Trading",
-                secureTradingDesc: "Safe and secure transactions",
-                liveMarketplace: "Live Agricultural Marketplace",
-                addNewItem: "➕ Add New Item to Map",
-                yourCart: "Your Cart",
-                cartEmpty: "Your cart is empty",
-                cartEmptyDesc: "Start adding items from our marketplace",
-                continueShopping: "Continue Shopping",
-                proceedCheckout: "Proceed to Checkout",
-                addToCart: "Add to Cart",
-                contactSeller: "Contact Seller",
-                useMyLocation: "📍 Use My Location",
-                addToMarketplace: "🚀 Add to Marketplace"
-            },
-            hi: {
-                home: "🏠 होम",
-                map: "🗺️ लाइव मैप",
-                cart: "🛒 कार्ट", 
-                languageBtn: "🌐 English",
-                title: "कृषिसेतु",
-                subtitle: "स्मार्ट कृषि प्लेटफॉर्म",
-                heroTitle: "स्मार्ट कृषि बाज़ार",
-                heroSubtitle: "जुड़ें, व्यापार करें और नवाचार करें - कृषि उपकरण, मशीनरी और अपशिष्ट प्रबंधन के लिए आपका वन-स्टॉप प्लेटफॉर्म",
-                startTrading: "🚀 लिस्टिंग शुरू करें",
-                downloadApp: "📱 ऐप डाउनलोड करें",
-                categoriesTitle: "कृषि श्रेणियां",
-                categoriesSubtitle: "उत्पादों और सेवाओं का पता लगाने के लिए अपनी श्रेणी चुनें",
-                agroWasteTitle: "कृषि अपशिष्ट प्रबंधन",
-                agroWasteDesc: "कृषि अपशिष्ट को मूल्यवान संसाधनों में बदलें। फसल अवशेष, जैविक अपशिष्ट और जैव-सामग्री खरीदें और बेचें।",
-                machineryTitle: "कृषि मशीनरी",
-                machineryDesc: "बड़े पैमाने पर कृषि संचालन के लिए भारी-भरकम कृषि मशीनरी। ट्रैक्टर, हार्वेस्टर और अधिक खरीदें, बेचें या किराए पर लें।",
-                equipmentTitle: "कृषि उपकरण",
-                equipmentDesc: "दैनिक कृषि गतिविधियों के लिए आवश्यक कृषि उपकरण और उपकरण। हाथ के औजारों से लेकर सिंचाई प्रणालियों तक सब कुछ खोजें।",
-                exploreWaste: "अपशिष्ट समाधान देखें",
-                browseMachinery: "मशीनरी ब्राउज़ करें",
-                viewEquipment: "उपकरण देखें",
-                whyChoose: "कृषिसेतु क्यों चुनें?",
-                directConnect: "सीधा संपर्क",
-                directConnectDesc: "किसानों और डीलरों से सीधे जुड़ें",
-                bestPrices: "सर्वोत्तम मूल्य",
-                bestPricesDesc: "बिना बिचौलियों के प्रतिस्पर्धी मूल्य निर्धारण",
-                locationBased: "स्थान आधारित",
-                locationBasedDesc: "अपने आस-पास उत्पाद और सेवाएं खोजें",
-                secureTrading: "सुरक्षित व्यापार",
-                secureTradingDesc: "सुरक्षित और सुरक्षित लेनदेन",
-                liveMarketplace: "लाइव कृषि बाज़ार",
-                addNewItem: "➕ मैप में नया आइटम जोड़ें",
-                yourCart: "आपका कार्ट",
-                cartEmpty: "आपका कार्ट खाली है",
-                cartEmptyDesc: "हमारे बाज़ार से आइटम जोड़ना शुरू करें",
-                continueShopping: "खरीदारी जारी रखें",
-                proceedCheckout: "चेकआउट पर जाएं",
-                addToCart: "कार्ट में जोड़ें",
-                contactSeller: "विक्रेता से संपर्क करें",
-                useMyLocation: "📍 मेरा स्थान उपयोग करें",
-                addToMarketplace: "🚀 बाज़ार में जोड़ें"
-            }
-        };
-
-        // Sample data for different categories with enhanced features - Jaipur/JKLU area
+        // Sample data for different categories - Jaipur/JKLU area
         const categoryData = {
             agrowaste: [
-                { id: 1, name: "Premium Rice Straw Baler Pro Max", price: 500, dailyRate: 500, weeklyRate: 3000, monthlyRate: 10000, seasonalRate: 35000, yearlyRate: 120000, type: "rent", condition: "excellent", description: "Ultra-premium rice straw processing with AI sorting - 2500kg/hour capacity", contact: "+91 98765 43210", image: "🌾", farmer: "Rajesh Kumar", rating: 4.9, verified: true, lat: 26.8467, lng: 75.8056, capacity: "2500 kg/hour", quality: "Premium Grade A+", specifications: "Moisture: 10-12%, Purity: 98.5%, Density: 180kg/m³", weight: "3200 kg", dimensions: "4.2m × 2.1m × 2.8m", powerReq: "75 HP", fuelConsumption: "8L/hour", outputQuality: "Export Grade", certifications: ["ISO 9001", "CE Certified", "BIS Approved"], warranty: "2 years", maintenance: "Every 100 hours" },
-                { id: 2, name: "Industrial Wheat Residue Baler Supreme", price: 800, dailyRate: 800, weeklyRate: 5000, monthlyRate: 18000, seasonalRate: 65000, yearlyRate: 200000, type: "rent", condition: "new", description: "Next-gen wheat residue baler with GPS tracking - 4200kg/hour processing", contact: "+91 87654 32109", image: "🌾", farmer: "Priya Sharma", rating: 4.95, verified: true, lat: 26.8567, lng: 75.8156, capacity: "4200 kg/hour", quality: "Premium Industrial Grade", specifications: "Density: 150-200 kg/m³, Length: 8-12cm, Moisture: <8%", weight: "4800 kg", dimensions: "5.1m × 2.4m × 3.2m", powerReq: "100 HP", fuelConsumption: "12L/hour", outputQuality: "Premium Export", certifications: ["ISO 14001", "AGMARK", "Export License"], warranty: "3 years", maintenance: "Every 80 hours" },
-                { id: 3, name: "Organic Compost Turner Pro Elite", price: 600, dailyRate: 600, weeklyRate: 3800, monthlyRate: 14000, seasonalRate: 50000, yearlyRate: 160000, type: "rent", condition: "excellent", description: "Advanced bio-compost turner with temperature control - 6500kg batch capacity", contact: "+91 76543 21098", image: "♻️", farmer: "Suresh Patel", rating: 4.8, verified: true, lat: 26.8667, lng: 75.8256, capacity: "6500 kg/batch", quality: "Organic Certified A+", specifications: "C:N Ratio: 22:1, pH: 6.8-7.2, Temperature: 55-65°C", weight: "2800 kg", dimensions: "3.8m × 1.9m × 2.5m", powerReq: "45 HP", fuelConsumption: "6L/hour", outputQuality: "Premium Organic", certifications: ["Organic India", "NPOP Certified", "USDA Organic"], warranty: "18 months", maintenance: "Every 120 hours" },
-                { id: 4, name: "Heavy-Duty Bagasse Shredder Max", price: 700, dailyRate: 700, weeklyRate: 4500, monthlyRate: 16000, seasonalRate: 58000, yearlyRate: 180000, type: "rent", condition: "good", description: "Industrial bagasse shredder with auto-feed system - 5200kg/hour capacity", contact: "+91 65432 10987", image: "🎋", farmer: "Amit Singh", rating: 4.7, verified: true, lat: 26.8367, lng: 75.7956, capacity: "5200 kg/hour", quality: "Industrial Grade A", specifications: "Fiber length: 1-3mm, Moisture: 6-10%, Density: 95kg/m³", weight: "3600 kg", dimensions: "4.5m × 2.2m × 2.9m", powerReq: "85 HP", fuelConsumption: "10L/hour", outputQuality: "Industrial Premium", certifications: ["BIS Mark", "Pollution Board NOC"], warranty: "2 years", maintenance: "Every 90 hours" },
-                { id: 13, name: "Precision Crop Residue Chopper Ultra", price: 650, dailyRate: 650, weeklyRate: 4200, monthlyRate: 15000, seasonalRate: 55000, yearlyRate: 170000, type: "rent", condition: "new", description: "AI-powered mustard crop residue chopper - 3500kg/hour with quality sorting", contact: "+91 94567 89012", image: "🌻", farmer: "Kailash Meena", rating: 4.85, verified: true, lat: 26.8456, lng: 75.8045, capacity: "3500 kg/hour", quality: "Export Quality A+", specifications: "Size: 0.5-2cm, Oil content: <1.5%, Purity: 99.2%", weight: "2900 kg", dimensions: "4.0m × 2.0m × 2.6m", powerReq: "65 HP", fuelConsumption: "7L/hour", outputQuality: "Premium Export", certifications: ["FSSAI Approved", "Export License"], warranty: "2.5 years", maintenance: "Every 100 hours" },
-                { id: 14, name: "Cotton Stalk Processing Unit Pro", price: 550, dailyRate: 550, weeklyRate: 3500, monthlyRate: 12500, seasonalRate: 45000, yearlyRate: 140000, type: "rent", condition: "excellent", description: "Advanced cotton stalk shredder with fiber separation - 2800kg/hour near JKLU", contact: "+91 85678 90123", image: "🌿", farmer: "Sunita Jangir", rating: 4.6, verified: true, lat: 26.8478, lng: 75.8067, capacity: "2800 kg/hour", quality: "Premium Standard", specifications: "Fiber: 12-18mm, Cellulose: 88%, Lignin: 22%", weight: "2600 kg", dimensions: "3.7m × 1.8m × 2.4m", powerReq: "55 HP", fuelConsumption: "6.5L/hour", outputQuality: "Textile Grade", certifications: ["Textile Ministry Approved"], warranty: "18 months", maintenance: "Every 110 hours" }
+                { id: 1, name: "Premium Rice Straw Bales", price: 2500, type: "buy", condition: "excellent", description: "High-quality rice straw bales - 500kg per bale, perfect for cattle feed and bio-fuel", contact: "+91 98765 43210", image: "🌾", farmer: "Rajesh Kumar", rating: 4.9, verified: true, lat: 26.8467, lng: 75.8056, capacity: "500 kg/bale", quality: "Premium Grade A+" },
+                { id: 2, name: "Wheat Residue Bulk Supply", price: 1800, type: "sell", condition: "new", description: "Fresh wheat residue available in bulk - 1000kg lots, ideal for paper industry", contact: "+91 87654 32109", image: "🌾", farmer: "Priya Sharma", rating: 4.95, verified: true, lat: 26.8567, lng: 75.8156, capacity: "1000 kg/lot", quality: "Premium Industrial Grade" },
+                { id: 3, name: "Organic Cotton Stalks", price: 1200, type: "buy", condition: "excellent", description: "Organic cotton stalks for biomass fuel - 750kg bundles, eco-friendly energy source", contact: "+91 76543 21098", image: "🌿", farmer: "Suresh Patel", rating: 4.8, verified: true, lat: 26.8667, lng: 75.8256, capacity: "750 kg/bundle", quality: "Organic Certified A+" },
+                { id: 4, name: "Sugarcane Bagasse Premium", price: 3200, type: "sell", condition: "good", description: "High-grade sugarcane bagasse for paper mills - 2000kg lots, industrial quality", contact: "+91 65432 10987", image: "🎋", farmer: "Amit Singh", rating: 4.7, verified: true, lat: 26.8367, lng: 75.7956, capacity: "2000 kg/lot", quality: "Industrial Grade A" }
             ],
             machinery: [
-                { id: 5, name: "John Deere 5050D Premium Tractor Elite", price: 2500, dailyRate: 2500, weeklyRate: 16000, monthlyRate: 60000, seasonalRate: 220000, yearlyRate: 750000, type: "rent", condition: "excellent", description: "Premium 55 HP tractor with GPS guidance - 12 hours/day operation capacity", contact: "+91 98765 43210", image: "🚜", farmer: "Mohan Lal", rating: 4.95, verified: true, lat: 26.8567, lng: 75.8156, capacity: "55 HP", quality: "Premium Grade A+", specifications: "Fuel: 10L/hour, PTO: 540/1000 RPM, Lift: 2200kg, Torque: 245 Nm", weight: "2850 kg", dimensions: "4.1m × 2.2m × 2.9m", powerReq: "55 HP", fuelConsumption: "10L/hour", outputQuality: "Professional Grade", certifications: ["CE Certified", "Emission Norms BS-VI"], warranty: "3 years", maintenance: "Every 250 hours", workingHours: "8000 hours", efficiency: "95%", gearbox: "12F+12R Synchro" },
-                { id: 6, name: "Mahindra 575 DI Power Tractor Supreme", price: 2000, dailyRate: 2000, weeklyRate: 13000, monthlyRate: 48000, seasonalRate: 175000, yearlyRate: 600000, type: "rent", condition: "excellent", description: "50 HP power tractor with advanced hydraulics - daily/weekly/seasonal rental", contact: "+91 87654 32109", image: "🚜", farmer: "Ravi Kumar", rating: 4.85, verified: true, lat: 26.8667, lng: 75.8256, capacity: "50 HP", quality: "Industrial Premium", specifications: "Fuel: 9L/hour, Cylinders: 4, Torque: 230 Nm, Lift: 2000kg", weight: "2650 kg", dimensions: "3.9m × 2.1m × 2.8m", powerReq: "50 HP", fuelConsumption: "9L/hour", outputQuality: "Heavy Duty", certifications: ["BIS Approved", "TREM-IV"], warranty: "2.5 years", maintenance: "Every 200 hours", workingHours: "7500 hours", efficiency: "92%", gearbox: "8F+2R" },
-                { id: 7, name: "Advanced Combine Harvester Pro Max", price: 8000, dailyRate: 8000, weeklyRate: 50000, monthlyRate: 180000, seasonalRate: 650000, yearlyRate: 2200000, type: "rent", condition: "new", description: "Next-gen combine harvester with AI sorting - 20 acres/day capacity", contact: "+91 76543 21098", image: "🌾", farmer: "Sunita Devi", rating: 4.9, verified: true, lat: 26.8767, lng: 75.8356, capacity: "20 acres/day", quality: "Export Premium A+", specifications: "Grain tank: 6000kg, Header: 14ft, Engine: 150HP, Cleaning: 99.5%", weight: "8500 kg", dimensions: "9.2m × 4.2m × 4.1m", powerReq: "150 HP", fuelConsumption: "25L/hour", outputQuality: "Premium Export", certifications: ["ISO 9001", "CE Mark", "Export License"], warranty: "4 years", maintenance: "Every 100 hours", workingHours: "3000 hours", efficiency: "98%", grainLoss: "<0.5%" },
-                { id: 8, name: "Heavy-Duty Rotavator Ultra Pro", price: 1200, dailyRate: 1200, weeklyRate: 7500, monthlyRate: 28000, seasonalRate: 100000, yearlyRate: 350000, type: "rent", condition: "excellent", description: "Professional 8.5 feet rotavator - 3 acres/hour processing with depth control", contact: "+91 65432 10987", image: "🔧", farmer: "Vikram Singh", rating: 4.7, verified: true, lat: 26.8367, lng: 75.7956, capacity: "3 acres/hour", quality: "Industrial Premium", specifications: "Width: 8.5ft, Blades: 42, Depth: 4-10 inches, Speed: 540 RPM", weight: "850 kg", dimensions: "2.6m × 1.2m × 1.4m", powerReq: "45 HP", fuelConsumption: "N/A (PTO)", outputQuality: "Professional", certifications: ["BIS Mark", "Quality Certified"], warranty: "2 years", maintenance: "Every 150 hours", workingHours: "2500 hours", efficiency: "94%", soilMixing: "Excellent" },
-                { id: 15, name: "Swaraj 744 FE Eco-Efficient Tractor", price: 2200, dailyRate: 2200, weeklyRate: 14000, monthlyRate: 52000, seasonalRate: 190000, yearlyRate: 650000, type: "rent", condition: "excellent", description: "48 HP eco-friendly tractor with fuel optimization in JKLU area", contact: "+91 76789 01234", image: "🚜", farmer: "Dinesh Sharma", rating: 4.75, verified: true, lat: 26.8445, lng: 75.8034, capacity: "48 HP", quality: "Eco-Premium", specifications: "Fuel: 8L/hour, Gears: 12F+3R, Weight: 2200kg, Torque: 220 Nm", weight: "2200 kg", dimensions: "3.8m × 2.0m × 2.7m", powerReq: "48 HP", fuelConsumption: "8L/hour", outputQuality: "Eco-Friendly", certifications: ["Bharat Stage VI", "Fuel Efficiency Award"], warranty: "2.5 years", maintenance: "Every 300 hours", workingHours: "6800 hours", efficiency: "96%", emissionLevel: "BS-VI Compliant" },
-                { id: 16, name: "Multi-Crop Thresher Pro Elite", price: 1500, dailyRate: 1500, weeklyRate: 9500, monthlyRate: 35000, seasonalRate: 125000, yearlyRate: 450000, type: "rent", condition: "new", description: "AI-powered multi-crop thresher - 750kg/hour capacity with grain quality analysis", contact: "+91 67890 12345", image: "⚙️", farmer: "Ramesh Choudhary", rating: 4.9, verified: true, lat: 26.8489, lng: 75.8078, capacity: "750 kg/hour", quality: "Multi-Purpose A+", specifications: "Crops: Wheat/Rice/Barley/Mustard, Purity: 99.2%, Motor: 20HP, Cleaning: 3-stage", weight: "1200 kg", dimensions: "3.2m × 1.8m × 2.1m", powerReq: "20 HP", fuelConsumption: "4L/hour", outputQuality: "Premium Multi-Crop", certifications: ["AGMARK", "Multi-Crop Certified"], warranty: "3 years", maintenance: "Every 120 hours", workingHours: "4200 hours", efficiency: "97%", grainDamage: "<1%" }
+                { id: 5, name: "John Deere 5050D Premium Tractor", price: 2500, dailyRate: 2500, weeklyRate: 16000, monthlyRate: 60000, type: "rent", condition: "excellent", description: "Premium 55 HP tractor with GPS guidance - 12 hours/day operation capacity", contact: "+91 98765 43210", image: "🚜", farmer: "Mohan Lal", rating: 4.95, verified: true, lat: 26.8567, lng: 75.8156, capacity: "55 HP", quality: "Premium Grade A+" },
+                { id: 6, name: "Mahindra 575 DI Power Tractor", price: 2000, dailyRate: 2000, weeklyRate: 13000, monthlyRate: 48000, type: "rent", condition: "excellent", description: "50 HP power tractor with advanced hydraulics - daily/weekly/seasonal rental", contact: "+91 87654 32109", image: "🚜", farmer: "Ravi Kumar", rating: 4.85, verified: true, lat: 26.8667, lng: 75.8256, capacity: "50 HP", quality: "Industrial Premium" },
+                { id: 7, name: "Advanced Combine Harvester", price: 8000, dailyRate: 8000, weeklyRate: 50000, monthlyRate: 180000, type: "rent", condition: "new", description: "Next-gen combine harvester with AI sorting - 20 acres/day capacity", contact: "+91 76543 21098", image: "🌾", farmer: "Sunita Devi", rating: 4.9, verified: true, lat: 26.8767, lng: 75.8356, capacity: "20 acres/day", quality: "Export Premium A+" },
+                { id: 8, name: "Heavy-Duty Rotavator", price: 1200, dailyRate: 1200, weeklyRate: 7500, monthlyRate: 28000, type: "rent", condition: "excellent", description: "Professional 8.5 feet rotavator - 3 acres/hour processing with depth control", contact: "+91 65432 10987", image: "🔧", farmer: "Vikram Singh", rating: 4.7, verified: true, lat: 26.8367, lng: 75.7956, capacity: "3 acres/hour", quality: "Industrial Premium" }
             ],
             equipment: [
-                { id: 9, name: "Premium Drip Irrigation System Pro", price: 800, dailyRate: 800, weeklyRate: 5000, monthlyRate: 18000, seasonalRate: 65000, yearlyRate: 220000, type: "rent", condition: "new", description: "Advanced drip irrigation with IoT monitoring - 8 acre coverage capacity", contact: "+91 98765 43210", image: "💧", farmer: "Deepak Sharma", rating: 4.9, verified: true, lat: 26.8567, lng: 75.8156, capacity: "8 acres", quality: "Premium Grade A+", specifications: "Flow rate: 4L/hour per dripper, Pressure: 1.0-2.5 bar, Efficiency: 97%", weight: "450 kg", dimensions: "Complete system kit", powerReq: "2 HP pump", fuelConsumption: "N/A (Electric)", outputQuality: "Water Efficient", certifications: ["ISI Mark", "Water Efficiency Certified"], warranty: "5 years", maintenance: "Every 6 months", coverage: "8 acres", waterSaving: "60% vs flood irrigation", cropYieldIncrease: "25-40%" },
-                { id: 10, name: "High-Pressure Sprayer Pump Ultra", price: 500, dailyRate: 500, weeklyRate: 3200, monthlyRate: 12000, seasonalRate: 45000, yearlyRate: 150000, type: "rent", condition: "excellent", description: "Industrial sprayer pump with GPS tracking - 350L/min capacity", contact: "+91 87654 32109", image: "💦", farmer: "Anita Kumari", rating: 4.95, verified: true, lat: 26.8667, lng: 75.8256, capacity: "350 L/min", quality: "Industrial Premium", specifications: "Pressure: 50 bar, Range: 20m, Tank: 800L, Nozzles: Adjustable", weight: "180 kg", dimensions: "1.8m × 1.2m × 1.5m", powerReq: "7.5 HP", fuelConsumption: "3L/hour", outputQuality: "Professional Spray", certifications: ["Pesticide Board Approved", "Safety Certified"], warranty: "2 years", maintenance: "Every 100 hours", sprayWidth: "12m boom", chemicalCompatibility: "All approved pesticides", atomization: "Fine to coarse droplets" },
-                { id: 11, name: "Precision Seed Drill Pro Max", price: 1000, dailyRate: 1000, weeklyRate: 6500, monthlyRate: 24000, seasonalRate: 85000, yearlyRate: 300000, type: "rent", condition: "excellent", description: "GPS-guided multi-crop seed drill - 35kg/acre precision sowing with variable rate", contact: "+91 76543 21098", image: "🌱", farmer: "Ramesh Gupta", rating: 4.8, verified: true, lat: 26.8767, lng: 75.8356, capacity: "35 kg/acre", quality: "Precision Premium", specifications: "Rows: 13, Spacing: 15-25cm variable, Depth: 1-10cm, Seed rate: Variable", weight: "950 kg", dimensions: "4.2m × 2.8m × 1.6m", powerReq: "45 HP", fuelConsumption: "N/A (PTO)", outputQuality: "Precision Planting", certifications: ["Seed Technology Approved"], warranty: "3 years", maintenance: "Every 200 hours", seedAccuracy: "±2%", depthControl: "Hydraulic", fertilizer: "Dual placement system" },
-                { id: 12, name: "Heavy-Duty Cultivator Pro Elite", price: 900, dailyRate: 900, weeklyRate: 5800, monthlyRate: 21000, seasonalRate: 75000, yearlyRate: 260000, type: "rent", condition: "excellent", description: "Professional 7 tyne cultivator - 2.5 acres/hour processing with auto-depth", contact: "+91 65432 10987", image: "🔧", farmer: "Kavita Singh", rating: 4.7, verified: true, lat: 26.8367, lng: 75.7956, capacity: "2.5 acres/hour", quality: "Professional Premium", specifications: "Tynes: 7, Width: 2.8m, Depth: 5-25cm variable, Spring loaded", weight: "680 kg", dimensions: "2.8m × 1.5m × 1.2m", powerReq: "50 HP", fuelConsumption: "N/A (PTO)", outputQuality: "Professional Cultivation", certifications: ["Agricultural Machinery Certified"], warranty: "2.5 years", maintenance: "Every 150 hours", soilPenetration: "Excellent", weedControl: "95% effective", fieldFinish: "Smooth and level" },
-                { id: 17, name: "Solar Water Pump System Advanced", price: 1200, dailyRate: 1200, weeklyRate: 7800, monthlyRate: 28000, seasonalRate: 100000, yearlyRate: 350000, type: "rent", condition: "new", description: "7.5HP solar pump with remote monitoring - 35000L/day water output", contact: "+91 58901 23456", image: "☀️", farmer: "Mahesh Agarwal", rating: 4.95, verified: true, lat: 26.8467, lng: 75.8056, capacity: "35000 L/day", quality: "Eco-Premium A+", specifications: "Power: 7.5HP, Head: 80m, Solar: 5.5kW panels, Battery backup: 4 hours", weight: "320 kg", dimensions: "Solar array: 6m × 4m", powerReq: "Solar powered", fuelConsumption: "Zero (Solar)", outputQuality: "Clean Water Supply", certifications: ["Solar Energy Certified", "Water Quality Approved"], warranty: "10 years solar, 5 years pump", maintenance: "Every 6 months", waterQuality: "Potable grade", efficiency: "92%", remoteMonitoring: "Mobile app enabled" },
-                { id: 18, name: "Professional Plough Set Premium", price: 800, dailyRate: 800, weeklyRate: 5200, monthlyRate: 19000, seasonalRate: 68000, yearlyRate: 240000, type: "rent", condition: "excellent", description: "Complete reversible plough set - 1.8 acres/hour near JKLU with auto-reset", contact: "+91 49012 34567", image: "🔨", farmer: "Geeta Kumari", rating: 4.6, verified: true, lat: 26.8501, lng: 75.8089, capacity: "1.8 acres/hour", quality: "Professional Premium", specifications: "Furrows: 4, Width: 35cm each, Depth: 5-30cm, Reversible design", weight: "580 kg", dimensions: "2.2m × 1.4m × 1.1m", powerReq: "55 HP", fuelConsumption: "N/A (PTO)", outputQuality: "Professional Ploughing", certifications: ["Tillage Equipment Certified"], warranty: "2 years", maintenance: "Every 200 hours", soilInversion: "Complete", residueHandling: "Excellent", fieldEfficiency: "88%" },
-                { id: 19, name: "Premium Harvesting Tool Kit Pro", price: 400, dailyRate: 400, weeklyRate: 2500, monthlyRate: 9000, seasonalRate: 32000, yearlyRate: 110000, type: "rent", condition: "new", description: "Complete professional harvesting tools - 800kg/day capacity with ergonomic design", contact: "+91 90123 45678", image: "🔪", farmer: "Bharat Singh", rating: 4.85, verified: true, lat: 26.8423, lng: 75.8012, capacity: "800 kg/day", quality: "Premium Professional", specifications: "Tools: 25 pieces, Steel: High carbon grade, Weight: 18kg, Ergonomic handles", weight: "18 kg", dimensions: "Tool kit case", powerReq: "Manual", fuelConsumption: "N/A (Manual)", outputQuality: "Clean Harvest", certifications: ["Tool Quality Certified", "Safety Standards"], warranty: "3 years", maintenance: "Monthly sharpening", toolLife: "5000 hours", grainDamage: "Minimal <0.5%", harvestingSpeed: "Fast and efficient" },
-                { id: 20, name: "Precision Fertilizer Spreader Ultra", price: 600, dailyRate: 600, weeklyRate: 3800, monthlyRate: 14000, seasonalRate: 50000, yearlyRate: 175000, type: "rent", condition: "excellent", description: "GPS-guided mechanical spreader - 350kg/hour distribution with variable rate technology", contact: "+91 81234 56789", image: "🌱", farmer: "Pooja Meena", rating: 4.75, verified: true, lat: 26.8512, lng: 75.8101, capacity: "350 kg/hour", quality: "Precision Premium", specifications: "Hopper: 500kg, Width: 18m, Accuracy: ±1%, Variable rate control", weight: "420 kg", dimensions: "2.4m × 1.8m × 1.5m", powerReq: "35 HP", fuelConsumption: "N/A (PTO)", outputQuality: "Uniform Distribution", certifications: ["Fertilizer Application Certified"], warranty: "2.5 years", maintenance: "Every 100 hours", spreadPattern: "Uniform ±5%", fertiliserTypes: "All granular types", gpsAccuracy: "Sub-meter precision" }
+                { id: 9, name: "Premium Drip Irrigation System", price: 800, dailyRate: 800, weeklyRate: 5000, monthlyRate: 18000, type: "rent", condition: "new", description: "Advanced drip irrigation with IoT monitoring - 8 acre coverage capacity", contact: "+91 98765 43210", image: "💧", farmer: "Deepak Sharma", rating: 4.9, verified: true, lat: 26.8567, lng: 75.8156, capacity: "8 acres", quality: "Premium Grade A+" },
+                { id: 10, name: "High-Pressure Sprayer Pump", price: 500, dailyRate: 500, weeklyRate: 3200, monthlyRate: 12000, type: "rent", condition: "excellent", description: "Industrial sprayer pump with GPS tracking - 350L/min capacity", contact: "+91 87654 32109", image: "💦", farmer: "Anita Kumari", rating: 4.95, verified: true, lat: 26.8667, lng: 75.8256, capacity: "350 L/min", quality: "Industrial Premium" },
+                { id: 11, name: "Solar Water Pump Eco-Smart", price: 600, dailyRate: 600, weeklyRate: 3800, monthlyRate: 14000, type: "rent", condition: "new", description: "Eco-friendly solar water pump - 15000L/hour capacity with battery backup", contact: "+91 76543 21098", image: "☀️", farmer: "Govind Meena", rating: 4.8, verified: true, lat: 26.8767, lng: 75.8356, capacity: "15000 L/hour", quality: "Eco-Premium A+" },
+                { id: 12, name: "Precision Seed Drill", price: 900, dailyRate: 900, weeklyRate: 5700, monthlyRate: 21000, type: "rent", condition: "excellent", description: "GPS-guided precision seed drill - 12 row capacity with variable rate seeding", contact: "+91 65432 10987", image: "🌱", farmer: "Laxmi Devi", rating: 4.85, verified: true, lat: 26.8367, lng: 75.7956, capacity: "12 rows", quality: "Precision Premium" }
             ]
         };
 
-        // AI responses for chatbot
+        // Enhanced AI responses
         const aiResponses = {
-            'wheat': "🌾 Wheat prices are trending upward! Current market rate: ₹2,200/quintal. Best time to sell is next week based on weather forecasts.",
-            'irrigation': "💧 I found 3 irrigation systems near you: Drip system (₹25,000), Sprinkler set (₹15,000), and Pump rental (₹500/day). Which interests you?",
-            'weather': "🌤️ Weather looks perfect for farming! 28°C, 65% humidity, light winds. Great conditions for harvesting and equipment operation.",
-            'tractor': "🚜 Found 2 tractors nearby: John Deere 5050D (₹8.5L) and Mahindra 575 DI (₹2K/day rental). Both have excellent ratings!",
-            'price': "📊 Based on market analysis: Machinery prices stable, Equipment demand high, Agro waste market growing 15% monthly.",
-            'default': "🤖 I can help you with equipment recommendations, price predictions, weather insights, and finding nearby items. What would you like to know?"
+            en: {
+                'wheat': "🌾 AI Analysis: Wheat prices trending upward! Current: ₹2,200/quintal. AI predicts 8% increase next week. Best selling window: March 15-25.",
+                'गेहूं': "🌾 AI विश्लेषण: गेहूं की कीमतें बढ़ रही हैं! वर्तमान: ₹2,200/क्विंटल। AI अगले सप्ताह 8% वृद्धि की भविष्यवाणी करता है।",
+                'tractor': "🚜 AI Equipment Match: Found 2 optimal tractors. John Deere 5050D (₹2.5K/day) - AI score: 9.2/10, fuel efficient. Mahindra 575 DI (₹2K/day) - AI score: 8.8/10.",
+                'weather': "🌤️ AI Weather Intelligence: Perfect farming conditions! 28°C, 65% humidity, 12km/h winds. 5-day forecast: Sunny with 2mm rain on day 3.",
+                'default': "🤖 AI Agricultural Assistant: I can help with crop planning, equipment recommendations, market analysis, weather forecasts, and more. What would you like to know?"
+            }
         };
 
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-            setupEventListeners();
-        });
-
-        function initializeApp() {
-            // Populate market items
-            Object.values(categoryData).forEach(category => {
-                marketItems.push(...category);
+        // Core application functions
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('section-hidden');
             });
             
-            updateCartUI();
-        }
-
-        function setupEventListeners() {
-            // Category modal
-            document.getElementById('closeCategoryModal').addEventListener('click', () => {
-                document.getElementById('categoryModal').classList.add('hidden');
-            });
-
-            // Add item modal
-            document.getElementById('addItemBtn').addEventListener('click', () => {
-                document.getElementById('addItemModal').classList.remove('hidden');
-            });
-
-            document.getElementById('closeAddModal').addEventListener('click', () => {
-                document.getElementById('addItemModal').classList.add('hidden');
-            });
-
-            // Form submission
-            document.getElementById('addItemForm').addEventListener('submit', handleAddItem);
-
-            // Category type change
-            document.getElementById('itemCategory').addEventListener('change', updateTypeOptions);
-
-            // GPS location detection
-            document.getElementById('detectLocationBtn').addEventListener('click', detectUserLocation);
-
-            // AI Chatbot
-            document.getElementById('aiChatBtn').addEventListener('click', () => {
-                document.getElementById('aiChatWindow').classList.toggle('hidden');
-            });
-
-            document.getElementById('closeChatBtn').addEventListener('click', () => {
-                document.getElementById('aiChatWindow').classList.add('hidden');
-            });
-
-            document.getElementById('sendChatBtn').addEventListener('click', handleChatMessage);
-            document.getElementById('chatInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleChatMessage();
-            });
-
-            // Weather toggle
-            document.getElementById('weatherToggle').addEventListener('click', toggleWeatherOverlay);
-
-            // Nearby items
-            document.getElementById('nearbyBtn').addEventListener('click', showNearbyItems);
-
-            // New map options
-            document.getElementById('heatmapToggle').addEventListener('click', toggleHeatmap);
-            document.getElementById('routeBtn').addEventListener('click', showOptimalRoutes);
-            document.getElementById('priceAnalysis').addEventListener('click', showPriceAnalysis);
-            document.getElementById('farmZones').addEventListener('click', toggleFarmZones);
-            document.getElementById('liveTracking').addEventListener('click', toggleLiveTracking);
-
-            // Rental options modal
-            document.getElementById('closeRentalModal').addEventListener('click', () => {
-                document.getElementById('rentalOptionsModal').classList.add('hidden');
-            });
-
-            document.getElementById('confirmRental').addEventListener('click', confirmRental);
-            document.getElementById('rentalQuantity').addEventListener('input', updateRentalCost);
-
-            // Analytics (Admin shortcut - double click logo)
-            document.querySelector('.floating-farm').addEventListener('dblclick', () => {
-                document.getElementById('analyticsModal').classList.remove('hidden');
-                updateAnalytics();
-            });
-
-            document.getElementById('closeAnalyticsModal').addEventListener('click', () => {
-                document.getElementById('analyticsModal').classList.add('hidden');
-            });
-        }
-
-        function showSection(section) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(sec => {
-                sec.classList.add('section-hidden');
-            });
-
             // Show selected section
-            document.getElementById(section + 'Section').classList.remove('section-hidden');
-
+            document.getElementById(sectionName + 'Section').classList.remove('section-hidden');
+            
             // Update navigation
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('nav-active');
             });
+            
             event.target.classList.add('nav-active');
-
-            currentSection = section;
-
-            // Initialize map if map section is shown
-            if (section === 'map' && !map) {
-                setTimeout(initMap, 100);
+            currentSection = sectionName;
+            
+            // Initialize map if switching to map section
+            if (sectionName === 'map' && !map) {
+                setTimeout(initializeMap, 100);
             }
         }
 
         function showCategoryItems(category) {
             const modal = document.getElementById('categoryModal');
             const title = document.getElementById('categoryTitle');
-            const filters = document.getElementById('categoryFilters');
             const itemsContainer = document.getElementById('categoryItems');
-
-            // Set title
-            const titles = {
-                agrowaste: '♻️ Agro Waste Management',
-                machinery: '🚜 Farm Machinery',
-                equipment: '🔧 Farm Equipment'
+            
+            // Set title based on category
+            const categoryTitles = {
+                'agrowaste': '♻️ Agro Waste Trading',
+                'machinery': '🚜 Farm Machinery Rental',
+                'equipment': '🔧 Farm Equipment Rental'
             };
-            title.textContent = titles[category];
-
-            // Set filters
-            const filterOptions = ['all'];
-
-            filters.innerHTML = filterOptions.map(filter => `
-                <button onclick="filterCategoryItems('${category}', '${filter}')" 
-                        class="category-filter-btn ${filter === 'all' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'} px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors">
-                    ${filter.charAt(0).toUpperCase() + filter.slice(1)}
-                </button>
-            `).join('');
-
-            // Load items
-            loadCategoryItems(category, 'all');
-
+            
+            title.textContent = categoryTitles[category] || 'Items';
+            
+            // Load items for this category
+            const items = categoryData[category] || [];
+            
+            itemsContainer.innerHTML = items.map(item => {
+                const badgeClass = item.type === 'buy' ? 'badge-buy' : item.type === 'sell' ? 'badge-sell' : 'badge-rent';
+                const badgeText = item.type === 'buy' ? 'Available to Buy' : item.type === 'sell' ? 'For Sale' : 'For Rent';
+                
+                return `
+                    <div class="item-card p-6">
+                        <div class="flex items-start space-x-4 mb-4">
+                            <div class="text-4xl">${item.image}</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-lg font-bold text-green-800">${item.name}</h4>
+                                    <span class="item-badge ${badgeClass}">${badgeText}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">${item.description}</p>
+                                <div class="flex items-center space-x-3 mb-3">
+                                    <span class="text-yellow-500 text-sm">⭐ ${item.rating}</span>
+                                    <span class="text-green-600 text-xs">✓ ${item.verified ? 'Verified' : 'Unverified'}</span>
+                                    <span class="text-blue-600 text-xs">${item.farmer}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3 mb-4 text-xs">
+                            <div class="bg-gray-50 p-2 rounded">
+                                <span class="font-medium">Capacity:</span> ${item.capacity}
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded">
+                                <span class="font-medium">Quality:</span> ${item.quality}
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded">
+                                <span class="font-medium">Condition:</span> ${item.condition}
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded">
+                                <span class="font-medium">Type:</span> ${item.type}
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-2xl font-bold text-green-600">₹${item.price.toLocaleString()}</span>
+                                <span class="text-sm text-gray-500">${item.type === 'rent' ? '/day' : item.type === 'buy' ? '' : ''}</span>
+                            </div>
+                            <div class="space-x-2">
+                                ${item.type === 'rent' ? 
+                                    `<button onclick="showRentalOptions(${JSON.stringify(item).replace(/"/g, '&quot;')})" 
+                                            class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-700 transition-colors">
+                                        📅 Rent Options
+                                    </button>` :
+                                    `<button onclick="buyItem(${JSON.stringify(item).replace(/"/g, '&quot;')})" 
+                                            class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-700 transition-colors">
+                                        ${item.type === 'buy' ? '🛒 Buy Now' : '💰 Contact Seller'}
+                                    </button>`
+                                }
+                                <button onclick="contactSeller('${item.contact}')" 
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors">
+                                    📞 Contact
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
             modal.classList.remove('hidden');
         }
 
-        function loadCategoryItems(category, filter) {
-            const itemsContainer = document.getElementById('categoryItems');
-            let items = categoryData[category];
-
-            if (filter !== 'all') {
-                items = items.filter(item => item.type === filter);
-            }
-
-            // Sort by distance if user location is available
-            if (userLocation) {
-                items = items.map(item => ({
-                    ...item,
-                    distance: calculateDistance(userLocation.lat, userLocation.lng, item.lat, item.lng)
-                })).sort((a, b) => a.distance - b.distance);
-            }
-
-            itemsContainer.innerHTML = items.map(item => `
-                <div class="item-card p-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="text-4xl">${item.image}</div>
-                        <div class="flex flex-col items-end space-y-1">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}">
-                                ${item.type.toUpperCase()}
-                            </span>
-                            ${item.quality ? `<span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${item.quality}</span>` : ''}
-                            ${item.distance ? `<span class="distance-badge">${item.distance.toFixed(1)} km</span>` : ''}
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${item.name}</h3>
-                    <p class="text-gray-600 mb-3">${item.description}</p>
-                    
-                    ${item.capacity ? `
-                        <div class="bg-green-50 p-3 rounded-lg mb-3">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-sm font-semibold text-green-800">📊 Capacity:</span>
-                                <span class="text-sm text-green-700">${item.capacity}</span>
-                            </div>
-                            ${item.specifications ? `<p class="text-xs text-green-600">${item.specifications}</p>` : ''}
-                        </div>
-                    ` : ''}
-                    
-                    <div class="mb-3">
-                        ${item.dailyRate ? `
-                            <div class="grid grid-cols-2 md:grid-cols-5 gap-1 text-center mb-3">
-                                <div class="bg-purple-50 p-2 rounded">
-                                    <p class="text-xs text-purple-600">Daily</p>
-                                    <p class="font-bold text-purple-800 text-sm">₹${item.dailyRate.toLocaleString()}</p>
-                                </div>
-                                <div class="bg-blue-50 p-2 rounded">
-                                    <p class="text-xs text-blue-600">Weekly</p>
-                                    <p class="font-bold text-blue-800 text-sm">₹${item.weeklyRate?.toLocaleString() || 'N/A'}</p>
-                                </div>
-                                <div class="bg-green-50 p-2 rounded">
-                                    <p class="text-xs text-green-600">Monthly</p>
-                                    <p class="font-bold text-green-800 text-sm">₹${item.monthlyRate?.toLocaleString() || 'N/A'}</p>
-                                </div>
-                                <div class="bg-orange-50 p-2 rounded">
-                                    <p class="text-xs text-orange-600">Seasonal</p>
-                                    <p class="font-bold text-orange-800 text-sm">₹${item.seasonalRate?.toLocaleString() || 'N/A'}</p>
-                                </div>
-                                <div class="bg-red-50 p-2 rounded">
-                                    <p class="text-xs text-red-600">Yearly</p>
-                                    <p class="font-bold text-red-800 text-sm">₹${item.yearlyRate?.toLocaleString() || 'N/A'}</p>
-                                </div>
-                            </div>
-                            ${item.weight || item.dimensions || item.certifications ? `
-                                <div class="bg-gray-50 p-3 rounded-lg mb-3">
-                                    <div class="grid grid-cols-2 gap-2 text-xs">
-                                        ${item.weight ? `<div><span class="font-semibold">⚖️ Weight:</span> ${item.weight}</div>` : ''}
-                                        ${item.dimensions ? `<div><span class="font-semibold">📏 Size:</span> ${item.dimensions}</div>` : ''}
-                                        ${item.powerReq ? `<div><span class="font-semibold">⚡ Power:</span> ${item.powerReq}</div>` : ''}
-                                        ${item.fuelConsumption ? `<div><span class="font-semibold">⛽ Fuel:</span> ${item.fuelConsumption}</div>` : ''}
-                                        ${item.warranty ? `<div><span class="font-semibold">🛡️ Warranty:</span> ${item.warranty}</div>` : ''}
-                                        ${item.efficiency ? `<div><span class="font-semibold">📊 Efficiency:</span> ${item.efficiency}</div>` : ''}
-                                    </div>
-                                    ${item.certifications ? `
-                                        <div class="mt-2 flex flex-wrap gap-1">
-                                            ${item.certifications.map(cert => `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">${cert}</span>`).join('')}
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            ` : ''}
-                        ` : `
-                            <div class="flex justify-between items-center">
-                                <span class="text-2xl font-bold text-green-600">₹${item.price.toLocaleString()}</span>
-                                <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">${item.condition}</span>
-                            </div>
-                        `}
-                    </div>
-                    
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-sm font-medium">${item.farmer}</span>
-                            ${item.verified ? '<span class="verified-seller trust-badge">✓</span>' : ''}
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <span class="text-yellow-500">⭐</span>
-                            <span class="text-sm font-medium">${item.rating}</span>
-                        </div>
-                    </div>
-                    <div class="flex space-x-2">
-                        <button onclick="showRentalOptions(${item.id})" class="flex-1 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors font-semibold">
-                            📅 Rent Options
-                        </button>
-                        <button onclick="contactSeller('${item.contact}', '${item.name}')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            📞
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.add('hidden');
         }
 
-        function filterCategoryItems(category, filter) {
-            // Update filter buttons
-            document.querySelectorAll('.category-filter-btn').forEach(btn => {
-                btn.className = 'category-filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors';
-            });
-            event.target.className = 'category-filter-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors';
-
-            loadCategoryItems(category, filter);
-        }
-
-        function getTypeColor(type) {
-            const colors = {
-                sell: 'bg-green-100 text-green-800',
-                buy: 'bg-blue-100 text-blue-800',
-                rent: 'bg-purple-100 text-purple-800'
-            };
-            return colors[type] || 'bg-gray-100 text-gray-800';
-        }
-
-        function updateTypeOptions() {
-            const category = document.getElementById('itemCategory').value;
-            const typeSelect = document.getElementById('itemType');
-            
-            // All categories only support rental
-            typeSelect.innerHTML = `
-                <option value="rent">🟣 Available for Rent</option>
-            `;
-        }
-
-        function handleAddItem(e) {
-            e.preventDefault();
-            
-            const formData = {
-                category: document.getElementById('itemCategory').value,
-                type: document.getElementById('itemType').value,
-                name: document.getElementById('itemName').value,
-                price: parseInt(document.getElementById('itemPrice').value),
-                dailyRate: parseInt(document.getElementById('dailyRate').value) || parseInt(document.getElementById('itemPrice').value),
-                weeklyRate: parseInt(document.getElementById('weeklyRate').value) || parseInt(document.getElementById('itemPrice').value) * 6,
-                monthlyRate: parseInt(document.getElementById('monthlyRate').value) || parseInt(document.getElementById('itemPrice').value) * 25,
-                seasonalRate: parseInt(document.getElementById('seasonalRate').value) || parseInt(document.getElementById('itemPrice').value) * 90,
-                yearlyRate: parseInt(document.getElementById('yearlyRate').value) || parseInt(document.getElementById('itemPrice').value) * 300,
-                condition: document.getElementById('itemCondition').value,
-                contact: document.getElementById('itemContact').value,
-                description: document.getElementById('itemDescription').value,
-                capacity: document.getElementById('itemCapacity').value,
-                quality: document.getElementById('itemQuality').value,
-                specifications: document.getElementById('itemSpecifications').value,
-                weight: document.getElementById('itemWeight').value,
-                dimensions: document.getElementById('itemDimensions').value,
-                powerReq: document.getElementById('itemPowerReq').value,
-                fuelConsumption: document.getElementById('itemFuelConsumption').value,
-                warranty: document.getElementById('itemWarranty').value,
-                efficiency: document.getElementById('itemEfficiency').value,
-                certifications: document.getElementById('itemCertifications').value ? document.getElementById('itemCertifications').value.split(',').map(cert => cert.trim()) : []
-            };
-
-            // Add to appropriate category
-            const newItem = {
-                id: Date.now(),
-                ...formData,
-                image: getCategoryIcon(formData.category),
-                farmer: "New Seller",
-                rating: 4.5,
-                verified: false,
-                lat: userLocation ? userLocation.lat + (Math.random() - 0.5) * 0.01 : 26.8467,
-                lng: userLocation ? userLocation.lng + (Math.random() - 0.5) * 0.01 : 75.8056
-            };
-
-            categoryData[formData.category].push(newItem);
-            marketItems.push(newItem);
-
-            // Add to map if map is initialized
-            if (map) {
-                addMarkerToMap(newItem);
-            }
-
-            showNotification(`${newItem.name} added successfully with quality specs! 🎉`, 'success');
-            document.getElementById('addItemModal').classList.add('hidden');
-            document.getElementById('addItemForm').reset();
-        }
-
-        function getCategoryIcon(category) {
-            const icons = {
-                agrowaste: '♻️',
-                machinery: '🚜',
-                equipment: '🔧'
-            };
-            return icons[category] || '📦';
-        }
-
-        function addToCart(itemId) {
-            const item = marketItems.find(i => i.id === itemId);
-            if (!item) return;
-
-            const existingItem = cart.find(i => i.id === itemId);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ ...item, quantity: 1 });
-            }
-
-            updateCartUI();
-            showNotification(`${item.name} added to cart! 🛒`, 'success');
-        }
-
-        function updateCartUI() {
-            const cartCount = document.getElementById('cartCount');
-            const totalItems = cart.reduce((sum, item) => sum + (item.isRental ? item.rentalQuantity : item.quantity), 0);
-            
-            if (totalItems > 0) {
-                cartCount.textContent = totalItems;
-                cartCount.classList.remove('hidden');
-            } else {
-                cartCount.classList.add('hidden');
-            }
-
-            // Update cart section
-            updateCartSection();
-        }
-
-        function updateCartSection() {
-            const cartItems = document.getElementById('cartItems');
-            const cartSummary = document.getElementById('cartSummary');
-            const cartTotal = document.getElementById('cartTotal');
-
-            if (cart.length === 0) {
-                const t = translations[currentLanguage];
-                cartItems.innerHTML = `
-                    <div class="text-center py-12">
-                        <div class="text-6xl mb-4">🛒</div>
-                        <h3 class="text-xl font-semibold text-gray-600 mb-2">${t.cartEmpty}</h3>
-                        <p class="text-gray-500 mb-6">${t.cartEmptyDesc}</p>
-                        <button onclick="showSection('home')" class="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
-                            ${t.continueShopping}
-                        </button>
-                    </div>
-                `;
-                cartSummary.classList.add('hidden');
-            } else {
-                let total = 0;
-                cartItems.innerHTML = cart.map((item, index) => {
-                    const itemTotal = item.isRental ? item.totalPrice : (item.price * item.quantity);
-                    total += itemTotal;
-                    return `
-                        <div class="item-card p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex items-center space-x-4">
-                                    <div class="text-3xl">${item.image}</div>
-                                    <div>
-                                        <h4 class="font-semibold text-lg">${item.name}</h4>
-                                        ${item.isRental ? `
-                                            <div class="space-y-1">
-                                                <p class="text-sm text-purple-600">📅 ${item.rentalPeriod.charAt(0).toUpperCase() + item.rentalPeriod.slice(1)} Rental</p>
-                                                <p class="text-sm text-gray-600">₹${item.rentalUnitPrice.toLocaleString()} per ${item.rentalPeriod.slice(0, -2) || item.rentalPeriod}</p>
-                                                ${item.capacity ? `<p class="text-xs text-green-600">📊 ${item.capacity}</p>` : ''}
-                                            </div>
-                                        ` : `
-                                            <p class="text-gray-600">₹${item.price.toLocaleString()} each</p>
-                                        `}
-                                    </div>
-                                </div>
-                                <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xl">🗑️</button>
-                            </div>
-                            
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center space-x-3">
-                                    <button onclick="updateCartQuantity(${index}, -1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 text-sm">-</button>
-                                    <span class="w-12 text-center font-semibold">${item.isRental ? item.rentalQuantity : item.quantity}</span>
-                                    <button onclick="updateCartQuantity(${index}, 1)" class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 text-sm">+</button>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-lg font-bold text-green-600">₹${itemTotal.toLocaleString()}</p>
-                                    ${item.isRental ? `<p class="text-xs text-gray-500">Total for ${item.rentalQuantity} ${item.rentalPeriod}</p>` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                cartTotal.textContent = `₹${total.toLocaleString()}`;
-                cartSummary.classList.remove('hidden');
-            }
-        }
-
-        function updateCartQuantity(index, change) {
-            const item = cart[index];
-            if (item) {
-                if (item.isRental) {
-                    item.rentalQuantity += change;
-                    if (item.rentalQuantity <= 0) {
-                        removeFromCart(index);
-                    } else {
-                        item.totalPrice = item.rentalUnitPrice * item.rentalQuantity;
-                        updateCartUI();
-                    }
-                } else {
-                    item.quantity += change;
-                    if (item.quantity <= 0) {
-                        removeFromCart(index);
-                    } else {
-                        updateCartUI();
-                    }
-                }
-            }
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function contactSeller(contact, itemName) {
-            showNotification(`Contact: ${contact} for ${itemName}`, 'info');
-        }
-
-        function checkout() {
-            if (cart.length === 0) return;
-            
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            showNotification(`Order placed successfully! Total: ₹${total.toLocaleString()}`, 'success');
-            cart = [];
-            updateCartUI();
-        }
-
-        // GPS and utility functions
-        function detectUserLocation() {
-            const btn = document.getElementById('detectLocationBtn');
-            const status = document.getElementById('locationStatus');
-            
-            btn.innerHTML = '🔄 Detecting Location...';
-            btn.disabled = true;
-            
-            if (!navigator.geolocation) {
-                showSmartNotification('❌ Geolocation not supported by this browser', 'error');
-                fallbackToDefaultLocation(btn, status);
-                return;
-            }
-            
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 60000
-            };
-            
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    // Success - got real GPS coordinates
-                    userLocation = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                        accuracy: position.coords.accuracy
-                    };
-                    
-                    btn.innerHTML = '✅ Real Location Detected';
-                    btn.disabled = false;
-                    status.innerHTML = `
-                        <div class="flex items-center space-x-2">
-                            <span class="text-green-600">📍 GPS Location: ${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}</span>
-                            <span class="text-xs text-gray-500">(±${Math.round(userLocation.accuracy)}m accuracy)</span>
-                        </div>
-                    `;
-                    status.classList.remove('hidden');
-                    
-                    // Generate location-based items around user's real location
-                    generateLocationBasedItems(userLocation.lat, userLocation.lng);
-                    
-                    // Update map center if map is initialized
-                    if (map) {
-                        map.setView([userLocation.lat, userLocation.lng], 13);
-                        addUserLocationMarker();
-                        
-                        // Add location accuracy circle
-                        L.circle([userLocation.lat, userLocation.lng], {
-                            color: '#3b82f6',
-                            fillColor: '#3b82f6',
-                            fillOpacity: 0.1,
-                            radius: userLocation.accuracy
-                        }).addTo(map).bindPopup(`📍 Location accuracy: ±${Math.round(userLocation.accuracy)}m`);
-                    }
-                    
-                    showSmartNotification(`📍 Real GPS location detected! Generated ${getLocationBasedItemsCount()} nearby agricultural items.`, 'success');
-                },
-                (error) => {
-                    // Error handling
-                    let errorMessage = '';
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMessage = '❌ Location access denied. Using default area.';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMessage = '❌ Location unavailable. Using default area.';
-                            break;
-                        case error.TIMEOUT:
-                            errorMessage = '⏰ Location timeout. Using default area.';
-                            break;
-                        default:
-                            errorMessage = '❌ Location error. Using default area.';
-                            break;
-                    }
-                    
-                    showSmartNotification(errorMessage, 'warning');
-                    fallbackToDefaultLocation(btn, status);
-                },
-                options
-            );
-        }
-        
-        function fallbackToDefaultLocation(btn, status) {
-            // Fallback to JKLU area
-            userLocation = {
-                lat: 26.8467,
-                lng: 75.8056,
-                isDefault: true
-            };
-            
-            btn.innerHTML = '📍 Default Area (JKLU)';
-            btn.disabled = false;
-            status.innerHTML = `
-                <div class="text-amber-600">
-                    📍 Using default location: JKLU Campus Area, Jaipur
-                    <br><span class="text-xs">Enable GPS for your actual location</span>
-                </div>
-            `;
-            status.classList.remove('hidden');
-            
-            // Update map center if map is initialized
-            if (map) {
-                map.setView([userLocation.lat, userLocation.lng], 13);
-                addUserLocationMarker();
-            }
-        }
-        
-        function generateLocationBasedItems(centerLat, centerLng) {
-            // Clear existing generated items (keep original sample data)
-            const originalItemCount = 20; // Keep first 20 original items
-            marketItems = marketItems.slice(0, originalItemCount);
-            
-            // Generate new items around user's real location
-            const locationBasedItems = [];
-            let itemId = 1000; // Start from high ID to avoid conflicts
-            
-            // Generate items within 5km radius of user location
-            const itemTypes = [
-                // Tractors and Heavy Machinery
-                { category: 'machinery', name: 'Local Tractor Rental', type: 'rent', price: 2500, icon: '🚜', description: 'Daily tractor rental service in your area' },
-                { category: 'machinery', name: 'Combine Harvester Rental', type: 'rent', price: 8000, icon: '🌾', description: 'Seasonal combine harvester lease' },
-                { category: 'machinery', name: 'Heavy Tractor Rental', type: 'rent', price: 3000, icon: '🚜', description: '75HP tractor available for rent' },
-                
-                // Equipment
-                { category: 'equipment', name: 'Irrigation System Rental', type: 'rent', price: 1200, icon: '💧', description: 'Complete drip irrigation setup for lease' },
-                { category: 'equipment', name: 'Sprayer Rental', type: 'rent', price: 800, icon: '💦', description: 'High-pressure crop sprayer available' },
-                { category: 'equipment', name: 'Plough Set Rental', type: 'rent', price: 900, icon: '🔨', description: 'Professional ploughing equipment for rent' },
-                { category: 'equipment', name: 'Seed Drill Rental', type: 'rent', price: 1100, icon: '🌱', description: 'Precision seed drilling machine for lease' },
-                
-                // Agro Waste Processing
-                { category: 'agrowaste', name: 'Crop Residue Baler', type: 'rent', price: 700, icon: '🌾', description: 'Baling equipment for crop residue processing' },
-                { category: 'agrowaste', name: 'Compost Turner Rental', type: 'rent', price: 600, icon: '♻️', description: 'Compost turning machine for lease' },
-                { category: 'agrowaste', name: 'Waste Shredder Rental', type: 'rent', price: 800, icon: '🌿', description: 'Agricultural waste shredding equipment' }
-            ];
-            
-            // Generate 15-20 items around user location
-            for (let i = 0; i < 18; i++) {
-                const baseItem = itemTypes[i % itemTypes.length];
-                
-                // Generate random position within 5km radius
-                const angle = Math.random() * 2 * Math.PI;
-                const distance = Math.random() * 0.045; // ~5km in degrees
-                const lat = centerLat + (distance * Math.cos(angle));
-                const lng = centerLng + (distance * Math.sin(angle));
-                
-                const item = {
-                    id: itemId++,
-                    ...baseItem,
-                    lat: lat,
-                    lng: lng,
-                    condition: ['new', 'excellent', 'good', 'fair'][Math.floor(Math.random() * 4)],
-                    contact: `+91 ${Math.floor(Math.random() * 90000) + 10000} ${Math.floor(Math.random() * 90000) + 10000}`,
-                    farmer: generateLocalFarmerName(),
-                    rating: (4.0 + Math.random() * 1.0).toFixed(1),
-                    verified: Math.random() > 0.3,
-                    isLocationGenerated: true
-                };
-                
-                locationBasedItems.push(item);
-            }
-            
-            // Add to market items and category data
-            marketItems.push(...locationBasedItems);
-            
-            // Update category data
-            locationBasedItems.forEach(item => {
-                if (!categoryData[item.category]) {
-                    categoryData[item.category] = [];
-                }
-                categoryData[item.category].push(item);
-            });
-            
-            // Add markers to map if initialized
-            if (map) {
-                locationBasedItems.forEach(item => {
-                    addMarkerToMap(item);
-                });
-            }
-            
-            console.log(`Generated ${locationBasedItems.length} location-based items around coordinates: ${centerLat.toFixed(4)}, ${centerLng.toFixed(4)}`);
-        }
-        
-        function generateLocalFarmerName() {
-            const firstNames = ['Rajesh', 'Priya', 'Suresh', 'Anita', 'Vikram', 'Sunita', 'Ramesh', 'Kavita', 'Deepak', 'Geeta', 'Mahesh', 'Pooja', 'Dinesh', 'Kiran', 'Bharat'];
-            const lastNames = ['Kumar', 'Sharma', 'Patel', 'Singh', 'Devi', 'Gupta', 'Yadav', 'Meena', 'Jangir', 'Choudhary', 'Agarwal', 'Kumari'];
-            
-            const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-            const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-            
-            return `${firstName} ${lastName}`;
-        }
-        
-        function getLocationBasedItemsCount() {
-            return marketItems.filter(item => item.isLocationGenerated).length;
-        }
-
-        function calculateDistance(lat1, lng1, lat2, lng2) {
-            const R = 6371; // Earth's radius in km
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLng = (lng2 - lng1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                      Math.sin(dLng/2) * Math.sin(dLng/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c;
-        }
-
-        function addJKLUCampusMarker() {
-            if (!map) return;
-            
-            const jkluIcon = L.divIcon({
-                className: 'jklu-campus-marker',
-                html: `
-                    <div class="relative">
-                        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg border-2 border-white">
-                            🏫
-                        </div>
-                        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-blue-600"></div>
-                    </div>
-                `,
-                iconSize: [48, 48],
-                iconAnchor: [24, 48]
-            });
-
-            const jkluPopupContent = `
-                <div class="p-4 min-w-64">
-                    <div class="text-center mb-3">
-                        <h3 class="text-lg font-bold text-blue-800 mb-2">🏫 JK Lakshmipat University</h3>
-                        <p class="text-sm text-gray-600">Mahapura, Jaipur, Rajasthan</p>
-                    </div>
-                    
-                    <div class="bg-blue-50 p-3 rounded-lg mb-3">
-                        <p class="text-sm text-blue-800 font-medium">📍 Campus Location</p>
-                        <p class="text-xs text-gray-600">Agricultural marketplace hub for JKLU area</p>
-                    </div>
-                    
-                    <div class="text-center">
-                        <button onclick="showNearbyItems()" class="bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-blue-700">
-                            🌾 View Nearby Items
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            L.marker([26.8467, 75.8056], { icon: jkluIcon })
-                .addTo(map)
-                .bindPopup(jkluPopupContent, {
-                    maxWidth: 300,
-                    className: 'custom-popup'
-                });
-        }
-
-        function addUserLocationMarker() {
-            if (!userLocation || !map) return;
-            
-            const userIcon = L.divIcon({
-                className: 'user-location-marker',
-                html: `
-                    <div class="w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-lg location-pulse">
-                        <div class="w-8 h-8 bg-blue-200 rounded-full absolute -top-2 -left-2 animate-ping opacity-75"></div>
-                    </div>
-                `,
-                iconSize: [16, 16],
-                iconAnchor: [8, 8]
-            });
-
-            L.marker([userLocation.lat, userLocation.lng], { icon: userIcon })
-                .addTo(map)
-                .bindPopup(`📍 Your Location${userLocation.isDefault ? ' (Default)' : ''}`)
-                .openPopup();
-        }
-
-        // Map functionality
-        function initMap() {
-            map = L.map('map').setView([26.8467, 75.8056], 12);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            // Initialize marker clustering
-            markerClusterGroup = L.markerClusterGroup({
-                chunkedLoading: true,
-                maxClusterRadius: 50
-            });
-            map.addLayer(markerClusterGroup);
-
-            // Add sample markers
-            marketItems.forEach(item => {
-                addMarkerToMap(item);
-            });
-
-            // Setup filter buttons
-            setupMapFilters();
-            
-            // Add JKLU campus marker
-            addJKLUCampusMarker();
-            
-            // Add user location if available
-            if (userLocation) {
-                addUserLocationMarker();
-            }
-        }
-
-        function addMarkerToMap(item) {
-            // Use actual coordinates from item data, or generate near JKLU if not available
-            const lat = item.lat || (26.8467 + (Math.random() - 0.5) * 0.1);
-            const lng = item.lng || (75.8056 + (Math.random() - 0.5) * 0.1);
-            
-            const typeColors = {
-                sell: '#10B981',
-                buy: '#3B82F6',
-                rent: '#8B5CF6'
-            };
-            
-            const typeSymbols = {
-                sell: '🟢',
-                buy: '🔵',
-                rent: '🟣'
-            };
-
-            const customIcon = L.divIcon({
-                className: 'custom-marker',
-                html: `
-                    <div class="relative">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-bounce" 
-                             style="background-color: ${typeColors[item.type]};">
-                            ${typeSymbols[item.type]}
-                        </div>
-                    </div>
-                `,
-                iconSize: [40, 40],
-                iconAnchor: [20, 40]
-            });
-
-            const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-            
-            const popupContent = `
-                <div class="p-4 min-w-64">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}">
-                            ${item.type.toUpperCase()}
-                        </span>
-                        <span class="text-xs text-gray-500">${item.isLocationGenerated ? 'Near you' : 'Just now'}</span>
-                    </div>
-                    
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">${item.name}</h3>
-                    <p class="text-sm text-gray-700 mb-3">${item.description}</p>
-                    
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-xl font-bold text-green-600">₹${item.price.toLocaleString()}</span>
-                        <span class="text-sm bg-gray-100 px-2 py-1 rounded">${item.condition}</span>
-                    </div>
-                    
-                    <div class="flex space-x-2">
-                        <button onclick="addToCart(${item.id})" class="flex-1 bg-purple-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-purple-700">
-                            Rent Now
-                        </button>
-                        <button onclick="contactSeller('${item.contact}', '${item.name}')" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                            📞
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            marker.bindPopup(popupContent, {
-                maxWidth: 300,
-                className: 'custom-popup'
-            });
-
-            markers.push({ marker, item });
-        }
-
-        function setupMapFilters() {
-            document.getElementById('filterAll').addEventListener('click', () => filterMapMarkers('all'));
-            document.getElementById('filterRent').addEventListener('click', () => filterMapMarkers('rent'));
-        }
-
-        function filterMapMarkers(type) {
-            markers.forEach(({ marker, item }) => {
-                if (type === 'all' || item.type === type) {
-                    marker.addTo(map);
-                } else {
-                    map.removeLayer(marker);
-                }
-            });
-            
-            // Update filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-purple-600', 'bg-purple-500');
-                btn.classList.add('bg-gray-400');
-            });
-            
-            const activeBtn = document.getElementById(`filter${type.charAt(0).toUpperCase() + type.slice(1)}`);
-            if (activeBtn) {
-                activeBtn.classList.remove('bg-gray-400');
-                if (type === 'all') activeBtn.classList.add('bg-purple-600');
-                else if (type === 'rent') activeBtn.classList.add('bg-purple-500');
-            }
-        }
-
-        // AI and Smart Features
-        function handleChatMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim().toLowerCase();
-            if (!message) return;
-
-            addChatMessage(input.value, 'user');
-            input.value = '';
-
-            // AI response logic
-            setTimeout(() => {
-                let response = aiResponses.default;
-                
-                for (const [key, value] of Object.entries(aiResponses)) {
-                    if (message.includes(key)) {
-                        response = value;
-                        break;
-                    }
-                }
-                
-                // Add smart recommendations
-                if (message.includes('near') || message.includes('nearby')) {
-                    response += generateNearbyRecommendations();
-                }
-                
-                addChatMessage(response, 'ai');
-            }, 1000);
-        }
-
-        function quickChat(message) {
-            document.getElementById('chatInput').value = message;
-            handleChatMessage();
-        }
-
-        function addChatMessage(message, sender) {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            
-            if (sender === 'user') {
-                messageDiv.className = 'bg-gray-100 p-3 rounded-lg ml-8 text-sm';
-                messageDiv.textContent = message;
-            } else {
-                messageDiv.className = 'ai-recommendation text-sm';
-                messageDiv.innerHTML = `🤖 ${message}`;
-            }
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function generateNearbyRecommendations() {
-            if (!userLocation) return " Enable location to see nearby items!";
-            
-            const nearbyItems = marketItems
-                .map(item => ({
-                    ...item,
-                    distance: calculateDistance(userLocation.lat, userLocation.lng, item.lat, item.lng)
-                }))
-                .filter(item => item.distance < 10)
-                .sort((a, b) => a.distance - b.distance)
-                .slice(0, 3);
-                
-            if (nearbyItems.length === 0) return " No items found within 10km.";
-            
-            return `<br><br>📍 Nearby items:<br>${nearbyItems.map(item => 
-                `• ${item.name} - ${item.distance.toFixed(1)}km away`
-            ).join('<br>')}`;
-        }
-
-        function toggleWeatherOverlay() {
-            const overlay = document.getElementById('weatherOverlay');
-            overlay.classList.toggle('hidden');
-            
-            if (!overlay.classList.contains('hidden')) {
-                updateWeatherData();
-            }
-        }
-
-        function updateWeatherData() {
-            // Simulate weather API call
-            const temps = [25, 26, 27, 28, 29, 30];
-            const humidity = [60, 65, 70, 75];
-            const winds = [10, 12, 15, 18];
-            
-            document.getElementById('temperature').textContent = `${temps[Math.floor(Math.random() * temps.length)]}°C`;
-            document.getElementById('humidity').textContent = `${humidity[Math.floor(Math.random() * humidity.length)]}%`;
-            document.getElementById('windSpeed').textContent = `${winds[Math.floor(Math.random() * winds.length)]} km/h`;
-        }
-
-        function showNearbyItems() {
-            // Set default location to JKLU if not set
-            if (!userLocation) {
-                userLocation = { lat: 26.8467, lng: 75.8056 };
-            }
-            
-            const nearbyItems = marketItems
-                .map(item => ({
-                    ...item,
-                    distance: calculateDistance(userLocation.lat, userLocation.lng, item.lat, item.lng)
-                }))
-                .filter(item => item.distance < 20)
-                .sort((a, b) => a.distance - b.distance);
-                
-            if (nearbyItems.length === 0) {
-                showSmartNotification('No items found within 20km of your location.', 'info');
-                return;
-            }
-            
-            // Focus map on nearby items
-            if (map) {
-                const bounds = L.latLngBounds(nearbyItems.map(item => [item.lat, item.lng]));
-                map.fitBounds(bounds, { padding: [20, 20] });
-            }
-            
-            showSmartNotification(`Found ${nearbyItems.length} items within 20km of your location!`, 'success');
-        }
-
-        function toggleHeatmap() {
-            const legend = document.getElementById('heatmapLegend');
-            legend.classList.toggle('hidden');
-            
-            if (!legend.classList.contains('hidden')) {
-                // Add heatmap circles
-                marketItems.forEach(item => {
-                    const intensity = Math.random() * 0.8 + 0.2;
-                    const color = intensity > 0.6 ? '#ef4444' : intensity > 0.4 ? '#eab308' : '#22c55e';
-                    
-                    L.circle([item.lat, item.lng], {
-                        color: color,
-                        fillColor: color,
-                        fillOpacity: 0.3,
-                        radius: 500
-                    }).addTo(map);
-                });
-                showSmartNotification('🔥 Activity heatmap enabled!', 'success');
-            } else {
-                // Remove heatmap (simplified - in real app would track circles)
-                showSmartNotification('Heatmap disabled', 'info');
-            }
-        }
-
-        function showOptimalRoutes() {
-            if (!userLocation) {
-                userLocation = { lat: 26.8467, lng: 75.8056 };
-            }
-            
-            // Create sample routes to nearby items
-            const nearbyItems = marketItems.slice(0, 3);
-            
-            nearbyItems.forEach((item, index) => {
-                const colors = ['#3b82f6', '#10b981', '#f59e0b'];
-                
-                L.polyline([
-                    [userLocation.lat, userLocation.lng],
-                    [item.lat, item.lng]
-                ], {
-                    color: colors[index],
-                    weight: 4,
-                    opacity: 0.7,
-                    dashArray: '10, 10'
-                }).addTo(map).bindPopup(`Route to ${item.name} - ${calculateDistance(userLocation.lat, userLocation.lng, item.lat, item.lng).toFixed(1)}km`);
-            });
-            
-            showSmartNotification('🛣️ Optimal routes calculated!', 'success');
-        }
-
-        function showPriceAnalysis() {
-            const priceData = {
-                machinery: marketItems.filter(i => i.id >= 5 && i.id <= 8).map(i => i.price),
-                equipment: marketItems.filter(i => i.id >= 9 && i.id <= 12).map(i => i.price),
-                agrowaste: marketItems.filter(i => i.id <= 4).map(i => i.price)
-            };
-            
-            let analysis = '💹 Price Analysis:\n\n';
-            
-            Object.entries(priceData).forEach(([category, prices]) => {
-                const avg = prices.reduce((a, b) => a + b, 0) / prices.length;
-                const min = Math.min(...prices);
-                const max = Math.max(...prices);
-                
-                analysis += `${category.toUpperCase()}:\n`;
-                analysis += `• Average: ₹${avg.toLocaleString()}\n`;
-                analysis += `• Range: ₹${min.toLocaleString()} - ₹${max.toLocaleString()}\n\n`;
-            });
-            
-            showSmartNotification(analysis, 'info', 8000);
-        }
-
-        function toggleFarmZones() {
-            // Add colored zones for different farming areas
-            const zones = [
-                { name: 'JKLU Campus Zone', coords: [[26.84, 75.80], [26.85, 75.80], [26.85, 75.81], [26.84, 75.81]], color: '#3b82f6' },
-                { name: 'Wheat Belt', coords: [[26.85, 75.81], [26.86, 75.81], [26.86, 75.82], [26.85, 75.82]], color: '#eab308' },
-                { name: 'Cotton Fields', coords: [[26.83, 75.79], [26.84, 75.79], [26.84, 75.80], [26.83, 75.80]], color: '#22c55e' },
-                { name: 'Mustard Region', coords: [[26.86, 75.82], [26.87, 75.82], [26.87, 75.83], [26.86, 75.83]], color: '#f59e0b' }
-            ];
-            
-            zones.forEach(zone => {
-                L.polygon(zone.coords, {
-                    color: zone.color,
-                    fillColor: zone.color,
-                    fillOpacity: 0.2,
-                    weight: 2
-                }).addTo(map).bindPopup(`🌾 ${zone.name}`);
-            });
-            
-            showSmartNotification('🌾 Farm zones displayed!', 'success');
-        }
-
-        function toggleLiveTracking() {
-            // Simulate live tracking of vehicles/deliveries
-            const vehicles = [
-                { name: 'Tractor Delivery #1', lat: 26.845, lng: 75.803, icon: '🚜' },
-                { name: 'Equipment Transport #2', lat: 26.848, lng: 75.807, icon: '🚛' },
-                { name: 'Fertilizer Truck #3', lat: 26.844, lng: 75.801, icon: '🚚' }
-            ];
-            
-            vehicles.forEach(vehicle => {
-                const vehicleIcon = L.divIcon({
-                    className: 'live-vehicle-marker',
-                    html: `
-                        <div class="relative">
-                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white animate-pulse">
-                                ${vehicle.icon}
-                            </div>
-                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-ping"></div>
-                        </div>
-                    `,
-                    iconSize: [32, 32],
-                    iconAnchor: [16, 16]
-                });
-                
-                L.marker([vehicle.lat, vehicle.lng], { icon: vehicleIcon })
-                    .addTo(map)
-                    .bindPopup(`📡 ${vehicle.name}<br>Status: En Route<br>ETA: 15 mins`);
-            });
-            
-            showSmartNotification('📡 Live tracking enabled! 3 vehicles tracked.', 'success');
-        }
-
-        function showSmartNotification(message, type = 'info', duration = 4000) {
-            const container = document.getElementById('smartNotifications');
-            const notification = document.createElement('div');
-            
-            const colors = {
-                success: 'bg-green-500',
-                error: 'bg-red-500',
-                info: 'bg-blue-500',
-                warning: 'bg-yellow-500'
-            };
-            
-            notification.className = `notification-popup ${colors[type]} text-white p-4 rounded-lg shadow-lg`;
-            notification.innerHTML = `
-                <div class="flex items-start space-x-3">
-                    <div class="text-xl">
-                        ${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm font-medium">${message}</p>
-                    </div>
-                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-gray-200">×</button>
-                </div>
-            `;
-            
-            container.appendChild(notification);
-            
-            // Show animation
-            setTimeout(() => notification.classList.add('show'), 100);
-            
-            // Auto remove
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 300);
-            }, duration);
-        }
-
-        function updateAnalytics() {
-            const totalListings = marketItems.length;
-            const totalValue = marketItems.reduce((sum, item) => sum + item.price, 0);
-            const activeUsers = new Set(marketItems.map(item => item.farmer)).size;
-            
-            document.getElementById('totalListings').textContent = totalListings;
-            document.getElementById('totalValue').textContent = `₹${totalValue.toLocaleString()}`;
-            document.getElementById('activeUsers').textContent = activeUsers;
-        }
-
-        function showRentalOptions(itemId) {
-            const item = marketItems.find(i => i.id === itemId);
-            if (!item) return;
-            
+        function showRentalOptions(item) {
             currentRentalItem = item;
-            
-            // Update modal content
             document.getElementById('rentalItemTitle').textContent = item.name;
             
-            const detailsContainer = document.getElementById('rentalItemDetails');
-            detailsContainer.innerHTML = `
+            // Update item details
+            document.getElementById('rentalItemDetails').innerHTML = `
                 <div class="flex items-center space-x-4 mb-4">
-                    <div class="text-3xl">${item.image}</div>
+                    <div class="text-4xl">${item.image}</div>
                     <div>
-                        <h4 class="font-semibold text-lg">${item.name}</h4>
+                        <h4 class="font-semibold text-gray-800">${item.name}</h4>
                         <p class="text-sm text-gray-600">${item.description}</p>
-                        ${item.capacity ? `<p class="text-sm text-green-600">📊 ${item.capacity}</p>` : ''}
-                        ${item.quality ? `<span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full mt-1">${item.quality}</span>` : ''}
+                        <div class="flex items-center space-x-2 mt-1">
+                            <span class="text-yellow-500">⭐ ${item.rating}</span>
+                            <span class="text-green-600 text-xs">✓ ${item.verified ? 'Verified' : 'Unverified'}</span>
+                        </div>
                     </div>
                 </div>
-                ${item.specifications ? `
-                    <div class="bg-gray-50 p-3 rounded-lg">
-                        <p class="text-xs text-gray-700"><strong>Specifications:</strong> ${item.specifications}</p>
-                    </div>
-                ` : ''}
             `;
             
-            // Update prices
-            document.getElementById('dailyPrice').textContent = `₹${(item.dailyRate || item.price).toLocaleString()}`;
-            document.getElementById('weeklyPrice').textContent = `₹${(item.weeklyRate || item.price * 6).toLocaleString()}`;
-            document.getElementById('monthlyPrice').textContent = `₹${(item.monthlyRate || item.price * 25).toLocaleString()}`;
-            document.getElementById('seasonalPrice').textContent = `₹${(item.seasonalRate || item.price * 90).toLocaleString()}`;
-            document.getElementById('yearlyPrice').textContent = `₹${(item.yearlyRate || item.price * 300).toLocaleString()}`;
+            // Update rental prices
+            document.getElementById('dailyPrice').textContent = `₹${item.dailyRate || item.price}`;
+            document.getElementById('weeklyPrice').textContent = `₹${item.weeklyRate || (item.price * 6)}`;
+            document.getElementById('monthlyPrice').textContent = `₹${item.monthlyRate || (item.price * 25)}`;
             
-            // Reset selection
-            selectedRentalPeriod = 'daily';
-            document.getElementById('rentalQuantity').value = 1;
-            updateRentalCost();
+            // Reset to daily by default
+            selectRentalPeriod('daily');
             
             // Show modal
             document.getElementById('rentalOptionsModal').classList.remove('hidden');
         }
-        
+
+        function closeRentalModal() {
+            document.getElementById('rentalOptionsModal').classList.add('hidden');
+        }
+
         function selectRentalPeriod(period) {
             selectedRentalPeriod = period;
             
-            // Update UI
+            // Remove active class from all options
             document.querySelectorAll('.rental-option').forEach(option => {
-                option.classList.remove('border-purple-400', 'border-blue-400', 'border-green-400');
-                option.classList.add('border-purple-200', 'border-blue-200', 'border-green-200');
+                option.classList.remove('border-green-400', 'bg-green-50', 'selected');
+                option.classList.add('border-gray-200');
             });
             
-            const selectedOption = document.querySelector(`[onclick="selectRentalPeriod('${period}')"]`);
+            // Add active class to selected option
+            const selectedOption = document.querySelector(`.rental-option[onclick="selectRentalPeriod('${period}')"]`);
             if (selectedOption) {
-                selectedOption.classList.remove('border-purple-200', 'border-blue-200', 'border-green-200');
-                selectedOption.classList.add(
-                    period === 'daily' ? 'border-purple-400' : 
-                    period === 'weekly' ? 'border-blue-400' : 'border-green-400'
-                );
+                selectedOption.classList.add('border-green-400', 'bg-green-50', 'selected');
+                selectedOption.classList.remove('border-gray-200');
             }
             
             // Update unit display
-            const unitMap = { 
-                daily: 'day(s)', 
-                weekly: 'week(s)', 
-                monthly: 'month(s)', 
-                seasonal: 'season(s)', 
-                yearly: 'year(s)' 
+            const unitMap = {
+                'daily': 'day(s)',
+                'weekly': 'week(s)', 
+                'monthly': 'month(s)'
             };
             document.getElementById('rentalUnit').textContent = unitMap[period];
             
+            // Update cost
             updateRentalCost();
         }
-        
+
         function updateRentalCost() {
             if (!currentRentalItem) return;
             
             const quantity = parseInt(document.getElementById('rentalQuantity').value) || 1;
             let unitPrice = 0;
             
-            switch (selectedRentalPeriod) {
+            switch(selectedRentalPeriod) {
                 case 'daily':
                     unitPrice = currentRentalItem.dailyRate || currentRentalItem.price;
                     break;
                 case 'weekly':
-                    unitPrice = currentRentalItem.weeklyRate || currentRentalItem.price * 6;
+                    unitPrice = currentRentalItem.weeklyRate || (currentRentalItem.price * 6);
                     break;
                 case 'monthly':
-                    unitPrice = currentRentalItem.monthlyRate || currentRentalItem.price * 25;
-                    break;
-                case 'seasonal':
-                    unitPrice = currentRentalItem.seasonalRate || currentRentalItem.price * 90;
-                    break;
-                case 'yearly':
-                    unitPrice = currentRentalItem.yearlyRate || currentRentalItem.price * 300;
+                    unitPrice = currentRentalItem.monthlyRate || (currentRentalItem.price * 25);
                     break;
             }
             
             const totalCost = unitPrice * quantity;
             document.getElementById('totalCost').textContent = `₹${totalCost.toLocaleString()}`;
         }
-        
+
         function confirmRental() {
             if (!currentRentalItem) return;
             
             const quantity = parseInt(document.getElementById('rentalQuantity').value) || 1;
             let unitPrice = 0;
             
-            switch (selectedRentalPeriod) {
+            switch(selectedRentalPeriod) {
                 case 'daily':
                     unitPrice = currentRentalItem.dailyRate || currentRentalItem.price;
                     break;
                 case 'weekly':
-                    unitPrice = currentRentalItem.weeklyRate || currentRentalItem.price * 6;
+                    unitPrice = currentRentalItem.weeklyRate || (currentRentalItem.price * 6);
                     break;
                 case 'monthly':
-                    unitPrice = currentRentalItem.monthlyRate || currentRentalItem.price * 25;
-                    break;
-                case 'seasonal':
-                    unitPrice = currentRentalItem.seasonalRate || currentRentalItem.price * 90;
-                    break;
-                case 'yearly':
-                    unitPrice = currentRentalItem.yearlyRate || currentRentalItem.price * 300;
+                    unitPrice = currentRentalItem.monthlyRate || (currentRentalItem.price * 25);
                     break;
             }
             
-            const rentalItem = {
+            const cartItem = {
                 ...currentRentalItem,
                 rentalPeriod: selectedRentalPeriod,
-                rentalQuantity: quantity,
-                rentalUnitPrice: unitPrice,
+                quantity: quantity,
+                unitPrice: unitPrice,
                 totalPrice: unitPrice * quantity,
-                isRental: true
+                cartType: 'rental'
             };
             
-            const existingItem = cart.find(i => i.id === currentRentalItem.id && i.rentalPeriod === selectedRentalPeriod);
-            if (existingItem) {
-                existingItem.rentalQuantity += quantity;
-                existingItem.totalPrice = existingItem.rentalUnitPrice * existingItem.rentalQuantity;
+            addToCart(cartItem);
+            closeRentalModal();
+            showNotification(`${currentRentalItem.name} added to cart for ${selectedRentalPeriod} rental!`, 'success');
+        }
+
+        function buyItem(item) {
+            const cartItem = {
+                ...item,
+                quantity: 1,
+                unitPrice: item.price,
+                totalPrice: item.price,
+                cartType: 'purchase'
+            };
+            
+            addToCart(cartItem);
+            showNotification(`${item.name} added to cart!`, 'success');
+        }
+
+        function addToCart(item) {
+            const existingItemIndex = cart.findIndex(cartItem => 
+                cartItem.id === item.id && 
+                cartItem.rentalPeriod === item.rentalPeriod &&
+                cartItem.cartType === item.cartType
+            );
+            
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].quantity += item.quantity;
+                cart[existingItemIndex].totalPrice = cart[existingItemIndex].unitPrice * cart[existingItemIndex].quantity;
             } else {
-                cart.push(rentalItem);
+                cart.push(item);
             }
             
-            updateCartUI();
-            document.getElementById('rentalOptionsModal').classList.add('hidden');
+            updateCartDisplay();
+            updateCartCount();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartSummary = document.getElementById('cartSummary');
             
-            showSmartNotification(`${currentRentalItem.name} added to cart for ${quantity} ${selectedRentalPeriod} rental! 🛒`, 'success');
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">🛒</div>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-500 mb-6">Start adding items from our marketplace</p>
+                        <button onclick="showSection('home')" class="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                            Continue Shopping
+                        </button>
+                    </div>
+                `;
+                cartSummary.classList.add('hidden');
+            } else {
+                cartItems.innerHTML = cart.map((item, index) => `
+                    <div class="agri-card p-4 flex items-center space-x-4">
+                        <div class="text-3xl">${item.image}</div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-green-800">${item.name}</h4>
+                            <p class="text-sm text-gray-600">
+                                ${item.cartType === 'rental' ? 
+                                    `${item.rentalPeriod} rental - ${item.quantity} ${item.rentalPeriod}(s)` : 
+                                    `Purchase - Quantity: ${item.quantity}`
+                                }
+                            </p>
+                            <p class="text-sm text-blue-600">Seller: ${item.farmer}</p>
+                            <p class="text-lg font-bold text-green-600">₹${item.totalPrice.toLocaleString()}</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button onclick="changeQuantity(${index}, -1)" class="quantity-btn">-</button>
+                            <span class="px-3 py-1 bg-gray-100 rounded">${item.quantity}</span>
+                            <button onclick="changeQuantity(${index}, 1)" class="quantity-btn">+</button>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xl ml-4">
+                            🗑️
+                        </button>
+                    </div>
+                `).join('');
+                
+                const total = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+                document.getElementById('cartTotal').textContent = `₹${total.toLocaleString()}`;
+                cartSummary.classList.remove('hidden');
+            }
+        }
+
+        function changeQuantity(index, change) {
+            if (cart[index]) {
+                cart[index].quantity = Math.max(1, cart[index].quantity + change);
+                cart[index].totalPrice = cart[index].unitPrice * cart[index].quantity;
+                updateCartDisplay();
+                updateCartCount();
+            }
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cartCount');
+            
+            if (count > 0) {
+                cartCount.textContent = count;
+                cartCount.classList.remove('hidden');
+            } else {
+                cartCount.classList.add('hidden');
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+            updateCartCount();
+            showNotification('Item removed from cart', 'info');
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const total = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            showNotification(`Processing checkout for ₹${total.toLocaleString()}...`, 'success');
+            
+            setTimeout(() => {
+                cart = [];
+                updateCartDisplay();
+                updateCartCount();
+                showNotification('Order placed successfully! You will be contacted soon.', 'success');
+            }, 2000);
+        }
+
+        function initializeMap() {
+            if (map) return;
+            
+            map = L.map('map').setView([26.8467, 75.8056], 12);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            loadMarketItems();
+        }
+
+        function loadMarketItems() {
+            // Combine all category data
+            marketItems = [
+                ...categoryData.agrowaste,
+                ...categoryData.machinery,
+                ...categoryData.equipment
+            ];
+            
+            if (map) {
+                // Clear existing markers
+                markers.forEach(marker => map.removeLayer(marker));
+                markers = [];
+                
+                // Add markers for each item
+                marketItems.forEach(item => {
+                    const marker = L.marker([item.lat, item.lng]).addTo(map);
+                    
+                    const popupContent = `
+                        <div class="p-3 min-w-64">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="text-2xl">${item.image}</span>
+                                <div>
+                                    <h4 class="font-bold text-green-800">${item.name}</h4>
+                                    <p class="text-sm text-gray-600">${item.farmer}</p>
+                                </div>
+                            </div>
+                            <p class="text-sm mb-3">${item.description}</p>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-lg font-bold text-green-600">₹${item.price.toLocaleString()}${item.type === 'rent' ? '/day' : ''}</span>
+                                <span class="text-yellow-500">⭐ ${item.rating}</span>
+                            </div>
+                            ${item.type === 'rent' ? 
+                                `<button onclick="showRentalOptions(${JSON.stringify(item).replace(/"/g, '&quot;')})" 
+                                        class="w-full bg-purple-600 text-white py-2 rounded-lg text-sm hover:bg-purple-700">
+                                    📅 View Rental Options
+                                </button>` :
+                                `<button onclick="buyItem(${JSON.stringify(item).replace(/"/g, '&quot;')})" 
+                                        class="w-full bg-green-600 text-white py-2 rounded-lg text-sm hover:bg-green-700">
+                                    ${item.type === 'buy' ? '🛒 Buy Now' : '💰 Contact Seller'}
+                                </button>`
+                            }
+                        </div>
+                    `;
+                    
+                    marker.bindPopup(popupContent);
+                    markers.push(marker);
+                });
+            }
+        }
+
+        function filterItems(filter) {
+            currentFilter = filter;
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-purple-600', 'bg-green-600');
+                btn.classList.add('bg-purple-500');
+            });
+            event.target.classList.remove('bg-purple-500');
+            if (filter === 'buy') {
+                event.target.classList.add('bg-green-600');
+            } else {
+                event.target.classList.add('bg-purple-600');
+            }
+            
+            showNotification(`Showing ${filter} items`, 'info');
+        }
+
+        function showNearbyItems() {
+            showNotification('Showing items within 10km radius', 'info');
+        }
+
+        function showAddItemModal() {
+            document.getElementById('addItemModal').classList.remove('hidden');
+        }
+
+        function closeAddModal() {
+            document.getElementById('addItemModal').classList.add('hidden');
+        }
+
+        function handleAddItem(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const newItem = {
+                id: Date.now(),
+                name: formData.get('itemName'),
+                price: parseInt(formData.get('itemPrice')),
+                description: formData.get('itemDescription'),
+                contact: formData.get('itemContact'),
+                type: formData.get('itemType'),
+                condition: 'new',
+                lat: userLocation?.lat || 26.8467,
+                lng: userLocation?.lng || 75.8056,
+                farmer: 'You',
+                rating: 5.0,
+                verified: true,
+                image: '🆕',
+                capacity: 'N/A',
+                quality: 'Premium'
+            };
+            
+            // Add to appropriate category
+            const category = formData.get('itemCategory');
+            categoryData[category].push(newItem);
+            
+            loadMarketItems();
+            closeAddModal();
+            showNotification('Item added to marketplace successfully!', 'success');
+            
+            e.target.reset();
+        }
+
+        function contactSeller(phone) {
+            showNotification(`Connecting you to ${phone}...`, 'info');
+            setTimeout(() => {
+                window.open(`tel:${phone}`, '_blank');
+            }, 1000);
+        }
+
+        function toggleAIChat() {
+            const chatWindow = document.getElementById('aiChatWindow');
+            chatWindow.classList.toggle('hidden');
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addChatMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            document.getElementById('aiTyping').classList.remove('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('aiTyping').classList.add('hidden');
+                const response = getAIResponse(message);
+                addChatMessage(response, 'ai');
+            }, 1500);
+        }
+
+        function addChatMessage(message, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            
+            if (sender === 'user') {
+                messageDiv.className = 'text-right';
+                messageDiv.innerHTML = `
+                    <div class="inline-block bg-purple-500 text-white p-3 rounded-lg max-w-xs text-sm">
+                        ${message}
+                    </div>
+                `;
+            } else {
+                messageDiv.className = 'text-left';
+                messageDiv.innerHTML = `
+                    <div class="inline-block bg-gray-100 p-3 rounded-lg max-w-xs text-sm">
+                        ${message}
+                    </div>
+                `;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function getAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            const responses = aiResponses[currentLanguage] || aiResponses.en;
+            
+            for (const [key, response] of Object.entries(responses)) {
+                if (lowerMessage.includes(key.toLowerCase())) {
+                    return response;
+                }
+            }
+            
+            return responses.default;
+        }
+
+        function quickChat(message) {
+            document.getElementById('chatInput').value = message;
+            sendAIMessage();
         }
 
         function showNotification(message, type = 'info') {
-            showSmartNotification(message, type);
+            const notification = document.createElement('div');
+            notification.className = `notification-popup bg-white border-l-4 p-4 rounded-lg shadow-lg mb-2 transform transition-transform duration-300 ${
+                type === 'success' ? 'border-green-500' : 
+                type === 'error' ? 'border-red-500' : 
+                'border-blue-500'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <span class="text-2xl mr-3">
+                        ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}
+                    </span>
+                    <p class="text-sm font-medium">${message}</p>
+                </div>
+            `;
+            
+            document.getElementById('smartNotifications').appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
         }
 
-        // Language toggle functionality
         function toggleLanguage() {
             currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
-            updateLanguage();
-            showSmartNotification(
-                currentLanguage === 'hi' ? 'भाषा हिंदी में बदली गई! 🇮🇳' : 'Language changed to English! 🇺🇸', 
-                'success'
-            );
+            document.getElementById('languageToggle').textContent = currentLanguage === 'en' ? '🌐 हिंदी' : '🌐 English';
         }
 
-        function updateLanguage() {
-            const t = translations[currentLanguage];
-            
-            // Update navigation
-            document.querySelector('.home-text').textContent = t.home;
-            document.querySelector('.map-text').textContent = t.map;
-            document.querySelector('.cart-text').textContent = t.cart;
-            document.getElementById('languageToggle').innerHTML = t.languageBtn;
-            
-            // Update header
-            document.querySelector('h1').textContent = t.title;
-            document.querySelector('header p').textContent = t.subtitle;
-            
-            // Update hero section
-            const heroTitle = document.querySelector('.floating-farm h2');
-            if (heroTitle) {
-                heroTitle.innerHTML = currentLanguage === 'en' 
-                    ? 'Smart Agriculture<br><span class="text-yellow-300">Marketplace</span>'
-                    : 'स्मार्ट कृषि<br><span class="text-yellow-300">बाज़ार</span>';
-            }
-            
-            const heroSubtitle = document.querySelector('.floating-farm p');
-            if (heroSubtitle) {
-                heroSubtitle.textContent = t.heroSubtitle;
-            }
-            
-            // Update hero buttons
-            const heroButtons = document.querySelectorAll('.floating-farm button');
-            if (heroButtons.length >= 2) {
-                heroButtons[0].innerHTML = t.startTrading;
-                heroButtons[1].innerHTML = t.downloadApp;
-            }
-            
-            // Update main sections
-            updateSectionTexts(t);
-            
-            // Update modals and forms
-            updateModalTexts(t);
-        }
-
-        function updateSectionTexts(t) {
-            // Categories section
-            const categoriesTitle = document.querySelector('h2');
-            if (categoriesTitle && categoriesTitle.textContent.includes('Agricultural') || categoriesTitle.textContent.includes('कृषि')) {
-                categoriesTitle.textContent = t.categoriesTitle;
-            }
-            
-            // Category cards
-            const categoryCards = document.querySelectorAll('.agri-card');
-            if (categoryCards.length >= 3) {
-                // Agro Waste card
-                const agroCard = categoryCards[0];
-                const agroTitle = agroCard.querySelector('h3');
-                const agroDesc = agroCard.querySelector('p');
-                const agroBtn = agroCard.querySelector('button');
-                if (agroTitle) agroTitle.textContent = t.agroWasteTitle;
-                if (agroDesc) agroDesc.textContent = t.agroWasteDesc;
-                if (agroBtn) agroBtn.textContent = t.exploreWaste;
-                
-                // Machinery card
-                const machCard = categoryCards[1];
-                const machTitle = machCard.querySelector('h3');
-                const machDesc = machCard.querySelector('p');
-                const machBtn = machCard.querySelector('button');
-                if (machTitle) machTitle.textContent = t.machineryTitle;
-                if (machDesc) machDesc.textContent = t.machineryDesc;
-                if (machBtn) machBtn.textContent = t.browseMachinery;
-                
-                // Equipment card
-                const equipCard = categoryCards[2];
-                const equipTitle = equipCard.querySelector('h3');
-                const equipDesc = equipCard.querySelector('p');
-                const equipBtn = equipCard.querySelector('button');
-                if (equipTitle) equipTitle.textContent = t.equipmentTitle;
-                if (equipDesc) equipDesc.textContent = t.equipmentDesc;
-                if (equipBtn) equipBtn.textContent = t.viewEquipment;
-            }
-            
-            // Features section
-            const whyChooseTitle = document.querySelector('h2');
-            const featureTitles = document.querySelectorAll('.text-center h3');
-            const featureDescs = document.querySelectorAll('.text-center p');
-            
-            if (featureTitles.length >= 4) {
-                featureTitles[0].textContent = t.directConnect;
-                featureTitles[1].textContent = t.bestPrices;
-                featureTitles[2].textContent = t.locationBased;
-                featureTitles[3].textContent = t.secureTrading;
-            }
-            
-            if (featureDescs.length >= 4) {
-                featureDescs[0].textContent = t.directConnectDesc;
-                featureDescs[1].textContent = t.bestPricesDesc;
-                featureDescs[2].textContent = t.locationBasedDesc;
-                featureDescs[3].textContent = t.secureTradingDesc;
-            }
-        }
-
-        function updateModalTexts(t) {
-            // Map section
-            const mapTitle = document.querySelector('#mapSection h2');
-            if (mapTitle) {
-                mapTitle.innerHTML = `<span class="mr-3">🗺️</span> ${t.liveMarketplace}`;
-            }
-            
-            const addItemBtn = document.getElementById('addItemBtn');
-            if (addItemBtn) {
-                addItemBtn.textContent = t.addNewItem;
-            }
-            
-            // Cart section
-            const cartTitle = document.querySelector('#cartSection h2');
-            if (cartTitle) {
-                cartTitle.innerHTML = `<span class="mr-3">🛒</span> ${t.yourCart}`;
-            }
-            
-            // Update cart empty state
-            updateCartSection();
-            
-            // Location button
-            const locationBtn = document.getElementById('detectLocationBtn');
-            if (locationBtn && !locationBtn.disabled) {
-                locationBtn.textContent = t.useMyLocation;
-            }
-        }
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show welcome notification
+            setTimeout(() => {
+                showNotification('Welcome to KrishiSetu! Explore our smart agricultural marketplace.', 'success');
+            }, 1000);
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984326fb406754a1',t:'MTc1ODcyNjAzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98437658f2dc8aee',t:'MTc1ODcyOTI4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
