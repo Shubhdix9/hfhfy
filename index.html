@@ -417,11 +417,156 @@
                         <span class="mr-3">🗺️</span> Live Agricultural Marketplace
                     </h2>
                     <div class="flex space-x-2 flex-wrap gap-2">
-                        <button onclick="filterItems('all')" class="filter-btn bg-purple-600 text-white px-3 py-2 rounded-lg text-xs font-medium">All Items</button>
-                        <button onclick="filterItems('rent')" class="filter-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-xs font-medium">For Rent</button>
-                        <button onclick="filterItems('buy')" class="filter-btn bg-green-500 text-white px-3 py-2 rounded-lg text-xs font-medium">For Sale</button>
+                        <button onclick="filterItems('all')" class="filter-btn bg-purple-600 text-white px-3 py-2 rounded-lg text-xs font-medium">🌐 All Items</button>
+                        <button onclick="filterItems('rent')" class="filter-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-xs font-medium">🏠 For Rent</button>
+                        <button onclick="filterItems('buy')" class="filter-btn bg-green-500 text-white px-3 py-2 rounded-lg text-xs font-medium">💰 For Sale</button>
                         <button onclick="showNearbyItems()" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-indigo-700">📍 Nearby</button>
+                        <button onclick="showWeatherLayer()" class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-blue-700">🌤️ Weather</button>
+                        <button onclick="showSoilData()" class="bg-amber-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-amber-700">🌱 Soil Data</button>
+                        <button onclick="showCropPrices()" class="bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-emerald-700">📈 Crop Prices</button>
                     </div>
+                </div>
+                
+                <!-- Enhanced Map Controls -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="agri-card p-4 text-center">
+                        <div class="text-2xl mb-2">🚜</div>
+                        <h4 class="font-semibold text-green-800 text-sm">Live Equipment</h4>
+                        <p class="text-xs text-gray-600 mb-2">Track real-time equipment availability</p>
+                        <button onclick="toggleLiveTracking()" class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">Enable Live</button>
+                    </div>
+                    
+                    <div class="agri-card p-4 text-center">
+                        <div class="text-2xl mb-2">🌾</div>
+                        <h4 class="font-semibold text-green-800 text-sm">Crop Zones</h4>
+                        <p class="text-xs text-gray-600 mb-2">View crop cultivation areas</p>
+                        <button onclick="showCropZones()" class="bg-yellow-600 text-white px-3 py-1 rounded text-xs hover:bg-yellow-700">Show Zones</button>
+                    </div>
+                    
+                    <div class="agri-card p-4 text-center">
+                        <div class="text-2xl mb-2">🏪</div>
+                        <h4 class="font-semibold text-green-800 text-sm">Mandis & Markets</h4>
+                        <p class="text-xs text-gray-600 mb-2">Find nearby agricultural markets</p>
+                        <button onclick="showMandis()" class="bg-orange-600 text-white px-3 py-1 rounded text-xs hover:bg-orange-700">Find Mandis</button>
+                    </div>
+                    
+                    <div class="agri-card p-4 text-center">
+                        <div class="text-2xl mb-2">🚛</div>
+                        <h4 class="font-semibold text-green-800 text-sm">Transport Hub</h4>
+                        <p class="text-xs text-gray-600 mb-2">Logistics and transportation</p>
+                        <button onclick="showTransport()" class="bg-red-600 text-white px-3 py-1 rounded text-xs hover:bg-red-700">Find Transport</button>
+                    </div>
+                </div>
+                
+                <!-- Live Location Section -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="agri-card p-4 text-center">
+                        <div class="text-2xl mb-2">📍</div>
+                        <h4 class="font-semibold text-green-800 text-sm" data-translate="myLiveLocation">My Live Location</h4>
+                        <p class="text-xs text-gray-600 mb-2" data-translate="shareCurrentLocation">Share your current location</p>
+                        <button id="liveLocationBtn" onclick="toggleLiveLocation()" class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700" data-translate="enableLocation">Enable Location</button>
+                    </div>
+                    
+                    <div class="agri-card p-4 text-center">
+                        <div class="text-2xl mb-2">👥</div>
+                        <h4 class="font-semibold text-green-800 text-sm" data-translate="activeFarmers">Active Farmers</h4>
+                        <p class="text-xs text-gray-600 mb-2" data-translate="seeFarmersOnline">See farmers online nearby</p>
+                        <span id="activeFarmersCount" class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-bold">12 Online</span>
+                    </div>
+                    
+                    <div class="agri-card p-4 text-center">
+                        <div class="text-2xl mb-2">🎯</div>
+                        <h4 class="font-semibold text-green-800 text-sm" data-translate="locationAccuracy">Location Accuracy</h4>
+                        <p class="text-xs text-gray-600 mb-2" data-translate="gpsAccuracy">GPS precision level</p>
+                        <span id="locationAccuracy" class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-bold">High (±5m)</span>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Customer Reviews Section -->
+                <div class="agri-card p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-green-800" data-translate="customerReviews">Customer Reviews</h3>
+                            <div class="flex items-center space-x-4 mt-2">
+                                <div class="flex items-center space-x-1">
+                                    <span class="text-yellow-500 text-lg">⭐⭐⭐⭐⭐</span>
+                                    <span class="text-sm font-semibold">4.8/5</span>
+                                </div>
+                                <span class="text-sm text-gray-600">Based on 1,247 reviews</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <select id="reviewFilter" onchange="filterReviews()" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="all">All Reviews</option>
+                                <option value="platform">Platform Experience</option>
+                                <option value="live_location">Live Location</option>
+                                <option value="equipment_rental">Equipment Rental</option>
+                                <option value="agro_waste">Agro Waste Trading</option>
+                            </select>
+                            <button onclick="showWriteReviewModal()" class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-700" data-translate="writeReview">Write a Review</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Review Statistics -->
+                    <div class="grid grid-cols-5 gap-2 mb-6 p-4 bg-gray-50 rounded-lg">
+                        <div class="text-center">
+                            <div class="text-xs text-gray-600">5 ⭐</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 78%"></div>
+                            </div>
+                            <div class="text-xs text-gray-600 mt-1">78%</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xs text-gray-600">4 ⭐</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-green-400 h-2 rounded-full" style="width: 15%"></div>
+                            </div>
+                            <div class="text-xs text-gray-600 mt-1">15%</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xs text-gray-600">3 ⭐</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-yellow-400 h-2 rounded-full" style="width: 5%"></div>
+                            </div>
+                            <div class="text-xs text-gray-600 mt-1">5%</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xs text-gray-600">2 ⭐</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-orange-400 h-2 rounded-full" style="width: 2%"></div>
+                            </div>
+                            <div class="text-xs text-gray-600 mt-1">2%</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xs text-gray-600">1 ⭐</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-red-400 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                            <div class="text-xs text-gray-600 mt-1">0%</div>
+                        </div>
+                    </div>
+                    
+                    <div id="reviewsContainer" class="space-y-4 max-h-96 overflow-y-auto">
+                        <!-- Reviews will be loaded here -->
+                    </div>
+                    
+                    <!-- Load More Reviews -->
+                    <div class="text-center mt-4">
+                        <button onclick="loadMoreReviews()" class="bg-gray-600 text-white px-6 py-2 rounded-lg text-sm hover:bg-gray-700">
+                            Load More Reviews
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Map Layer Controls -->
+                <div class="flex flex-wrap gap-2 mb-4 p-4 bg-gray-50 rounded-lg">
+                    <span class="text-sm font-medium text-gray-700">Map Layers:</span>
+                    <button onclick="toggleLayer('satellite')" class="layer-btn bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs hover:bg-gray-300">🛰️ Satellite</button>
+                    <button onclick="toggleLayer('terrain')" class="layer-btn bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs hover:bg-gray-300">⛰️ Terrain</button>
+                    <button onclick="toggleLayer('roads')" class="layer-btn bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs hover:bg-gray-300">🛣️ Roads</button>
+                    <button onclick="toggleLayer('boundaries')" class="layer-btn bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs hover:bg-gray-300">🗺️ Boundaries</button>
+                    <button onclick="toggleLayer('water')" class="layer-btn bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs hover:bg-gray-300">💧 Water Bodies</button>
+                    <button onclick="clearAllLayers()" class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600">🗑️ Clear All</button>
                 </div>
                 <div class="relative">
                     <div id="map" class="w-full h-96 rounded-2xl shadow-inner"></div>
@@ -604,6 +749,58 @@
         </div>
     </div>
 
+    <!-- Write Review Modal -->
+    <div id="writeReviewModal" class="fixed inset-0 bg-black bg-opacity-50 z-[9999] hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto relative z-[10000]">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-green-800" data-translate="writeReview">Write a Review</h3>
+                <button onclick="closeWriteReviewModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <form onsubmit="handleSubmitReview(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="yourRating">Your Rating:</label>
+                    <div class="flex space-x-2 mb-2">
+                        <button type="button" onclick="setRating(1)" class="rating-star text-2xl text-gray-300 hover:text-yellow-500 transition-colors">⭐</button>
+                        <button type="button" onclick="setRating(2)" class="rating-star text-2xl text-gray-300 hover:text-yellow-500 transition-colors">⭐</button>
+                        <button type="button" onclick="setRating(3)" class="rating-star text-2xl text-gray-300 hover:text-yellow-500 transition-colors">⭐</button>
+                        <button type="button" onclick="setRating(4)" class="rating-star text-2xl text-gray-300 hover:text-yellow-500 transition-colors">⭐</button>
+                        <button type="button" onclick="setRating(5)" class="rating-star text-2xl text-gray-300 hover:text-yellow-500 transition-colors">⭐</button>
+                    </div>
+                    <input type="hidden" id="reviewRating" name="rating" value="5" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Review Category:</label>
+                    <select name="reviewCategory" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        <option value="platform">Platform Experience</option>
+                        <option value="live_location">Live Location Feature</option>
+                        <option value="equipment_rental">Equipment Rental</option>
+                        <option value="agro_waste">Agro Waste Trading</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Name:</label>
+                    <input type="text" name="reviewerName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Enter your name" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">You are a:</label>
+                    <select name="userType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        <option value="Farmer">👨‍🌾 Farmer</option>
+                        <option value="Equipment Owner">🚜 Equipment Owner</option>
+                        <option value="Buyer">🛒 Buyer</option>
+                        <option value="Other">👤 Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="yourReview">Your Review:</label>
+                    <textarea name="reviewComment" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" rows="4" placeholder="Share your detailed experience with KrishiSetu..." required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-all font-semibold" data-translate="submitReview">
+                    Submit Review
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- Enhanced AI Chatbot -->
     <div id="aiChatbot" class="fixed bottom-6 right-6 z-40">
         <button onclick="toggleAIChat()" class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg hover:shadow-xl transition-all harvest-glow">
@@ -668,6 +865,14 @@
         let currentLanguage = 'en';
         let currentRentalItem = null;
         let selectedRentalPeriod = 'daily';
+        let activeLayers = [];
+        let liveTrackingEnabled = false;
+        let weatherLayer = null;
+        let cropZoneLayer = null;
+        let liveLocationEnabled = false;
+        let userLocationMarker = null;
+        let locationWatchId = null;
+        let nearbyFarmers = [];
 
         // Sample data for different categories - Jaipur/JKLU area
         const categoryData = {
@@ -691,6 +896,154 @@
             ]
         };
 
+        // Language translations
+        const translations = {
+            en: {
+                // Navigation
+                'home': 'Home',
+                'map': 'Live Map',
+                'cart': 'Cart',
+                'language': '🌐 हिंदी',
+                
+                // Home page
+                'smartAgriculture': 'Smart Agriculture',
+                'equipmentRental': 'Equipment Rental',
+                'connectDirectly': 'Connect directly with equipment owners. Rent agricultural machinery and tools on flexible terms.',
+                'startListing': '🚀 Start Listing',
+                'downloadApp': '📱 Download App',
+                'agriculturalCategories': 'Agricultural Categories',
+                'chooseCategoryExplore': 'Choose your category to explore products and services',
+                
+                // Categories
+                'agroWasteTrading': 'Agro Waste Trading',
+                'agroWasteDesc': 'Buy and sell agricultural waste directly. Rice straw, wheat residue, cotton stalks, and other crop residues available for trading.',
+                'farmMachineryRental': 'Farm Machinery Rental',
+                'farmMachineryDesc': 'Heavy-duty agricultural machinery available for rent. Tractors, harvesters, and specialized equipment for daily or seasonal lease.',
+                'farmEquipmentRental': 'Farm Equipment Rental',
+                'farmEquipmentDesc': 'Essential farming tools and equipment available for rent. From irrigation systems to harvesting tools - all on flexible lease terms.',
+                
+                // Features
+                'whyChooseKrishiSetu': 'Why Choose KrishiSetu?',
+                'directConnect': 'Direct Connect',
+                'connectDirectlyFarmers': 'Connect directly with farmers',
+                'bestPrices': 'Best Prices',
+                'noMiddlemen': 'No middlemen, fair prices',
+                'locationBased': 'Location Based',
+                'findItemsNear': 'Find items near you',
+                'secureTrading': 'Secure Trading',
+                'safeTransactions': 'Safe transactions',
+                
+                // Map section
+                'liveAgriculturalMarketplace': 'Live Agricultural Marketplace',
+                'allItems': '🌐 All Items',
+                'forRent': '🏠 For Rent',
+                'forSale': '💰 For Sale',
+                'nearby': '📍 Nearby',
+                'weather': '🌤️ Weather',
+                'soilData': '🌱 Soil Data',
+                'cropPrices': '📈 Crop Prices',
+                
+                // Live location
+                'myLiveLocation': 'My Live Location',
+                'shareCurrentLocation': 'Share your current location',
+                'enableLocation': 'Enable Location',
+                'disableLocation': 'Disable Location',
+                'activeFarmers': 'Active Farmers',
+                'seeFarmersOnline': 'See farmers online nearby',
+                'locationAccuracy': 'Location Accuracy',
+                'gpsAccuracy': 'GPS precision level',
+                
+                // Cart
+                'yourCart': 'Your Cart',
+                'cartEmpty': 'Your cart is empty',
+                'startAdding': 'Start adding items from our marketplace',
+                'continueShopping': 'Continue Shopping',
+                'total': 'Total:',
+                'proceedCheckout': 'Proceed to Checkout',
+                
+                // Reviews
+                'customerReviews': 'Customer Reviews',
+                'writeReview': 'Write a Review',
+                'yourRating': 'Your Rating:',
+                'yourReview': 'Your Review:',
+                'submitReview': 'Submit Review',
+                'helpful': 'Helpful',
+                'notHelpful': 'Not Helpful'
+            },
+            hi: {
+                // Navigation
+                'home': 'होम',
+                'map': 'लाइव मैप',
+                'cart': 'कार्ट',
+                'language': '🌐 English',
+                
+                // Home page
+                'smartAgriculture': 'स्मार्ट कृषि',
+                'equipmentRental': 'उपकरण किराया',
+                'connectDirectly': 'उपकरण मालिकों से सीधे जुड़ें। लचीली शर्तों पर कृषि मशीनरी और उपकरण किराए पर लें।',
+                'startListing': '🚀 लिस्टिंग शुरू करें',
+                'downloadApp': '📱 ऐप डाउनलोड करें',
+                'agriculturalCategories': 'कृषि श्रेणियां',
+                'chooseCategoryExplore': 'उत्पादों और सेवाओं का पता लगाने के लिए अपनी श्रेणी चुनें',
+                
+                // Categories
+                'agroWasteTrading': 'कृषि अपशिष्ट व्यापार',
+                'agroWasteDesc': 'कृषि अपशिष्ट सीधे खरीदें और बेचें। चावल का पुआल, गेहूं का अवशेष, कपास के डंठल और अन्य फसल अवशेष व्यापार के लिए उपलब्ध।',
+                'farmMachineryRental': 'कृषि मशीनरी किराया',
+                'farmMachineryDesc': 'भारी कृषि मशीनरी किराए पर उपलब्ध। ट्रैक्टर, हार्वेस्टर और दैनिक या मौसमी पट्टे के लिए विशेष उपकरण।',
+                'farmEquipmentRental': 'कृषि उपकरण किराया',
+                'farmEquipmentDesc': 'आवश्यक कृषि उपकरण और उपकरण किराए पर उपलब्ध। सिंचाई प्रणाली से लेकर कटाई के उपकरण तक - सभी लचीली पट्टे की शर्तों पर।',
+                
+                // Features
+                'whyChooseKrishiSetu': 'कृषिसेतु क्यों चुनें?',
+                'directConnect': 'सीधा संपर्क',
+                'connectDirectlyFarmers': 'किसानों से सीधे जुड़ें',
+                'bestPrices': 'सर्वोत्तम मूल्य',
+                'noMiddlemen': 'कोई बिचौलिया नहीं, उचित मूल्य',
+                'locationBased': 'स्थान आधारित',
+                'findItemsNear': 'अपने पास की वस्तुएं खोजें',
+                'secureTrading': 'सुरक्षित व्यापार',
+                'safeTransactions': 'सुरक्षित लेनदेन',
+                
+                // Map section
+                'liveAgriculturalMarketplace': 'लाइव कृषि बाज़ार',
+                'allItems': '🌐 सभी वस्तुएं',
+                'forRent': '🏠 किराए के लिए',
+                'forSale': '💰 बिक्री के लिए',
+                'nearby': '📍 नजदीकी',
+                'weather': '🌤️ मौसम',
+                'soilData': '🌱 मिट्टी डेटा',
+                'cropPrices': '📈 फसल मूल्य',
+                
+                // Live location
+                'myLiveLocation': 'मेरा लाइव स्थान',
+                'shareCurrentLocation': 'अपना वर्तमान स्थान साझा करें',
+                'enableLocation': 'स्थान सक्षम करें',
+                'disableLocation': 'स्थान अक्षम करें',
+                'activeFarmers': 'सक्रिय किसान',
+                'seeFarmersOnline': 'आसपास के ऑनलाइन किसान देखें',
+                'locationAccuracy': 'स्थान सटीकता',
+                'gpsAccuracy': 'GPS सटीकता स्तर',
+                
+                // Cart
+                'yourCart': 'आपका कार्ट',
+                'cartEmpty': 'आपका कार्ट खाली है',
+                'startAdding': 'हमारे बाज़ार से वस्तुएं जोड़ना शुरू करें',
+                'continueShopping': 'खरीदारी जारी रखें',
+                'total': 'कुल:',
+                'proceedCheckout': 'चेकआउट पर जाएं',
+                
+                // Reviews
+                'customerReviews': 'ग्राहक समीक्षाएं',
+                'writeReview': 'समीक्षा लिखें',
+                'yourRating': 'आपकी रेटिंग:',
+                'yourReview': 'आपकी समीक्षा:',
+                'submitReview': 'समीक्षा सबमिट करें',
+                'helpful': 'उपयोगी',
+                'notHelpful': 'उपयोगी नहीं'
+            }
+        };
+
         // Enhanced AI responses
         const aiResponses = {
             en: {
@@ -699,7 +1052,161 @@
                 'tractor': "🚜 AI Equipment Match: Found 2 optimal tractors. John Deere 5050D (₹2.5K/day) - AI score: 9.2/10, fuel efficient. Mahindra 575 DI (₹2K/day) - AI score: 8.8/10.",
                 'weather': "🌤️ AI Weather Intelligence: Perfect farming conditions! 28°C, 65% humidity, 12km/h winds. 5-day forecast: Sunny with 2mm rain on day 3.",
                 'default': "🤖 AI Agricultural Assistant: I can help with crop planning, equipment recommendations, market analysis, weather forecasts, and more. What would you like to know?"
+            },
+            hi: {
+                'wheat': "🌾 AI विश्लेषण: गेहूं की कीमतें बढ़ रही हैं! वर्तमान: ₹2,200/क्विंटल। AI अगले सप्ताह 8% वृद्धि की भविष्यवाणी करता है। सर्वोत्तम बिक्री अवधि: 15-25 मार्च।",
+                'गेहूं': "🌾 AI विश्लेषण: गेहूं की कीमतें बढ़ रही हैं! वर्तमान: ₹2,200/क्विंटल। AI अगले सप्ताह 8% वृद्धि की भविष्यवाणी करता है।",
+                'tractor': "🚜 AI उपकरण मैच: 2 बेहतरीन ट्रैक्टर मिले। John Deere 5050D (₹2.5K/दिन) - AI स्कोर: 9.2/10, ईंधन कुशल। Mahindra 575 DI (₹2K/दिन) - AI स्कोर: 8.8/10।",
+                'weather': "🌤️ AI मौसम बुद्धिमत्ता: खेती के लिए बेहतरीन स्थितियां! 28°C, 65% आर्द्रता, 12km/h हवा। 5-दिन पूर्वानुमान: धूप के साथ दिन 3 पर 2mm बारिश।",
+                'default': "🤖 AI कृषि सहायक: मैं फसल योजना, उपकरण सिफारिशें, बाजार विश्लेषण, मौसम पूर्वानुमान और अधिक में मदद कर सकता हूं। आप क्या जानना चाहते हैं?"
             }
+        };
+
+        // Enhanced Customer reviews data with multiple categories
+        const customerReviews = {
+            'platform': [
+                {
+                    id: 1,
+                    user: 'राजेश कुमार',
+                    rating: 5,
+                    comment: 'KrishiSetu ने मेरी खेती को बदल दिया है! अब मैं सीधे किसानों से जुड़ सकता हूं और बेहतर कीमत पा सकता हूं।',
+                    date: '2024-01-20',
+                    helpful: 45,
+                    notHelpful: 2,
+                    verified: true,
+                    category: 'Platform Experience',
+                    location: 'Jaipur, Rajasthan',
+                    userType: 'Farmer',
+                    images: ['🌾', '📱'],
+                    response: 'Thank you Rajesh! We are glad KrishiSetu is helping your farming business grow.'
+                },
+                {
+                    id: 2,
+                    user: 'Priya Sharma',
+                    rating: 5,
+                    comment: 'Excellent platform for agricultural equipment rental. Found a tractor within 30 minutes of posting my requirement!',
+                    date: '2024-01-19',
+                    helpful: 38,
+                    notHelpful: 1,
+                    verified: true,
+                    category: 'Equipment Rental',
+                    location: 'Sanganer, Rajasthan',
+                    userType: 'Equipment Owner',
+                    images: ['🚜', '⭐'],
+                    response: 'We appreciate your feedback Priya! Quick connections are what we strive for.'
+                },
+                {
+                    id: 3,
+                    user: 'सुरेश पटेल',
+                    rating: 4,
+                    comment: 'बहुत अच्छा ऐप है। कुछ छोटी-मोटी समस्याएं हैं लेकिन कुल मिलाकर बेहतरीन अनुभव रहा।',
+                    date: '2024-01-18',
+                    helpful: 28,
+                    notHelpful: 5,
+                    verified: true,
+                    category: 'User Experience',
+                    location: 'Chomu, Rajasthan',
+                    userType: 'Farmer',
+                    images: ['👍', '📲'],
+                    response: 'धन्यवाद सुरेश जी! हम लगातार सुधार कर रहे हैं।'
+                }
+            ],
+            'live_location': [
+                {
+                    id: 4,
+                    user: 'Amit Singh',
+                    rating: 5,
+                    comment: 'Live location feature is revolutionary! I can see real-time equipment availability and connect instantly.',
+                    date: '2024-01-17',
+                    helpful: 52,
+                    notHelpful: 0,
+                    verified: true,
+                    category: 'Live Location',
+                    location: 'Bagru, Rajasthan',
+                    userType: 'Farmer',
+                    images: ['📍', '🚜'],
+                    response: 'Amazing feedback Amit! Live tracking is indeed a game-changer for farmers.'
+                },
+                {
+                    id: 5,
+                    user: 'लक्ष्मी देवी',
+                    rating: 4,
+                    comment: 'लाइव मैप बहुत उपयोगी है। अब मुझे पता चल जाता है कि कौन सा उपकरण कहां उपलब्ध है।',
+                    date: '2024-01-16',
+                    helpful: 33,
+                    notHelpful: 3,
+                    verified: true,
+                    category: 'Live Location',
+                    location: 'Jaipur, Rajasthan',
+                    userType: 'Farmer',
+                    images: ['🗺️', '✅'],
+                    response: 'बहुत खुशी की बात है लक्ष्मी जी! हमारा लक्ष्य यही है।'
+                }
+            ],
+            'equipment_rental': [
+                {
+                    id: 6,
+                    user: 'Mohan Lal',
+                    rating: 5,
+                    comment: 'Rented my John Deere tractor through KrishiSetu. Got 15+ bookings in first month. Excellent platform for equipment owners!',
+                    date: '2024-01-15',
+                    helpful: 41,
+                    notHelpful: 1,
+                    verified: true,
+                    category: 'Equipment Rental',
+                    location: 'Jaipur, Rajasthan',
+                    userType: 'Equipment Owner',
+                    images: ['🚜', '💰'],
+                    response: 'Fantastic Mohan! We are proud to help equipment owners maximize their earnings.'
+                },
+                {
+                    id: 7,
+                    user: 'Deepak Sharma',
+                    rating: 5,
+                    comment: 'Irrigation system rental saved my crop season. Quick delivery, fair pricing, and excellent support team.',
+                    date: '2024-01-14',
+                    helpful: 29,
+                    notHelpful: 2,
+                    verified: true,
+                    category: 'Equipment Rental',
+                    location: 'Sanganer, Rajasthan',
+                    userType: 'Farmer',
+                    images: ['💧', '🌾'],
+                    response: 'So happy to hear your crop season was saved Deepak! That is our mission.'
+                }
+            ],
+            'agro_waste': [
+                {
+                    id: 8,
+                    user: 'Anita Kumari',
+                    rating: 4,
+                    comment: 'Sold 500kg rice straw through the platform. Good prices and reliable buyers. Waste to wealth concept works!',
+                    date: '2024-01-13',
+                    helpful: 36,
+                    notHelpful: 4,
+                    verified: true,
+                    category: 'Agro Waste Trading',
+                    location: 'Chomu, Rajasthan',
+                    userType: 'Farmer',
+                    images: ['♻️', '💵'],
+                    response: 'Wonderful Anita! Converting waste to wealth is exactly what we aim for.'
+                },
+                {
+                    id: 9,
+                    user: 'Govind Meena',
+                    rating: 5,
+                    comment: 'Cotton stalks की अच्छी कीमत मिली। पहले यह सब जला देते थे, अब इससे पैसा कमा रहे हैं।',
+                    date: '2024-01-12',
+                    helpful: 44,
+                    notHelpful: 1,
+                    verified: true,
+                    category: 'Agro Waste Trading',
+                    location: 'Bagru, Rajasthan',
+                    userType: 'Farmer',
+                    images: ['🌿', '🔥'],
+                    response: 'बहुत बढ़िया गोविंद जी! पर्यावरण और आर्थिक दोनों फायदा हो रहा है।'
+                }
+            ]
         };
 
         // Core application functions
@@ -1132,6 +1639,619 @@
 
         function showNearbyItems() {
             showNotification('Showing items within 10km radius', 'info');
+            if (map && userLocation) {
+                map.setView([userLocation.lat, userLocation.lng], 14);
+            }
+        }
+
+        // Enhanced Map Functions
+        function showWeatherLayer() {
+            if (weatherLayer) {
+                map.removeLayer(weatherLayer);
+                weatherLayer = null;
+                showNotification('Weather layer hidden', 'info');
+                return;
+            }
+            
+            // Simulate weather data points around Jaipur
+            const weatherData = [
+                { lat: 26.8467, lng: 75.8056, temp: 28, humidity: 65, condition: '☀️ Sunny' },
+                { lat: 26.8567, lng: 75.8156, temp: 27, humidity: 68, condition: '⛅ Partly Cloudy' },
+                { lat: 26.8667, lng: 75.8256, temp: 29, humidity: 62, condition: '☀️ Clear' },
+                { lat: 26.8367, lng: 75.7956, temp: 26, humidity: 70, condition: '🌤️ Mostly Sunny' }
+            ];
+            
+            weatherLayer = L.layerGroup();
+            
+            weatherData.forEach(weather => {
+                const weatherIcon = L.divIcon({
+                    html: `<div class="bg-blue-500 text-white p-2 rounded-lg text-xs font-bold shadow-lg">
+                             ${weather.condition}<br>
+                             🌡️ ${weather.temp}°C<br>
+                             💧 ${weather.humidity}%
+                           </div>`,
+                    className: 'weather-marker',
+                    iconSize: [80, 60]
+                });
+                
+                L.marker([weather.lat, weather.lng], { icon: weatherIcon })
+                 .bindPopup(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-blue-800 mb-2">🌤️ Weather Report</h4>
+                        <p><strong>Condition:</strong> ${weather.condition}</p>
+                        <p><strong>Temperature:</strong> ${weather.temp}°C</p>
+                        <p><strong>Humidity:</strong> ${weather.humidity}%</p>
+                        <p><strong>Wind:</strong> 12 km/h NE</p>
+                        <p class="text-xs text-gray-600 mt-2">Perfect for farming activities!</p>
+                    </div>
+                 `)
+                 .addTo(weatherLayer);
+            });
+            
+            weatherLayer.addTo(map);
+            showNotification('Weather data loaded on map', 'success');
+        }
+
+        function showSoilData() {
+            // Simulate soil data points
+            const soilData = [
+                { lat: 26.8467, lng: 75.8056, ph: 7.2, nitrogen: 'High', phosphorus: 'Medium', potassium: 'High', type: 'Alluvial' },
+                { lat: 26.8567, lng: 75.8156, ph: 6.8, nitrogen: 'Medium', phosphorus: 'High', potassium: 'Medium', type: 'Clay Loam' },
+                { lat: 26.8667, lng: 75.8256, ph: 7.5, nitrogen: 'High', phosphorus: 'High', potassium: 'High', type: 'Sandy Loam' },
+                { lat: 26.8367, lng: 75.7956, ph: 6.5, nitrogen: 'Medium', phosphorus: 'Medium', potassium: 'High', type: 'Red Soil' }
+            ];
+            
+            soilData.forEach(soil => {
+                const soilColor = soil.ph > 7 ? '#8B4513' : soil.ph > 6.5 ? '#A0522D' : '#CD853F';
+                
+                L.circle([soil.lat, soil.lng], {
+                    color: soilColor,
+                    fillColor: soilColor,
+                    fillOpacity: 0.3,
+                    radius: 500
+                }).bindPopup(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-amber-800 mb-2">🌱 Soil Analysis</h4>
+                        <p><strong>Soil Type:</strong> ${soil.type}</p>
+                        <p><strong>pH Level:</strong> ${soil.ph}</p>
+                        <p><strong>Nitrogen:</strong> ${soil.nitrogen}</p>
+                        <p><strong>Phosphorus:</strong> ${soil.phosphorus}</p>
+                        <p><strong>Potassium:</strong> ${soil.potassium}</p>
+                        <div class="mt-2 p-2 bg-green-100 rounded text-xs">
+                            💡 <strong>Recommendation:</strong> Suitable for wheat, rice, and vegetables
+                        </div>
+                    </div>
+                `).addTo(map);
+            });
+            
+            showNotification('Soil data analysis loaded', 'success');
+        }
+
+        function showCropPrices() {
+            const priceData = [
+                { lat: 26.8467, lng: 75.8056, crop: 'Wheat', price: 2200, trend: '↗️ +5%', market: 'Jaipur Mandi' },
+                { lat: 26.8567, lng: 75.8156, crop: 'Rice', price: 3800, trend: '↘️ -2%', market: 'Sanganer Market' },
+                { lat: 26.8667, lng: 75.8256, crop: 'Cotton', price: 6500, trend: '↗️ +8%', market: 'Chomu Mandi' },
+                { lat: 26.8367, lng: 75.7956, crop: 'Mustard', price: 5200, trend: '→ 0%', market: 'Bagru Market' }
+            ];
+            
+            priceData.forEach(price => {
+                const priceIcon = L.divIcon({
+                    html: `<div class="bg-emerald-500 text-white p-2 rounded-lg text-xs font-bold shadow-lg">
+                             📈 ${price.crop}<br>
+                             ₹${price.price}/quintal<br>
+                             ${price.trend}
+                           </div>`,
+                    className: 'price-marker',
+                    iconSize: [90, 50]
+                });
+                
+                L.marker([price.lat, price.lng], { icon: priceIcon })
+                 .bindPopup(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-emerald-800 mb-2">📈 Market Prices</h4>
+                        <p><strong>Crop:</strong> ${price.crop}</p>
+                        <p><strong>Current Price:</strong> ₹${price.price}/quintal</p>
+                        <p><strong>Trend:</strong> ${price.trend}</p>
+                        <p><strong>Market:</strong> ${price.market}</p>
+                        <div class="mt-2 p-2 bg-blue-100 rounded text-xs">
+                            💰 <strong>AI Prediction:</strong> Prices expected to rise 3-5% next week
+                        </div>
+                    </div>
+                 `)
+                 .addTo(map);
+            });
+            
+            showNotification('Live crop prices loaded', 'success');
+        }
+
+        function toggleLiveTracking() {
+            liveTrackingEnabled = !liveTrackingEnabled;
+            const button = event.target;
+            
+            if (liveTrackingEnabled) {
+                button.textContent = 'Disable Live';
+                button.classList.remove('bg-green-600', 'hover:bg-green-700');
+                button.classList.add('bg-red-600', 'hover:bg-red-700');
+                
+                // Simulate live equipment tracking
+                setInterval(() => {
+                    if (liveTrackingEnabled) {
+                        updateLiveEquipment();
+                    }
+                }, 5000);
+                
+                showNotification('Live equipment tracking enabled', 'success');
+            } else {
+                button.textContent = 'Enable Live';
+                button.classList.remove('bg-red-600', 'hover:bg-red-700');
+                button.classList.add('bg-green-600', 'hover:bg-green-700');
+                showNotification('Live tracking disabled', 'info');
+            }
+        }
+
+        function updateLiveEquipment() {
+            // Simulate moving equipment
+            const liveEquipment = [
+                { lat: 26.8467 + (Math.random() - 0.5) * 0.01, lng: 75.8056 + (Math.random() - 0.5) * 0.01, name: 'Tractor #101', status: 'Working' },
+                { lat: 26.8567 + (Math.random() - 0.5) * 0.01, lng: 75.8156 + (Math.random() - 0.5) * 0.01, name: 'Harvester #205', status: 'Available' }
+            ];
+            
+            liveEquipment.forEach(equipment => {
+                const liveIcon = L.divIcon({
+                    html: `<div class="bg-purple-500 text-white p-1 rounded-full text-xs font-bold animate-pulse">
+                             🚜 ${equipment.name}<br>
+                             ${equipment.status}
+                           </div>`,
+                    className: 'live-marker',
+                    iconSize: [80, 40]
+                });
+                
+                L.marker([equipment.lat, equipment.lng], { icon: liveIcon })
+                 .bindPopup(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-purple-800 mb-2">🚜 Live Equipment</h4>
+                        <p><strong>Equipment:</strong> ${equipment.name}</p>
+                        <p><strong>Status:</strong> ${equipment.status}</p>
+                        <p><strong>Last Update:</strong> ${new Date().toLocaleTimeString()}</p>
+                        <button class="mt-2 bg-purple-600 text-white px-3 py-1 rounded text-xs">📞 Contact Operator</button>
+                    </div>
+                 `)
+                 .addTo(map);
+            });
+        }
+
+        function showCropZones() {
+            const cropZones = [
+                { bounds: [[26.84, 75.80], [26.85, 75.81]], crop: 'Wheat Zone', color: '#FFD700' },
+                { bounds: [[26.85, 75.81], [26.86, 75.82]], crop: 'Rice Zone', color: '#90EE90' },
+                { bounds: [[26.86, 75.82], [26.87, 75.83]], crop: 'Cotton Zone', color: '#F0E68C' },
+                { bounds: [[26.83, 75.79], [26.84, 75.80]], crop: 'Vegetable Zone', color: '#98FB98' }
+            ];
+            
+            cropZones.forEach(zone => {
+                L.rectangle(zone.bounds, {
+                    color: zone.color,
+                    fillColor: zone.color,
+                    fillOpacity: 0.3,
+                    weight: 2
+                }).bindPopup(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-yellow-800 mb-2">🌾 ${zone.crop}</h4>
+                        <p><strong>Area:</strong> 250 hectares</p>
+                        <p><strong>Soil Type:</strong> Alluvial</p>
+                        <p><strong>Irrigation:</strong> Canal + Tube well</p>
+                        <p><strong>Season:</strong> Rabi/Kharif</p>
+                    </div>
+                `).addTo(map);
+            });
+            
+            showNotification('Crop cultivation zones displayed', 'success');
+        }
+
+        function showMandis() {
+            const mandis = [
+                { lat: 26.8467, lng: 75.8056, name: 'Jaipur Central Mandi', type: 'Wholesale', timing: '6 AM - 6 PM' },
+                { lat: 26.8567, lng: 75.8156, name: 'Sanganer Agricultural Market', type: 'Retail', timing: '5 AM - 8 PM' },
+                { lat: 26.8667, lng: 75.8256, name: 'Chomu Grain Market', type: 'Wholesale', timing: '4 AM - 7 PM' },
+                { lat: 26.8367, lng: 75.7956, name: 'Bagru Vegetable Mandi', type: 'Fresh Produce', timing: '3 AM - 12 PM' }
+            ];
+            
+            mandis.forEach(mandi => {
+                const mandiIcon = L.divIcon({
+                    html: `<div class="bg-orange-500 text-white p-2 rounded-lg text-xs font-bold shadow-lg">
+                             🏪 ${mandi.name}<br>
+                             ${mandi.type}
+                           </div>`,
+                    className: 'mandi-marker',
+                    iconSize: [100, 50]
+                });
+                
+                L.marker([mandi.lat, mandi.lng], { icon: mandiIcon })
+                 .bindPopup(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-orange-800 mb-2">🏪 ${mandi.name}</h4>
+                        <p><strong>Type:</strong> ${mandi.type}</p>
+                        <p><strong>Timing:</strong> ${mandi.timing}</p>
+                        <p><strong>Facilities:</strong> Storage, Weighing, Banking</p>
+                        <div class="mt-2 space-x-2">
+                            <button class="bg-orange-600 text-white px-2 py-1 rounded text-xs">📍 Get Directions</button>
+                            <button class="bg-blue-600 text-white px-2 py-1 rounded text-xs">📞 Contact</button>
+                        </div>
+                    </div>
+                 `)
+                 .addTo(map);
+            });
+            
+            showNotification('Agricultural markets and mandis loaded', 'success');
+        }
+
+        function showTransport() {
+            const transportHubs = [
+                { lat: 26.8467, lng: 75.8056, name: 'Jaipur Transport Hub', vehicles: 25, type: 'Trucks & Tractors' },
+                { lat: 26.8567, lng: 75.8156, name: 'Sanganer Logistics', vehicles: 18, type: 'Mini Trucks' },
+                { lat: 26.8667, lng: 75.8256, name: 'Chomu Transport', vehicles: 12, type: 'Bullock Carts' },
+                { lat: 26.8367, lng: 75.7956, name: 'Bagru Freight', vehicles: 20, type: 'Tempo & Trucks' }
+            ];
+            
+            transportHubs.forEach(hub => {
+                const transportIcon = L.divIcon({
+                    html: `<div class="bg-red-500 text-white p-2 rounded-lg text-xs font-bold shadow-lg">
+                             🚛 ${hub.name}<br>
+                             ${hub.vehicles} vehicles
+                           </div>`,
+                    className: 'transport-marker',
+                    iconSize: [100, 50]
+                });
+                
+                L.marker([hub.lat, hub.lng], { icon: transportIcon })
+                 .bindPopup(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-red-800 mb-2">🚛 ${hub.name}</h4>
+                        <p><strong>Available Vehicles:</strong> ${hub.vehicles}</p>
+                        <p><strong>Vehicle Types:</strong> ${hub.type}</p>
+                        <p><strong>Rate:</strong> ₹15-25/km</p>
+                        <p><strong>Capacity:</strong> 1-10 tons</p>
+                        <div class="mt-2 space-x-2">
+                            <button class="bg-red-600 text-white px-2 py-1 rounded text-xs">📞 Book Now</button>
+                            <button class="bg-green-600 text-white px-2 py-1 rounded text-xs">💰 Get Quote</button>
+                        </div>
+                    </div>
+                 `)
+                 .addTo(map);
+            });
+            
+            showNotification('Transport and logistics hubs loaded', 'success');
+        }
+
+        function toggleLayer(layerType) {
+            const button = event.target;
+            
+            if (activeLayers.includes(layerType)) {
+                // Remove layer
+                activeLayers = activeLayers.filter(layer => layer !== layerType);
+                button.classList.remove('bg-blue-500', 'text-white');
+                button.classList.add('bg-gray-200', 'text-gray-700');
+                showNotification(`${layerType} layer hidden`, 'info');
+            } else {
+                // Add layer
+                activeLayers.push(layerType);
+                button.classList.remove('bg-gray-200', 'text-gray-700');
+                button.classList.add('bg-blue-500', 'text-white');
+                showNotification(`${layerType} layer activated`, 'success');
+            }
+        }
+
+        function clearAllLayers() {
+            // Clear all custom layers
+            if (weatherLayer) {
+                map.removeLayer(weatherLayer);
+                weatherLayer = null;
+            }
+            if (cropZoneLayer) {
+                map.removeLayer(cropZoneLayer);
+                cropZoneLayer = null;
+            }
+            
+            // Reset layer buttons
+            document.querySelectorAll('.layer-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            activeLayers = [];
+            showNotification('All layers cleared', 'info');
+        }
+
+        function toggleLiveLocation() {
+            const button = document.getElementById('liveLocationBtn');
+            
+            if (!liveLocationEnabled) {
+                // Request location permission
+                if (navigator.geolocation) {
+                    showNotification('Requesting location permission...', 'info');
+                    
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            enableLiveLocation(position);
+                            button.textContent = 'Disable Location';
+                            button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            button.classList.add('bg-red-600', 'hover:bg-red-700');
+                        },
+                        (error) => {
+                            handleLocationError(error);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 10000,
+                            maximumAge: 60000
+                        }
+                    );
+                } else {
+                    showNotification('Geolocation is not supported by this browser', 'error');
+                }
+            } else {
+                disableLiveLocation();
+                button.textContent = 'Enable Location';
+                button.classList.remove('bg-red-600', 'hover:bg-red-700');
+                button.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            }
+        }
+
+        function enableLiveLocation(position) {
+            liveLocationEnabled = true;
+            userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                accuracy: position.coords.accuracy
+            };
+            
+            // Add user location marker to map
+            if (userLocationMarker) {
+                map.removeLayer(userLocationMarker);
+            }
+            
+            const userIcon = L.divIcon({
+                html: `<div class="bg-blue-500 text-white p-2 rounded-full text-xs font-bold shadow-lg animate-pulse">
+                         📍 You<br>
+                         Live
+                       </div>`,
+                className: 'user-location-marker',
+                iconSize: [50, 50]
+            });
+            
+            userLocationMarker = L.marker([userLocation.lat, userLocation.lng], { icon: userIcon })
+                .bindPopup(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-blue-800 mb-2">📍 Your Live Location</h4>
+                        <p><strong>Latitude:</strong> ${userLocation.lat.toFixed(6)}</p>
+                        <p><strong>Longitude:</strong> ${userLocation.lng.toFixed(6)}</p>
+                        <p><strong>Accuracy:</strong> ±${Math.round(userLocation.accuracy)}m</p>
+                        <p><strong>Last Update:</strong> ${new Date().toLocaleTimeString()}</p>
+                        <div class="mt-2 p-2 bg-blue-100 rounded text-xs">
+                            🌐 <strong>Status:</strong> Location sharing enabled
+                        </div>
+                    </div>
+                `)
+                .addTo(map);
+            
+            // Center map on user location
+            map.setView([userLocation.lat, userLocation.lng], 15);
+            
+            // Start watching position for live updates
+            locationWatchId = navigator.geolocation.watchPosition(
+                updateUserLocation,
+                handleLocationError,
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 30000
+                }
+            );
+            
+            // Update accuracy display
+            updateLocationAccuracy(userLocation.accuracy);
+            
+            // Show nearby farmers
+            showNearbyFarmers();
+            
+            showNotification('Live location enabled! Your position is now being shared.', 'success');
+        }
+
+        function updateUserLocation(position) {
+            if (!liveLocationEnabled) return;
+            
+            userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                accuracy: position.coords.accuracy
+            };
+            
+            // Update marker position
+            if (userLocationMarker) {
+                userLocationMarker.setLatLng([userLocation.lat, userLocation.lng]);
+                
+                // Update popup content
+                userLocationMarker.setPopupContent(`
+                    <div class="p-3">
+                        <h4 class="font-bold text-blue-800 mb-2">📍 Your Live Location</h4>
+                        <p><strong>Latitude:</strong> ${userLocation.lat.toFixed(6)}</p>
+                        <p><strong>Longitude:</strong> ${userLocation.lng.toFixed(6)}</p>
+                        <p><strong>Accuracy:</strong> ±${Math.round(userLocation.accuracy)}m</p>
+                        <p><strong>Last Update:</strong> ${new Date().toLocaleTimeString()}</p>
+                        <div class="mt-2 p-2 bg-green-100 rounded text-xs">
+                            🟢 <strong>Status:</strong> Live tracking active
+                        </div>
+                    </div>
+                `);
+            }
+            
+            // Update accuracy display
+            updateLocationAccuracy(userLocation.accuracy);
+            
+            // Update nearby farmers
+            updateNearbyFarmers();
+        }
+
+        function disableLiveLocation() {
+            liveLocationEnabled = false;
+            
+            // Stop watching position
+            if (locationWatchId) {
+                navigator.geolocation.clearWatch(locationWatchId);
+                locationWatchId = null;
+            }
+            
+            // Remove user location marker
+            if (userLocationMarker) {
+                map.removeLayer(userLocationMarker);
+                userLocationMarker = null;
+            }
+            
+            // Clear nearby farmers
+            clearNearbyFarmers();
+            
+            // Reset accuracy display
+            document.getElementById('locationAccuracy').textContent = 'Disabled';
+            document.getElementById('locationAccuracy').className = 'bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-bold';
+            
+            showNotification('Live location disabled', 'info');
+        }
+
+        function handleLocationError(error) {
+            let message = 'Location access failed: ';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message += 'Permission denied. Please allow location access.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message += 'Location information unavailable.';
+                    break;
+                case error.TIMEOUT:
+                    message += 'Location request timed out.';
+                    break;
+                default:
+                    message += 'Unknown error occurred.';
+                    break;
+            }
+            showNotification(message, 'error');
+        }
+
+        function updateLocationAccuracy(accuracy) {
+            const accuracyElement = document.getElementById('locationAccuracy');
+            
+            if (accuracy <= 10) {
+                accuracyElement.textContent = `High (±${Math.round(accuracy)}m)`;
+                accuracyElement.className = 'bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-bold';
+            } else if (accuracy <= 50) {
+                accuracyElement.textContent = `Medium (±${Math.round(accuracy)}m)`;
+                accuracyElement.className = 'bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-bold';
+            } else {
+                accuracyElement.textContent = `Low (±${Math.round(accuracy)}m)`;
+                accuracyElement.className = 'bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-bold';
+            }
+        }
+
+        function showNearbyFarmers() {
+            if (!userLocation) return;
+            
+            // Simulate nearby farmers based on user location
+            nearbyFarmers = [
+                {
+                    id: 'farmer1',
+                    name: 'Ramesh Kumar',
+                    lat: userLocation.lat + 0.002,
+                    lng: userLocation.lng + 0.001,
+                    status: 'online',
+                    crop: 'Wheat',
+                    distance: 0.3
+                },
+                {
+                    id: 'farmer2', 
+                    name: 'Priya Sharma',
+                    lat: userLocation.lat - 0.001,
+                    lng: userLocation.lng + 0.003,
+                    status: 'online',
+                    crop: 'Rice',
+                    distance: 0.5
+                },
+                {
+                    id: 'farmer3',
+                    name: 'Suresh Patel',
+                    lat: userLocation.lat + 0.003,
+                    lng: userLocation.lng - 0.002,
+                    status: 'online',
+                    crop: 'Cotton',
+                    distance: 0.7
+                }
+            ];
+            
+            // Add farmer markers to map
+            nearbyFarmers.forEach(farmer => {
+                const farmerIcon = L.divIcon({
+                    html: `<div class="bg-green-500 text-white p-1 rounded-full text-xs font-bold shadow-lg">
+                             👨‍🌾 ${farmer.name}<br>
+                             🟢 ${farmer.status}
+                           </div>`,
+                    className: 'farmer-marker',
+                    iconSize: [80, 40]
+                });
+                
+                const farmerMarker = L.marker([farmer.lat, farmer.lng], { icon: farmerIcon })
+                    .bindPopup(`
+                        <div class="p-3">
+                            <h4 class="font-bold text-green-800 mb-2">👨‍🌾 ${farmer.name}</h4>
+                            <p><strong>Status:</strong> 🟢 ${farmer.status}</p>
+                            <p><strong>Primary Crop:</strong> ${farmer.crop}</p>
+                            <p><strong>Distance:</strong> ${farmer.distance} km away</p>
+                            <p><strong>Last Seen:</strong> Just now</p>
+                            <div class="mt-2 space-x-2">
+                                <button class="bg-green-600 text-white px-2 py-1 rounded text-xs">💬 Chat</button>
+                                <button class="bg-blue-600 text-white px-2 py-1 rounded text-xs">📞 Call</button>
+                            </div>
+                        </div>
+                    `)
+                    .addTo(map);
+                
+                farmer.marker = farmerMarker;
+            });
+            
+            // Update active farmers count
+            updateActiveFarmersCount();
+        }
+
+        function updateNearbyFarmers() {
+            // Simulate farmers moving or going online/offline
+            const onlineCount = Math.floor(Math.random() * 5) + 8; // 8-12 farmers online
+            updateActiveFarmersCount(onlineCount);
+        }
+
+        function clearNearbyFarmers() {
+            nearbyFarmers.forEach(farmer => {
+                if (farmer.marker) {
+                    map.removeLayer(farmer.marker);
+                }
+            });
+            nearbyFarmers = [];
+            
+            // Reset farmers count
+            document.getElementById('activeFarmersCount').textContent = '0 Online';
+            document.getElementById('activeFarmersCount').className = 'bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-bold';
+        }
+
+        function updateActiveFarmersCount(count = null) {
+            const actualCount = count || nearbyFarmers.length + Math.floor(Math.random() * 8) + 5;
+            const countElement = document.getElementById('activeFarmersCount');
+            
+            countElement.textContent = `${actualCount} Online`;
+            
+            if (actualCount >= 10) {
+                countElement.className = 'bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-bold';
+            } else if (actualCount >= 5) {
+                countElement.className = 'bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-bold';
+            } else {
+                countElement.className = 'bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-bold';
+            }
         }
 
         function showAddItemModal() {
@@ -1276,16 +2396,381 @@
 
         function toggleLanguage() {
             currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
-            document.getElementById('languageToggle').textContent = currentLanguage === 'en' ? '🌐 हिंदी' : '🌐 English';
+            document.getElementById('languageToggle').textContent = translations[currentLanguage]['language'];
+            
+            // Update all translatable elements
+            updatePageTranslations();
+            
+            showNotification(currentLanguage === 'hi' ? 'भाषा हिंदी में बदली गई' : 'Language changed to English', 'success');
+        }
+
+        function updatePageTranslations() {
+            // Update navigation
+            document.querySelector('.home-text').textContent = `🏠 ${translations[currentLanguage]['home']}`;
+            document.querySelector('.map-text').textContent = `🗺️ ${translations[currentLanguage]['map']}`;
+            document.querySelector('.cart-text').textContent = `🛒 ${translations[currentLanguage]['cart']}`;
+            
+            // Update all elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+            
+            // Update main content based on current section
+            if (currentSection === 'home') {
+                updateHomePageTranslations();
+            } else if (currentSection === 'cart') {
+                updateCartTranslations();
+            }
+            
+            // Reload reviews with current language
+            loadCustomerReviews();
+        }
+
+        function updateHomePageTranslations() {
+            // Hero section
+            document.querySelector('h2').innerHTML = `${translations[currentLanguage]['smartAgriculture']}<br><span class="text-yellow-300">${translations[currentLanguage]['equipmentRental']}</span>`;
+            document.querySelector('p').textContent = translations[currentLanguage]['connectDirectly'];
+            
+            // Buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                if (button.textContent.includes('Start Listing')) {
+                    button.textContent = translations[currentLanguage]['startListing'];
+                } else if (button.textContent.includes('Download App')) {
+                    button.textContent = translations[currentLanguage]['downloadApp'];
+                }
+            });
+            
+            // Categories section
+            const categoryTitle = document.querySelector('h2.text-4xl');
+            if (categoryTitle && categoryTitle.textContent.includes('Agricultural Categories')) {
+                categoryTitle.textContent = translations[currentLanguage]['agriculturalCategories'];
+            }
+            
+            const categoryDesc = document.querySelector('p.text-center.text-gray-600');
+            if (categoryDesc && categoryDesc.textContent.includes('Choose your category')) {
+                categoryDesc.textContent = translations[currentLanguage]['chooseCategoryExplore'];
+            }
+        }
+
+        function updateCartTranslations() {
+            const cartTitle = document.querySelector('#cartSection h2');
+            if (cartTitle) {
+                cartTitle.innerHTML = `<span class="mr-3">🛒</span> ${translations[currentLanguage]['yourCart']}`;
+            }
+        }
+
+        let currentReviewFilter = 'all';
+        let displayedReviewsCount = 3;
+
+        function loadCustomerReviews() {
+            const reviewsContainer = document.getElementById('reviewsContainer');
+            let allReviews = [];
+            
+            // Combine all reviews based on filter
+            if (currentReviewFilter === 'all') {
+                allReviews = [
+                    ...customerReviews['platform'],
+                    ...customerReviews['live_location'],
+                    ...customerReviews['equipment_rental'],
+                    ...customerReviews['agro_waste']
+                ].sort((a, b) => new Date(b.date) - new Date(a.date));
+            } else {
+                allReviews = customerReviews[currentReviewFilter] || [];
+            }
+            
+            // Show only the first few reviews initially
+            const reviewsToShow = allReviews.slice(0, displayedReviewsCount);
+            
+            reviewsContainer.innerHTML = reviewsToShow.map(review => {
+                const stars = '⭐'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                const userTypeIcon = review.userType === 'Farmer' ? '👨‍🌾' : review.userType === 'Equipment Owner' ? '🚜' : '👤';
+                
+                return `
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                        <!-- Review Header -->
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                                    ${userTypeIcon}
+                                </div>
+                                <div>
+                                    <div class="flex items-center space-x-2">
+                                        <h5 class="font-semibold text-gray-800">${review.user}</h5>
+                                        ${review.verified ? '<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">✓ Verified</span>' : ''}
+                                    </div>
+                                    <div class="flex items-center space-x-2 text-xs text-gray-500">
+                                        <span>${userTypeIcon} ${review.userType}</span>
+                                        <span>•</span>
+                                        <span>📍 ${review.location}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-yellow-500 text-sm mb-1">${stars}</div>
+                                <span class="text-xs text-gray-500">${review.date}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Category Badge -->
+                        <div class="mb-3">
+                            <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full font-medium">
+                                ${review.category}
+                            </span>
+                        </div>
+                        
+                        <!-- Review Content -->
+                        <p class="text-gray-700 text-sm mb-4 leading-relaxed">${review.comment}</p>
+                        
+                        <!-- Review Images -->
+                        ${review.images ? `
+                            <div class="flex space-x-2 mb-4">
+                                ${review.images.map(img => `<span class="text-2xl">${img}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        <!-- Company Response -->
+                        ${review.response ? `
+                            <div class="bg-blue-50 border-l-4 border-blue-400 p-3 mb-4 rounded-r-lg">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <span class="text-blue-600 font-semibold text-xs">🏢 KrishiSetu Team Response:</span>
+                                </div>
+                                <p class="text-blue-800 text-xs">${review.response}</p>
+                            </div>
+                        ` : ''}
+                        
+                        <!-- Review Actions -->
+                        <div class="flex justify-between items-center pt-3 border-t border-gray-100">
+                            <div class="flex space-x-4">
+                                <button onclick="markHelpful(${review.id})" class="flex items-center space-x-1 text-xs text-green-600 hover:text-green-800 transition-colors">
+                                    <span>👍</span>
+                                    <span data-translate="helpful">${translations[currentLanguage]['helpful']}</span>
+                                    <span class="font-semibold">(${review.helpful})</span>
+                                </button>
+                                <button onclick="markNotHelpful(${review.id})" class="flex items-center space-x-1 text-xs text-red-600 hover:text-red-800 transition-colors">
+                                    <span>👎</span>
+                                    <span data-translate="notHelpful">${translations[currentLanguage]['notHelpful']}</span>
+                                    <span class="font-semibold">(${review.notHelpful || 0})</span>
+                                </button>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button onclick="shareReview(${review.id})" class="text-xs text-blue-600 hover:text-blue-800">
+                                    📤 Share
+                                </button>
+                                <button onclick="reportReview(${review.id})" class="text-xs text-gray-500 hover:text-gray-700">
+                                    🚩 Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Show/hide load more button
+            const loadMoreBtn = document.querySelector('button[onclick="loadMoreReviews()"]');
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = displayedReviewsCount >= allReviews.length ? 'none' : 'block';
+            }
+        }
+
+        function filterReviews() {
+            const filterSelect = document.getElementById('reviewFilter');
+            currentReviewFilter = filterSelect.value;
+            displayedReviewsCount = 3; // Reset count when filtering
+            loadCustomerReviews();
+            
+            showNotification(
+                currentLanguage === 'hi' ? 
+                `${filterSelect.options[filterSelect.selectedIndex].text} समीक्षाएं दिखाई जा रही हैं` : 
+                `Showing ${filterSelect.options[filterSelect.selectedIndex].text}`, 
+                'info'
+            );
+        }
+
+        function loadMoreReviews() {
+            displayedReviewsCount += 3;
+            loadCustomerReviews();
+            
+            showNotification(
+                currentLanguage === 'hi' ? 
+                'अधिक समीक्षाएं लोड की गईं' : 
+                'More reviews loaded', 
+                'success'
+            );
+        }
+
+        function showWriteReviewModal() {
+            document.getElementById('writeReviewModal').classList.remove('hidden');
+            setRating(5); // Default to 5 stars
+        }
+
+        function closeWriteReviewModal() {
+            document.getElementById('writeReviewModal').classList.add('hidden');
+            document.getElementById('writeReviewModal').querySelector('form').reset();
+            setRating(5);
+        }
+
+        function setRating(rating) {
+            document.getElementById('reviewRating').value = rating;
+            
+            // Update star display
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('text-gray-300');
+                    star.classList.add('text-yellow-500');
+                } else {
+                    star.classList.remove('text-yellow-500');
+                    star.classList.add('text-gray-300');
+                }
+            });
+        }
+
+        function handleSubmitReview(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const reviewCategory = formData.get('reviewCategory') || 'platform';
+            
+            const newReview = {
+                id: Date.now(),
+                user: formData.get('reviewerName'),
+                rating: parseInt(formData.get('rating')),
+                comment: formData.get('reviewComment'),
+                date: new Date().toISOString().split('T')[0],
+                helpful: 0,
+                notHelpful: 0,
+                verified: false,
+                category: getCategoryDisplayName(reviewCategory),
+                location: 'Your Location',
+                userType: formData.get('userType') || 'Farmer',
+                images: ['⭐', '📝'],
+                response: null
+            };
+            
+            // Add to appropriate reviews category
+            if (!customerReviews[reviewCategory]) {
+                customerReviews[reviewCategory] = [];
+            }
+            customerReviews[reviewCategory].unshift(newReview);
+            
+            // Reload reviews
+            loadCustomerReviews();
+            
+            // Close modal
+            closeWriteReviewModal();
+            
+            showNotification(
+                currentLanguage === 'hi' ? 
+                'आपकी समीक्षा सफलतापूर्वक जोड़ी गई!' : 
+                'Your review has been added successfully!', 
+                'success'
+            );
+        }
+
+        function getCategoryDisplayName(category) {
+            const categoryNames = {
+                'platform': 'Platform Experience',
+                'live_location': 'Live Location',
+                'equipment_rental': 'Equipment Rental',
+                'agro_waste': 'Agro Waste Trading'
+            };
+            return categoryNames[category] || 'General';
+        }
+
+        function markHelpful(reviewId) {
+            // Find review in any category
+            let review = null;
+            for (const category in customerReviews) {
+                review = customerReviews[category].find(r => r.id === reviewId);
+                if (review) break;
+            }
+            
+            if (review) {
+                review.helpful += 1;
+                loadCustomerReviews();
+                showNotification(
+                    currentLanguage === 'hi' ? 
+                    'समीक्षा को उपयोगी के रूप में चिह्नित किया गया' : 
+                    'Marked as helpful', 
+                    'success'
+                );
+            }
+        }
+
+        function markNotHelpful(reviewId) {
+            // Find review in any category
+            let review = null;
+            for (const category in customerReviews) {
+                review = customerReviews[category].find(r => r.id === reviewId);
+                if (review) break;
+            }
+            
+            if (review) {
+                review.notHelpful = (review.notHelpful || 0) + 1;
+                loadCustomerReviews();
+                showNotification(
+                    currentLanguage === 'hi' ? 
+                    'फीडबैक के लिए धन्यवाद' : 
+                    'Thanks for your feedback', 
+                    'info'
+                );
+            }
+        }
+
+        function shareReview(reviewId) {
+            // Find review in any category
+            let review = null;
+            for (const category in customerReviews) {
+                review = customerReviews[category].find(r => r.id === reviewId);
+                if (review) break;
+            }
+            
+            if (review) {
+                const shareText = `Check out this review on KrishiSetu: "${review.comment}" - ${review.user} (${review.rating}⭐)`;
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'KrishiSetu Review',
+                        text: shareText,
+                        url: window.location.href
+                    });
+                } else {
+                    // Fallback to clipboard
+                    navigator.clipboard.writeText(shareText).then(() => {
+                        showNotification(
+                            currentLanguage === 'hi' ? 
+                            'समीक्षा क्लिपबोर्ड में कॉपी की गई' : 
+                            'Review copied to clipboard', 
+                            'success'
+                        );
+                    });
+                }
+            }
+        }
+
+        function reportReview(reviewId) {
+            showNotification(
+                currentLanguage === 'hi' ? 
+                'समीक्षा रिपोर्ट की गई। हम इसकी जांच करेंगे।' : 
+                'Review reported. We will investigate this.', 
+                'info'
+            );
         }
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            // Load customer reviews
+            loadCustomerReviews();
+            
             // Show welcome notification
             setTimeout(() => {
                 showNotification('Welcome to KrishiSetu! Explore our smart agricultural marketplace.', 'success');
             }, 1000);
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98437658f2dc8aee',t:'MTc1ODcyOTI4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984b5ef442c454fb',t:'MTc1ODgxMjIxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
