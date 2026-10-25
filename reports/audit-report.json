@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-10-25T07:38:49.830Z",
+  "manifestFound": true,
+  "totalFeatures": 19,
+  "verifiedFeatures": 18,
+  "orphanedFeatures": [],
+  "duplicateIds": [],
+  "missingElements": [
+    {
+      "featureId": "FEAT-PAYMENT-01",
+      "missingId": "paymentGatewayModal"
+    }
+  ],
+  "disallowedStyles": [],
+  "summary": {
+    "status": "PASSED",
+    "passedChecks": 4,
+    "failedChecks": 0,
+    "warnings": 0
+  }
+}
