@@ -130,6 +130,15 @@ async function bootstrapApp() {
 
   // 9. Update static translations
   updateTranslationsOnPage();
+
+  // 10. Ensure background hero video autoplays safely across browsers
+  const heroVideo = document.getElementById('heroBgVideo') || document.querySelector('#homeSection video');
+  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.play().catch(err => {
+      console.warn('Hero video autoplay deferred until user interaction:', err);
+    });
+  }
 }
 
 function setupEventListeners() {
