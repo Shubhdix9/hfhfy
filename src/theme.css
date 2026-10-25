@@ -126,3 +126,8 @@ body {
   color: var(--forest-800);
   font-weight: 700;
 }
+
+/* Modals & Backdrops: Always top of stacking order, above Leaflet map tiles (z-400), controls (z-1000), and drawers (z-3000) */
+.modal-backdrop {
+  z-index: 99999 !important;
+}
