@@ -19,8 +19,8 @@ export const providerData = {
     { id: 'DIS-202', warehouse: 'WH-1', commodity: 'Mustard Seed Lots', quantity: '15 MT', destination: 'Alwar Oil Extraction Plant', dispatchDate: '2026-03-20', status: 'Delivered' }
   ],
   transportVehicles: [
-    { id: 'TR-1', vehicle: 'Eicher Pro 2049 (Commercial Mini Truck)', capacity: '2.5 Tonnes', ratePerKm: 35, baseFare: 800, status: 'Available for Hire', driver: 'Mohan Gurjar', route: 'Mahapura ⇄ Sanganer Mandi ⇄ Bagru' },
-    { id: 'TR-2', vehicle: 'Heavy Farm Tractor Trolley (Twin Axle)', capacity: '5.0 Tonnes', ratePerKm: 45, baseFare: 1200, status: 'Scheduled for Tomorrow', driver: 'Sukhdev Singh', route: 'Ajmer Road Belt Farms ⇄ Warehouses' }
+    { id: 'TR-1', vehicle: 'Eicher Pro 2049 (Commercial Mini Truck)', capacity: '2.5 Tonnes', ratePerKm: 35, baseFare: 800, status: 'Available for Hire', driver: 'Mohan Gurjar', route: 'Mahapura ⇄ Sanganer Mandi ⇄ Bagru', imageUrl: '/images/indian-agri-truck.jpg' },
+    { id: 'TR-2', vehicle: 'Heavy Farm Tractor Trolley (Twin Axle)', capacity: '5.0 Tonnes', ratePerKm: 45, baseFare: 1200, status: 'Scheduled for Tomorrow', driver: 'Sukhdev Singh', route: 'Ajmer Road Belt Farms ⇄ Warehouses', imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80' }
   ],
   transportDeliveries: [
     { id: 'DEL-301', bookingRef: 'ORD-7821', from: 'Mahapura Plot 412', to: 'Jaipur Wholesale Yard', distanceKm: 24, status: 'Delivery Confirmed (POD Signed)', date: '2026-03-22' }
@@ -203,14 +203,27 @@ export function renderTransporterPanel(containerId) {
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         ${providerData.transportVehicles.map(v => `
-          <div class="bg-white p-5 rounded-xl border border-stone-200 text-xs space-y-2 shadow-sm">
-            <div class="flex justify-between items-start">
-              <h4 class="font-bold text-stone-900 text-sm">${v.vehicle}</h4>
-              <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">${v.status}</span>
+          <div class="bg-white rounded-xl border border-stone-200 text-xs overflow-hidden shadow-sm flex flex-col">
+            ${v.imageUrl ? `
+              <div class="relative h-44 w-full bg-stone-100 overflow-hidden">
+                <img src="${v.imageUrl}" alt="${v.vehicle}" class="w-full h-full object-cover">
+                <span class="absolute top-2.5 right-2.5 px-2 py-0.5 bg-[#1b4332]/90 text-white backdrop-blur-sm rounded font-bold text-[10px] shadow">
+                  ${v.status}
+                </span>
+                <span class="absolute bottom-2.5 left-2.5 px-2 py-0.5 bg-black/60 text-white backdrop-blur-sm rounded font-semibold text-[10px]">
+                  📷 Real Verified Vehicle
+                </span>
+              </div>
+            ` : ''}
+            <div class="p-4 space-y-2 flex-1">
+              <div class="flex justify-between items-start">
+                <h4 class="font-bold text-stone-900 text-sm">${v.vehicle}</h4>
+                ${!v.imageUrl ? `<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">${v.status}</span>` : ''}
+              </div>
+              <p class="text-stone-600">Payload Capacity: <strong>${v.capacity}</strong> · Driver: <strong>${v.driver}</strong></p>
+              <p class="text-stone-600">Rate: <strong>₹${v.ratePerKm}/km</strong> (Base Fare: ₹${v.baseFare})</p>
+              <p class="text-stone-500 text-[11px]">Primary Corridor: ${v.route}</p>
             </div>
-            <p class="text-stone-600">Payload Capacity: <strong>${v.capacity}</strong> · Driver: <strong>${v.driver}</strong></p>
-            <p class="text-stone-600">Rate: <strong>₹${v.ratePerKm}/km</strong> (Base Fare: ₹${v.baseFare})</p>
-            <p class="text-stone-500 text-[11px]">Primary Corridor: ${v.route}</p>
           </div>
         `).join('')}
       </div>

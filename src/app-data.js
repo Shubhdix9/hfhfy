@@ -189,7 +189,7 @@ export const baselineMarketplaceItems = [
     lng: 75.6420,
     farmer: 'Mohan Gurjar (Logistics)',
     isVerified: true,
-    imageUrl: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=600&q=80',
+    imageUrl: '/images/indian-agri-truck.jpg',
     description: 'Dedicated 2.5-tonne commercial agricultural transport vehicle for farm-to-mandi, grain haulage, and warehouse deliveries.'
   },
   {
