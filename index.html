@@ -122,40 +122,33 @@
         <!-- ================================================================== -->
         <section id="homeSection" class="app-section space-y-12">
 
-            <!-- Hero Section with Farmland Video Background -->
-            <div class="relative rounded-3xl overflow-hidden border border-[#2d6a4f]/50 shadow-2xl min-h-[460px] md:min-h-[530px] flex items-center justify-center text-center p-6 md:p-14">
+            <!-- Hero Section with Farmland Video Background (Significantly Increased Size) -->
+            <div class="relative rounded-3xl overflow-hidden border border-[#2d6a4f]/50 shadow-2xl min-h-[640px] md:min-h-[780px] lg:min-h-[840px] flex items-center justify-center text-center p-6 md:p-20">
                 <!-- Background Farmland Video (Autoplay, Loop, Muted, PlaysInline) -->
                 <video id="heroBgVideo" autoplay loop muted playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover">
+                    <source id="heroVideoR2Source" src="" type="video/mp4">
                     <source src="/hero-video.mp4" type="video/mp4">
                     <source src="/video%20for%20the%20websites.mp4" type="video/mp4">
                 </video>
 
                 <!-- Cinematic Dark Scrim Overlay (ensures maximum readability for text & buttons) -->
-                <div class="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-black/80 backdrop-brightness-90"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-black/65 via-black/45 to-black/80 backdrop-brightness-95"></div>
 
                 <!-- Centered Content matching User Reference Design -->
-                <div class="max-w-4xl mx-auto space-y-6 relative z-10 text-white">
-                    <div class="inline-flex items-center space-x-2 px-4 py-1.5 bg-black/40 backdrop-blur-md border border-white/25 rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-200 shadow-md">
-                        <span>📍 Centred at JKLU Mahapura, Ajmer Road, Jaipur</span>
-                    </div>
-
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.15] tracking-tight text-white drop-shadow-lg">
+                <div class="max-w-4xl mx-auto space-y-8 relative z-10 text-white">
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.12] tracking-tight text-white drop-shadow-xl">
                         Everything your farm needs,<br class="hidden sm:inline"> connected in one place.
                     </h2>
 
-                    <p class="text-stone-200 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto drop-shadow font-normal">
-                        Discover crop buyers, rent farm machinery, find agricultural services, arrange storage and transportation, and manage your farming activities through one practical platform.
-                    </p>
-
                     <!-- Reference Pill Button Styling -->
-                    <div class="pt-3 flex flex-wrap items-center justify-center gap-3.5">
+                    <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
                         <button onclick="window.__navigateToSection('map')"
-                                class="bg-[#2d6a4f] hover:bg-[#1b4332] text-white font-bold px-7 py-3.5 rounded-full border border-emerald-400/40 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-0.5 text-xs sm:text-sm flex items-center space-x-2">
+                                class="bg-[#2d6a4f] hover:bg-[#1b4332] text-white font-bold px-8 py-4 rounded-full border border-emerald-400/40 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-0.5 text-sm md:text-base flex items-center space-x-2">
                             <span>Explore Crop Marketplace</span>
                             <span>&rarr;</span>
                         </button>
                         <button onclick="window.__navigateToSection('farmer')"
-                                class="bg-black/50 hover:bg-black/75 text-white font-semibold px-7 py-3.5 rounded-full border border-white/35 backdrop-blur-md shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-xs sm:text-sm">
+                                class="bg-black/50 hover:bg-black/75 text-white font-semibold px-8 py-4 rounded-full border border-white/35 backdrop-blur-md shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-sm md:text-base">
                             Open Farmer Dashboard
                         </button>
                     </div>

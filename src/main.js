@@ -131,9 +131,17 @@ async function bootstrapApp() {
   // 9. Update static translations
   updateTranslationsOnPage();
 
-  // 10. Ensure background hero video autoplays safely across browsers
+  // 10. Ensure background hero video streams from Cloudflare R2 (if configured) with local fallback
   const heroVideo = document.getElementById('heroBgVideo') || document.querySelector('#homeSection video');
   if (heroVideo) {
+    const remoteVideoUrl = appConfig?.homepageVideoUrl || import.meta.env?.VITE_HOMEPAGE_VIDEO_URL;
+    if (remoteVideoUrl && remoteVideoUrl.trim() !== '') {
+      const r2Source = document.getElementById('heroVideoR2Source');
+      if (r2Source) {
+        r2Source.src = remoteVideoUrl.trim();
+        heroVideo.load();
+      }
+    }
     heroVideo.muted = true;
     heroVideo.play().catch(err => {
       console.warn('Hero video autoplay deferred until user interaction:', err);

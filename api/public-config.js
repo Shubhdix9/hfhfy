@@ -38,6 +38,7 @@ export default function handler(req, res) {
       isConfigured: isSupabaseConfigured
     },
     jkluAnchor: jkluAnchorData,
+    homepageVideoUrl: process.env.VITE_HOMEPAGE_VIDEO_URL || (process.env.R2_PUBLIC_BASE_URL ? `${process.env.R2_PUBLIC_BASE_URL.replace(/\/+$/, '')}/homepage-bg.mp4` : ''),
     environment: process.env.NODE_ENV || 'development',
     serverTimestamp: new Date().toISOString()
   }));

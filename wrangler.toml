@@ -1,0 +1,8 @@
+# Cloudflare Pages / Workers Configuration for KrishiSetu
+name = "krishisetu"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "dist"
+
+[vars]
+# Add non-secret public runtime variables here if needed
+NODE_VERSION = "20.18.0"
