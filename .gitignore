@@ -6,6 +6,7 @@ node_modules/
 # Build outputs & Large Media
 dist/
 dist-ssr/
+.vite/
 *.local
 *.mp4
 !public/images/*.mp4

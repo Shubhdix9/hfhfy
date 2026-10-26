@@ -352,7 +352,6 @@ function applyFiltersAndRender() {
   // Render pins on Google Map
   if (isGoogleMapsLoaded()) {
     renderListingsOnMap(filteredItems, (selected) => {
-      openDetailsDrawer(selected);
       highlightCard(selected.id);
     });
   }
@@ -423,7 +422,7 @@ function renderListingCards(items) {
                 <span class="text-sm font-black text-[#1b4332]">₹${item.price}</span>
                 <span class="text-[10px] text-stone-500">${item.unit || ''}</span>
               </div>
-              <button onclick="event.stopPropagation(); window.__selectListingCard('${item.id}')"
+              <button onclick="event.stopPropagation(); window.__openItemView('${item.id}')"
                       class="text-[11px] font-bold text-emerald-800 hover:underline">
                 View &rarr;
               </button>
@@ -435,14 +434,13 @@ function renderListingCards(items) {
   }).join('');
 }
 
-// Global hook for card selection
+// Global hook for card selection (pan map, draw route, NO popup)
 window.__selectListingCard = (id) => {
   const item = allItems.find(i => i.id === id);
   if (!item) return;
 
   selectedItem = item;
   highlightCard(id);
-  openDetailsDrawer(item);
 
   // Pan Map to pin and open popup
   if (item._marker && getGoogleMap()) {
@@ -450,7 +448,23 @@ window.__selectListingCard = (id) => {
     item._marker.openPopup();
   }
 
-  // Draw real driving route from JKLU via OSRM
+  // Draw real driving route from JKLU via OSRM cleanly without opening popup
+  drawOsrmDrivingRoute(item.lat, item.lng);
+};
+
+// Explicit "View" option hook — opens specifications modal dialog
+window.__openItemView = (id) => {
+  const item = allItems.find(i => i.id === id);
+  if (!item) return;
+
+  selectedItem = item;
+  highlightCard(id);
+
+  if (item._marker && getGoogleMap()) {
+    getGoogleMap().setView([item.lat, item.lng], 13);
+    item._marker.openPopup();
+  }
+
   drawOsrmDrivingRoute(item.lat, item.lng, (routeInfo) => {
     const roadEl = document.getElementById('drawerRoadDrivingInfo');
     if (roadEl) {
@@ -461,6 +475,8 @@ window.__selectListingCard = (id) => {
       }
     }
   });
+
+  openDetailsDrawer(item);
 };
 
 function highlightCard(id) {
@@ -620,8 +636,16 @@ function openDetailsDrawer(item) {
   `;
 
   drawer.classList.remove('hidden');
-  drawer.style.display = 'block';
-  drawer.scrollTop = 0;
+  drawer.style.display = 'flex';
+  const scrollBody = drawer.querySelector('.overflow-y-auto') || drawer;
+  scrollBody.scrollTop = 0;
+
+  // Backdrop click to close
+  drawer.onclick = (e) => {
+    if (e.target === drawer) {
+      closeDetailsDrawer();
+    }
+  };
 }
 
 function closeDetailsDrawer() {

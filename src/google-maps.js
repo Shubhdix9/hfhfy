@@ -400,9 +400,9 @@ export function renderListingsOnMap(items, onSelectListing) {
           🚗 Calculating road path from JKLU...
         </div>
 
-        <button onclick="window.__selectListingCard('${item.id}');"
+        <button onclick="if (window.__openItemView) { window.__openItemView('${item.id}'); } else { window.__selectListingCard('${item.id}'); }"
                 style="width: 100%; background: #1b4332; color: #ffffff; border: none; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: background 0.2s;">
-          View Details & Open Panel &rarr;
+          View Specifications & Offer &rarr;
         </button>
       </div>
     `;
@@ -425,7 +425,9 @@ export function renderListingsOnMap(items, onSelectListing) {
       const btn = document.getElementById(`marker-btn-${item.id}`);
       if (btn) {
         btn.onclick = () => {
-          if (window.__selectListingCard) {
+          if (window.__openItemView) {
+            window.__openItemView(item.id);
+          } else if (window.__selectListingCard) {
             window.__selectListingCard(item.id);
           } else if (onSelectListing) {
             onSelectListing(item);
