@@ -13,6 +13,7 @@ dotenv.config();
 dotenv.config({ path: '.env.local' });
 
 const CANDIDATE_PATHS = [
+  path.resolve('public/images/homepage-video.mp4'),
   path.resolve('public/images/video for the websites.mp4'),
   path.resolve('public/hero-video.mp4'),
   path.resolve('public/video for the websites.mp4')

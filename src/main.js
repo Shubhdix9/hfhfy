@@ -134,21 +134,37 @@ async function bootstrapApp() {
   // 10. Update static translations
   updateTranslationsOnPage();
 
-  // 10. Ensure background hero video streams from Cloudflare R2 (if configured) with local fallback
+  // 11. Ensure background hero video streams cleanly with Safari autoplay compliance
   const heroVideo = document.getElementById('heroBgVideo') || document.querySelector('#homeSection video');
   if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
+    heroVideo.setAttribute('muted', '');
+    heroVideo.setAttribute('playsinline', '');
+    heroVideo.setAttribute('webkit-playsinline', '');
+
     const remoteVideoUrl = appConfig?.homepageVideoUrl || import.meta.env?.VITE_HOMEPAGE_VIDEO_URL;
     if (remoteVideoUrl && remoteVideoUrl.trim() !== '') {
-      const r2Source = document.getElementById('heroVideoR2Source');
-      if (r2Source) {
-        r2Source.src = remoteVideoUrl.trim();
-        heroVideo.load();
-      }
+      heroVideo.src = remoteVideoUrl.trim();
+      heroVideo.load();
     }
-    heroVideo.muted = true;
-    heroVideo.play().catch(err => {
-      console.warn('Hero video autoplay deferred until user interaction:', err);
-    });
+
+    const attemptPlay = () => {
+      heroVideo.play().catch(err => {
+        console.info('Hero video autoplay waiting for user interaction:', err?.message);
+        const onFirstInteraction = () => {
+          heroVideo.play().catch(() => {});
+          window.removeEventListener('click', onFirstInteraction);
+          window.removeEventListener('touchstart', onFirstInteraction);
+          window.removeEventListener('scroll', onFirstInteraction);
+        };
+        window.addEventListener('click', onFirstInteraction, { once: true });
+        window.addEventListener('touchstart', onFirstInteraction, { once: true });
+        window.addEventListener('scroll', onFirstInteraction, { once: true });
+      });
+    };
+
+    attemptPlay();
   }
 }
 
