@@ -122,40 +122,33 @@
         <!-- ================================================================== -->
         <section id="homeSection" class="app-section space-y-12">
 
-            <!-- Hero Section with Farmland Video Background -->
-            <div class="relative rounded-3xl overflow-hidden border border-[#2d6a4f]/50 shadow-2xl min-h-[460px] md:min-h-[530px] flex items-center justify-center text-center p-6 md:p-14">
+            <!-- Hero Section with Farmland Video Background (Significantly Increased Size) -->
+            <div class="relative rounded-3xl overflow-hidden border border-[#2d6a4f]/50 shadow-2xl min-h-[640px] md:min-h-[780px] lg:min-h-[840px] flex items-center justify-center text-center p-6 md:p-20">
                 <!-- Background Farmland Video (Autoplay, Loop, Muted, PlaysInline) -->
                 <video id="heroBgVideo" autoplay loop muted playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover">
+                    <source id="heroVideoR2Source" src="" type="video/mp4">
                     <source src="/hero-video.mp4" type="video/mp4">
                     <source src="/video%20for%20the%20websites.mp4" type="video/mp4">
                 </video>
 
                 <!-- Cinematic Dark Scrim Overlay (ensures maximum readability for text & buttons) -->
-                <div class="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-black/80 backdrop-brightness-90"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-black/65 via-black/45 to-black/80 backdrop-brightness-95"></div>
 
                 <!-- Centered Content matching User Reference Design -->
-                <div class="max-w-4xl mx-auto space-y-6 relative z-10 text-white">
-                    <div class="inline-flex items-center space-x-2 px-4 py-1.5 bg-black/40 backdrop-blur-md border border-white/25 rounded-full text-xs font-semibold uppercase tracking-wider text-emerald-200 shadow-md">
-                        <span>📍 Centred at JKLU Mahapura, Ajmer Road, Jaipur</span>
-                    </div>
-
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.15] tracking-tight text-white drop-shadow-lg">
+                <div class="max-w-4xl mx-auto space-y-8 relative z-10 text-white">
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.12] tracking-tight text-white drop-shadow-xl">
                         Everything your farm needs,<br class="hidden sm:inline"> connected in one place.
                     </h2>
 
-                    <p class="text-stone-200 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto drop-shadow font-normal">
-                        Discover crop buyers, rent farm machinery, find agricultural services, arrange storage and transportation, and manage your farming activities through one practical platform.
-                    </p>
-
                     <!-- Reference Pill Button Styling -->
-                    <div class="pt-3 flex flex-wrap items-center justify-center gap-3.5">
+                    <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
                         <button onclick="window.__navigateToSection('map')"
-                                class="bg-[#2d6a4f] hover:bg-[#1b4332] text-white font-bold px-7 py-3.5 rounded-full border border-emerald-400/40 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-0.5 text-xs sm:text-sm flex items-center space-x-2">
+                                class="bg-[#2d6a4f] hover:bg-[#1b4332] text-white font-bold px-8 py-4 rounded-full border border-emerald-400/40 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-0.5 text-sm md:text-base flex items-center space-x-2">
                             <span>Explore Crop Marketplace</span>
                             <span>&rarr;</span>
                         </button>
                         <button onclick="window.__navigateToSection('farmer')"
-                                class="bg-black/50 hover:bg-black/75 text-white font-semibold px-7 py-3.5 rounded-full border border-white/35 backdrop-blur-md shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-xs sm:text-sm">
+                                class="bg-black/50 hover:bg-black/75 text-white font-semibold px-8 py-4 rounded-full border border-white/35 backdrop-blur-md shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-sm md:text-base">
                             Open Farmer Dashboard
                         </button>
                     </div>
@@ -591,6 +584,323 @@
                                 class="w-full bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold py-3.5 rounded-xl text-sm transition">
                             Proceed as Unpaid Request
                         </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================== -->
+        <!-- SECTION 11: DEDICATED FULL-PAGE AUTHENTICATION & LOGIN (SPLIT LAYOUT) -->
+        <!-- ================================================================== -->
+        <section id="loginSection" class="app-section hidden space-y-6">
+            <!-- Navigation Back Bar -->
+            <div class="flex items-center justify-between pb-2 border-b border-stone-200">
+                <button onclick="window.__navigateToSection('home')"
+                        class="text-xs font-bold text-stone-600 hover:text-[#1b4332] flex items-center space-x-1.5 transition">
+                    <span>&larr;</span>
+                    <span>Back to Home / वापिस जाएं</span>
+                </button>
+                <div class="flex items-center space-x-2 text-xs text-stone-500">
+                    <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                    <span>KrishiSetu Secure Access Portal</span>
+                </div>
+            </div>
+
+            <!-- Proper Split-Screen Authentication Container -->
+            <div id="authModal" class="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[660px]">
+                
+                <!-- LEFT COLUMN: Authentic Agricultural Image & Platform Trust Showcase (5 cols) -->
+                <div class="hidden lg:flex lg:col-span-5 relative bg-[#1b4332] text-white flex-col justify-between p-8 xl:p-10 overflow-hidden select-none">
+                    <!-- Background Image -->
+                    <img src="/images/farmer-login-bg.jpg" alt="Indian Farmer in Golden Wheat Field" class="absolute inset-0 w-full h-full object-cover object-top brightness-[0.88] contrast-[1.05]">
+                    <!-- Dark Gradient Scrim Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/60"></div>
+
+                    <!-- Top Brand Badge -->
+                    <div class="relative z-10 space-y-2">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-[11px] font-semibold text-emerald-200 border border-white/20">
+                            <span>🌱 KrishiSetu Agriculture Network</span>
+                        </div>
+                        <h3 class="text-2xl font-black text-white tracking-tight leading-snug">Connecting Indian Cultivators & Markets</h3>
+                        <p class="text-xs text-stone-200 leading-relaxed">Direct mandi linkage, equipment leasing, and transparent pricing for rural producers.</p>
+                    </div>
+
+                    <!-- Bottom Trust Points -->
+                    <div class="relative z-10 space-y-3 pt-6 border-t border-white/20 text-xs">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+                            <span class="text-stone-100 font-medium">Jamabandi land title verification</span>
+                        </div>
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+                            <span class="text-stone-100 font-medium">Official AGMARKNET mandi price feeds</span>
+                        </div>
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+                            <span class="text-stone-100 font-medium">Direct trade · Zero unofficial middlemen cuts</span>
+                        </div>
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+                            <span class="text-stone-100 font-medium">Integrated Rajasthan logistics & hauling</span>
+                        </div>
+                        <div class="pt-2 text-[10px] text-emerald-200/90 flex items-center space-x-1">
+                            <span>📍</span>
+                            <span>Geospatial Anchor: JKLU Mahapura, Ajmer Road, Jaipur</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Authentication Portal Forms & Actions (7 cols) -->
+                <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between">
+                    <div>
+                        <!-- Header -->
+                        <div class="mb-5 border-b border-stone-100 pb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-2xl">🌾</span>
+                                <div>
+                                    <h3 class="text-xl font-bold text-[#1b4332]" id="authModalTitle">KrishiSetu Account Portal</h3>
+                                    <p class="text-xs text-stone-500">Secure access for Farmers, Buyers, Transporters & Agri-Enterprises</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Session Banner (if signed in) -->
+                        <div id="authActiveSessionBanner" class="hidden mb-5 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-2xl">👨‍🌾</span>
+                                <div>
+                                    <p class="text-xs font-bold text-emerald-950" id="authActiveSessionName">Signed In</p>
+                                    <p class="text-[11px] text-emerald-700" id="authActiveSessionRole">Farmer · Mahapura</p>
+                                </div>
+                            </div>
+                            <button type="button" onclick="window.__logoutUser()"
+                                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs transition shadow-sm">
+                                Sign Out / लॉग आउट
+                            </button>
+                        </div>
+
+                        <!-- Auth Mode Navigation Tabs -->
+                        <div class="flex rounded-xl bg-stone-100 p-1 mb-5 text-xs font-semibold">
+                            <button type="button" id="tabBtnOtp" onclick="window.__switchAuthTab('otp')"
+                                    class="flex-1 py-2.5 rounded-lg bg-white text-[#1b4332] shadow-sm text-center transition">
+                                📱 Mobile OTP
+                            </button>
+                            <button type="button" id="tabBtnEmail" onclick="window.__switchAuthTab('email')"
+                                    class="flex-1 py-2.5 rounded-lg text-stone-600 hover:text-stone-900 text-center transition">
+                                ✉️ Email / Pass
+                            </button>
+                            <button type="button" id="tabBtnRegister" onclick="window.__switchAuthTab('register')"
+                                    class="flex-1 py-2.5 rounded-lg text-stone-600 hover:text-stone-900 text-center transition">
+                                📝 Register
+                            </button>
+                            <button type="button" id="tabBtnQuick" onclick="window.__switchAuthTab('quick')"
+                                    class="flex-1 py-2.5 rounded-lg text-stone-600 hover:text-stone-900 text-center transition">
+                                ⚡ Quick Demo
+                            </button>
+                        </div>
+
+                        <!-- Tab 1: Mobile OTP Login -->
+                        <div id="authSectionOtp" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-stone-700 mb-1">Select Role / भूमिका चुनें</label>
+                                <select id="authOtpRoleSelect" class="w-full text-xs p-2.5 rounded-lg border border-stone-300 bg-stone-50 focus:bg-white focus:ring-1 focus:ring-emerald-500">
+                                    <option value="farmer">👨‍🌾 Farmer / किसान (Mahapura - Jaipur)</option>
+                                    <option value="buyer">🛒 Agri Buyer / खरीदार (Mandi Trader)</option>
+                                    <option value="machinery">🚜 Machinery Fleet Owner / यंत्र स्वामी</option>
+                                    <option value="transporter">🚚 Transporter / वाहन संचालक</option>
+                                    <option value="warehouse">🏪 Warehouse Operator / भंडारण</option>
+                                    <option value="fpo">🌾 FPO Manager / एफपीओ</option>
+                                    <option value="admin">🔒 Platform Administrator / व्यवस्थापक</option>
+                                </select>
+                            </div>
+
+                            <div id="otpPhoneInputGroup">
+                                <label class="block text-xs font-semibold text-stone-700 mb-1">Mobile Number / मोबाइल नंबर</label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-3 text-xs font-bold text-stone-600 bg-stone-100 border border-r-0 border-stone-300 rounded-l-lg">+91</span>
+                                    <input type="tel" id="authMobileInput" maxlength="10" placeholder="9829012345"
+                                           class="flex-1 text-xs p-2.5 border border-stone-300 rounded-r-lg focus:ring-1 focus:ring-emerald-500 outline-none">
+                                </div>
+                                <p class="text-[11px] text-stone-500 mt-1">Standard Indian 10-digit mobile number</p>
+                                <button type="button" onclick="window.__handleRequestOtp()"
+                                        class="mt-3 w-full py-3 bg-[#1b4332] hover:bg-[#2d6a4f] text-white rounded-xl text-xs font-bold transition shadow-sm">
+                                    Get Verification OTP (ओटीपी भेजें) →
+                                </button>
+                            </div>
+
+                            <!-- OTP Verification Field (Shown after requesting OTP) -->
+                            <div id="otpVerifyGroup" class="hidden space-y-3 pt-2 border-t border-stone-100">
+                                <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800 flex items-center justify-between">
+                                    <span>OTP sent to <strong id="otpSentPhoneDisplay">+91 9829012345</strong></span>
+                                    <span class="text-[11px] font-bold bg-emerald-200 px-2 py-0.5 rounded">Demo OTP: 123456</span>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-stone-700 mb-1">Enter 6-Digit OTP / ओटीपी दर्ज करें</label>
+                                    <input type="text" id="authOtpCodeInput" maxlength="6" placeholder="123456"
+                                           class="w-full text-center tracking-widest text-base font-mono font-bold p-2.5 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button type="button" onclick="window.__handleVerifyOtp()"
+                                            class="flex-1 py-3 bg-[#1b4332] hover:bg-[#2d6a4f] text-white rounded-xl text-xs font-bold transition shadow-sm">
+                                        Verify & Sign In (सत्यापित करें)
+                                    </button>
+                                    <button type="button" onclick="window.__handleRequestOtp()"
+                                            class="px-4 py-3 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl text-xs font-semibold transition">
+                                        Resend
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 2: Email & Password -->
+                        <div id="authSectionEmail" class="hidden space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-stone-700 mb-1">Role / भूमिका</label>
+                                <select id="authEmailRoleSelect" class="w-full text-xs p-2.5 rounded-lg border border-stone-300 bg-stone-50 focus:bg-white focus:ring-1 focus:ring-emerald-500">
+                                    <option value="farmer">👨‍🌾 Farmer / किसान</option>
+                                    <option value="buyer">🛒 Agri Buyer / खरीदार</option>
+                                    <option value="machinery">🚜 Machinery Fleet Owner</option>
+                                    <option value="transporter">🚚 Transporter / वाहन संचालक</option>
+                                    <option value="warehouse">🏪 Warehouse Operator</option>
+                                    <option value="fpo">🌾 FPO Manager</option>
+                                    <option value="admin">🔒 Platform Administrator</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-stone-700 mb-1">Email Address / ईमेल</label>
+                                <input type="email" id="authEmailInput" placeholder="user@krishisetu.in"
+                                       class="w-full text-xs p-2.5 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-stone-700 mb-1">Password / पासवर्ड</label>
+                                <input type="password" id="authPasswordInput" placeholder="••••••••"
+                                       class="w-full text-xs p-2.5 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                            </div>
+                            <button type="button" onclick="window.__handleEmailLogin()"
+                                    class="w-full py-3 bg-[#1b4332] hover:bg-[#2d6a4f] text-white rounded-xl text-xs font-bold transition shadow-sm">
+                                Sign In with Email (लॉग इन) →
+                            </button>
+                        </div>
+
+                        <!-- Tab 3: New User Registration -->
+                        <div id="authSectionRegister" class="hidden space-y-3">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-semibold text-stone-700 mb-1">Full Name *</label>
+                                    <input type="text" id="regFullName" placeholder="e.g. Ramesh Kumar"
+                                           class="w-full text-xs p-2 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-stone-700 mb-1">Role *</label>
+                                    <select id="regRole" class="w-full text-xs p-2 border border-stone-300 rounded-lg bg-stone-50">
+                                        <option value="farmer">👨‍🌾 Farmer (किसान)</option>
+                                        <option value="buyer">🛒 Buyer (खरीदार)</option>
+                                        <option value="machinery">🚜 Machinery Owner</option>
+                                        <option value="transporter">🚚 Transporter</option>
+                                        <option value="warehouse">🏪 Warehouse Operator</option>
+                                        <option value="fpo">🌾 FPO Manager</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-semibold text-stone-700 mb-1">Mobile (+91) *</label>
+                                    <input type="tel" id="regPhone" maxlength="10" placeholder="10-digit number"
+                                           class="w-full text-xs p-2 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-stone-700 mb-1">Email (Optional)</label>
+                                    <input type="email" id="regEmail" placeholder="farmer@krishisetu.in"
+                                           class="w-full text-xs p-2 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-semibold text-stone-700 mb-1">Village / Locality</label>
+                                    <input type="text" id="regVillage" placeholder="e.g. Mahapura" value="Mahapura, Ajmer Road"
+                                           class="w-full text-xs p-2 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-stone-700 mb-1">District</label>
+                                    <input type="text" id="regDistrict" placeholder="e.g. Jaipur Rural" value="Jaipur Rural"
+                                           class="w-full text-xs p-2 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-stone-700 mb-1">Land / Permit / KCC Proof ID (Optional)</label>
+                                <input type="text" id="regDocumentId" placeholder="e.g. Jamabandi Khasra 319 / Commercial Permit RJ-14"
+                                       class="w-full text-xs p-2 border border-stone-300 rounded-lg focus:ring-1 focus:ring-emerald-500">
+                                <p class="text-[10px] text-stone-500 mt-0.5">Enables immediate "Verified" badge for trust in direct mandi deals.</p>
+                            </div>
+                            <button type="button" onclick="window.__handleRegisterUser()"
+                                    class="w-full py-3 bg-[#2d6a4f] hover:bg-[#1b4332] text-white rounded-xl text-xs font-bold transition shadow-sm mt-2">
+                                Complete Registration (पंजीकरण पूर्ण करें) →
+                            </button>
+                        </div>
+
+                        <!-- Tab 4: Quick Role Switcher (One-Click Demo Profiles) -->
+                        <div id="authSectionQuick" class="hidden space-y-3">
+                            <p class="text-xs text-stone-600 mb-2">Switch instantly between role personas verified in the Jaipur / JKLU rural cluster:</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-left">
+                                <button type="button" onclick="window.__quickLogin('farmer')"
+                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                    <span class="text-2xl">👨‍🌾</span>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Ramesh Kumar</p>
+                                        <p class="text-[11px] text-stone-500">Farmer · Mahapura (4.5 Ac)</p>
+                                    </div>
+                                </button>
+                                <button type="button" onclick="window.__quickLogin('buyer')"
+                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                    <span class="text-2xl">🛒</span>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Priya Sharma</p>
+                                        <p class="text-[11px] text-stone-500">Agri Buyer · Jaipur Mills</p>
+                                    </div>
+                                </button>
+                                <button type="button" onclick="window.__quickLogin('machinery')"
+                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                    <span class="text-2xl">🚜</span>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Sukhdev Gurjar</p>
+                                        <p class="text-[11px] text-stone-500">Machinery Owner · 50HP</p>
+                                    </div>
+                                </button>
+                                <button type="button" onclick="window.__quickLogin('transporter')"
+                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                    <span class="text-2xl">🚚</span>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Mohan Lal Gurjar</p>
+                                        <p class="text-[11px] text-stone-500">Transporter · Eicher 2.5T</p>
+                                    </div>
+                                </button>
+                                <button type="button" onclick="window.__quickLogin('warehouse')"
+                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                    <span class="text-2xl">🏪</span>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Kailash Choudhary</p>
+                                        <p class="text-[11px] text-stone-500">Warehouse · Cold Store</p>
+                                    </div>
+                                </button>
+                                <button type="button" onclick="window.__quickLogin('admin')"
+                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                    <span class="text-2xl">🔒</span>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Platform Admin</p>
+                                        <p class="text-[11px] text-stone-500">Full Audits & Moderation</p>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Feedback / Error Display -->
+                        <div id="authModalFeedback" class="hidden mt-4 p-3 rounded-xl text-xs font-medium"></div>
+                    </div>
+
+                    <!-- Security Footer -->
+                    <div class="pt-6 border-t border-stone-100 text-stone-400 text-[11px] flex items-center justify-between">
+                        <span>🔒 256-bit encrypted authentication</span>
+                        <span>Rajasthan Land Records Protected</span>
                     </div>
                 </div>
             </div>
