@@ -471,9 +471,9 @@ window.__selectListingCard = (id) => {
   selectedItem = item;
   highlightCard(id);
 
-  // Pan Map to pin and open popup
+  // Pan Map to pin and open popup with smooth animation
   if (item._marker && getGoogleMap()) {
-    getGoogleMap().setView([item.lat, item.lng], 13);
+    getGoogleMap().setView([item.lat, item.lng], 13, { animate: true, duration: 0.35 });
     item._marker.openPopup();
   }
 
@@ -490,7 +490,7 @@ window.__openItemView = (id) => {
   highlightCard(id);
 
   if (item._marker && getGoogleMap()) {
-    getGoogleMap().setView([item.lat, item.lng], 13);
+    getGoogleMap().setView([item.lat, item.lng], 13, { animate: true, duration: 0.35 });
     item._marker.openPopup();
   }
 

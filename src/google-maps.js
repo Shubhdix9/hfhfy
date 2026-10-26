@@ -13,6 +13,10 @@ let radiusCircle = null;
 let routePolyline = null;
 let jkluMarker = null;
 
+// High-speed in-memory routing cache and abort controller to eliminate OSRM network latency
+const routeCache = new Map();
+let activeRouteAbortController = null;
+
 // Official Google Maps Tile Layer URLs with high-availability subdomains
 const GOOGLE_TILE_LAYERS = {
   roadmap: {
@@ -64,11 +68,22 @@ export function initGoogleMap(containerId, options = {}) {
   const centerLat = jkluAnchorData.latitude; // 26.8378
   const centerLng = jkluAnchorData.longitude; // 75.6499
 
-  // Create Leaflet map centered at JKLU Campus
+  // Create high-performance Leaflet map centered at JKLU Campus
   mapInstance = L.map(containerId, {
     center: [centerLat, centerLng],
     zoom: 12,
-    zoomControl: false // custom position
+    zoomControl: false, // custom position
+    preferCanvas: true, // Render vector layers on HTML5 Canvas instead of heavy SVG DOM
+    fadeAnimation: true,
+    zoomAnimation: true,
+    markerZoomAnimation: true,
+    wheelDebounceTime: 40,
+    wheelPxPerZoomLevel: 100,
+    inertia: true,
+    inertiaDeceleration: 3000,
+    inertiaMaxSpeed: 1500,
+    worldCopyJump: false,
+    bounceAtZoomLimits: false
   });
 
   // Add zoom control to bottom right
@@ -109,7 +124,12 @@ export function setGoogleTileLayer(type = 'roadmap') {
   currentTileLayer = L.tileLayer(config.url, {
     subdomains: config.subdomains,
     maxZoom: config.maxZoom,
-    attribution: config.attribution
+    attribution: config.attribution,
+    updateWhenIdle: true, // Crucial for performance: only fetch tiles when pan/zoom settles
+    updateWhenZooming: false, // Don't choke GPU with mid-zoom tile requests
+    keepBuffer: 6, // Keep surrounding tiles pre-rendered so panning feels instant with zero grey tiles
+    tileSize: 256,
+    crossOrigin: true
   }).addTo(mapInstance);
 
   currentLayerType = type;
@@ -247,7 +267,8 @@ export function setMapRadiusCircle(radiusKm) {
     opacity: 0.8,
     fillColor: '#22c55e',
     fillOpacity: 0.07,
-    dashArray: '4, 6'
+    dashArray: '4, 6',
+    interactive: false // Crucial: non-interactive overlay prevents capturing mouse events and lag
   }).addTo(mapInstance);
 }
 
@@ -340,12 +361,13 @@ export function renderListingsOnMap(items, onSelectListing) {
     const customIcon = L.divIcon({
       className: 'listing-photo-pin',
       html: `
-        <div class="custom-photo-pin" style="position: relative; width: 44px; height: 52px; cursor: pointer; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);"
-             onmouseover="this.style.transform='scale(1.2) translateY(-4px)'" onmouseout="this.style.transform='scale(1)'">
+        <div class="custom-photo-pin" style="position: relative; width: 44px; height: 52px; cursor: pointer;">
           <!-- Circular Real Photo Frame -->
-          <div style="width: 44px; height: 44px; border-radius: 50%; border: 3px solid #1b4332; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.35); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative;">
+          <div style="width: 44px; height: 44px; border-radius: 50%; border: 3px solid #1b4332; background: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative;">
             <img src="${photoUrl}"
                  alt="${item.title}"
+                 loading="lazy"
+                 decoding="async"
                  style="width: 100%; height: 100%; object-fit: cover;"
                  onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=150&q=80'">
           </div>
@@ -449,48 +471,115 @@ export async function drawOsrmDrivingRoute(destLat, destLng, onRouteDone) {
 
   const startLat = jkluAnchorData.latitude;
   const startLng = jkluAnchorData.longitude;
+  const straightDist = calculateHaversineDistanceKm(startLat, startLng, destLat, destLng);
+  const cacheKey = `${destLat.toFixed(4)},${destLng.toFixed(4)}`;
 
-  // Remove existing road polyline
+  // 1. Check if route is already in memory cache — instant 0ms render!
+  if (routeCache.has(cacheKey)) {
+    const cached = routeCache.get(cacheKey);
+
+    if (routePolyline) {
+      mapInstance.removeLayer(routePolyline);
+    }
+
+    routePolyline = L.polyline(cached.coords, {
+      color: '#2563eb',
+      weight: 5,
+      opacity: 0.88,
+      lineJoin: 'round',
+      interactive: false
+    }).addTo(mapInstance);
+
+    mapInstance.fitBounds(routePolyline.getBounds(), {
+      padding: [45, 45],
+      maxZoom: 14,
+      animate: true,
+      duration: 0.3
+    });
+
+    if (onRouteDone) onRouteDone(cached.routeInfo);
+    return cached.routeInfo;
+  }
+
+  // 2. Abort any previous in-flight OSRM request
+  if (activeRouteAbortController) {
+    activeRouteAbortController.abort();
+    activeRouteAbortController = null;
+  }
+
+  // 3. Immediately draw a lightweight straight-line path so the UI is responsive within 16ms
   if (routePolyline) {
     mapInstance.removeLayer(routePolyline);
-    routePolyline = null;
   }
+
+  routePolyline = L.polyline([[startLat, startLng], [destLat, destLng]], {
+    color: '#2563eb',
+    weight: 4,
+    opacity: 0.75,
+    dashArray: '6, 8',
+    interactive: false
+  }).addTo(mapInstance);
+
+  mapInstance.fitBounds(routePolyline.getBounds(), {
+    padding: [45, 45],
+    maxZoom: 14,
+    animate: true,
+    duration: 0.3
+  });
+
+  const estimatedInfo = {
+    distanceKm: (straightDist * 1.25).toFixed(1),
+    durationMins: Math.max(2, Math.round(straightDist * 2.1))
+  };
+
+  // 4. Fetch real road geometry asynchronously with 3.5s timeout
+  const controller = new AbortController();
+  activeRouteAbortController = controller;
+  const timeoutId = setTimeout(() => controller.abort(), 3500);
 
   try {
-    // Official OSRM public routing API
     const url = `https://router.project-osrm.org/route/v1/driving/${startLng},${startLat};${destLng},${destLat}?overview=full&geometries=geojson`;
+    const res = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
 
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`OSRM HTTP ${res.status}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.routes && data.routes.length > 0) {
+        const route = data.routes[0];
+        const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
 
-    const data = await res.json();
-    if (data.routes && data.routes.length > 0) {
-      const route = data.routes[0];
-      const coords = route.geometry.coordinates.map(c => [c[1], c[0]]); // GeoJSON [lng, lat] to Leaflet [lat, lng]
+        const routeInfo = {
+          distanceKm: (route.distance / 1000).toFixed(1),
+          durationMins: Math.round(route.duration / 60)
+        };
 
-      // Draw blue road path polyline
-      routePolyline = L.polyline(coords, {
-        color: '#2563eb',
-        weight: 5,
-        opacity: 0.85,
-        lineJoin: 'round'
-      }).addTo(mapInstance);
+        // Cache route for instant reuse
+        routeCache.set(cacheKey, { coords, routeInfo });
 
-      // Fit bounds to show route and anchor
-      mapInstance.fitBounds(routePolyline.getBounds(), { padding: [50, 50] });
+        // Smoothly upgrade polyline to road geometry
+        if (routePolyline && mapInstance.hasLayer(routePolyline)) {
+          routePolyline.setLatLngs(coords);
+          routePolyline.setStyle({ dashArray: null, weight: 5, opacity: 0.88 });
+        }
 
-      const routeInfo = {
-        distanceKm: (route.distance / 1000).toFixed(1),
-        durationMins: Math.round(route.duration / 60)
-      };
-
-      if (onRouteDone) onRouteDone(routeInfo);
-      return routeInfo;
+        if (onRouteDone) onRouteDone(routeInfo);
+        return routeInfo;
+      }
     }
   } catch (err) {
-    console.warn('OSRM routing request failed:', err.message);
-    if (onRouteDone) onRouteDone(null);
+    if (err.name !== 'AbortError') {
+      console.warn('OSRM routing request failed, using estimated road path:', err.message);
+    }
+  } finally {
+    clearTimeout(timeoutId);
+    if (activeRouteAbortController === controller) {
+      activeRouteAbortController = null;
+    }
   }
+
+  // Provide reliable calculated fallback if OSRM was unavailable or slow
+  if (onRouteDone) onRouteDone(estimatedInfo);
+  return estimatedInfo;
 }
 
 /**
