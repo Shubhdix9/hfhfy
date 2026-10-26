@@ -3,9 +3,42 @@
 
 export const providerData = {
   machineryFleet: [
-    { id: 'M-1', model: 'John Deere 5050D (50 HP Power Reverser)', dailyRate: 2500, status: 'Available', bookingsCount: 14, locality: 'Mahapura Village', fuelType: 'Diesel', condition: 'Excellent' },
-    { id: 'M-2', model: 'Mahindra 575 DI Heavy-Duty Tractor', dailyRate: 2000, status: 'On Active Lease', bookingsCount: 22, locality: 'Bhankrota Belt', fuelType: 'Diesel', condition: 'Good' },
-    { id: 'M-3', model: 'Shaktiman 8.5ft Rotary Tiller (Rotavator)', dailyRate: 1200, status: 'Available', bookingsCount: 31, locality: 'Mahapura SEZ Road', fuelType: 'PTO Driven', condition: 'Recently Serviced' }
+    {
+      id: 'M-1',
+      model: 'John Deere 5050D (50 HP Power Reverser)',
+      dailyRate: 2500,
+      status: 'Available',
+      bookingsCount: 14,
+      locality: 'Mahapura Village',
+      fuelType: 'Diesel',
+      condition: 'Excellent',
+      imageUrl: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=80',
+      description: 'Heavy 50HP diesel agricultural tractor with dual clutch and power steering.'
+    },
+    {
+      id: 'M-2',
+      model: 'Mahindra 575 DI Heavy-Duty Tractor',
+      dailyRate: 2000,
+      status: 'On Active Lease',
+      bookingsCount: 22,
+      locality: 'Bhankrota Belt',
+      fuelType: 'Diesel',
+      condition: 'Good',
+      imageUrl: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80',
+      description: 'Dependable 45HP tractor equipped with hydraulic trolley connector for hauling & plowing.'
+    },
+    {
+      id: 'M-3',
+      model: 'Shaktiman 8.5ft Rotary Tiller (Rotavator)',
+      dailyRate: 1200,
+      status: 'Available',
+      bookingsCount: 31,
+      locality: 'Mahapura SEZ Road',
+      fuelType: 'PTO Driven',
+      condition: 'Recently Serviced',
+      imageUrl: 'https://images.unsplash.com/photo-1598901847919-b95dd0fabbb6?auto=format&fit=crop&w=600&q=80',
+      description: '8.5 feet heavy duty rotary tiller suitable for single-pass seedbed preparation.'
+    }
   ],
   machineryDamageReports: [
     { id: 'DAM-101', machineryId: 'M-2', date: '2026-03-12', renter: 'Ramesh Kumawat', issue: 'Minor hydraulic hose wear during 14-day field tillage. Replaced and settled under standard maintenance deposit.', cost: 850, status: 'Resolved' }
@@ -71,21 +104,53 @@ export function renderMachineryOwnerPanel(containerId) {
         </button>
       </div>
 
-      <!-- Fleet Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Fleet Grid with Authentic High-Res Product Photographs -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         ${providerData.machineryFleet.map(m => `
-          <div class="bg-white p-5 rounded-xl border border-stone-200 space-y-2.5 text-xs shadow-sm">
-            <div class="flex justify-between items-start">
-              <h4 class="font-bold text-stone-900 text-sm">${m.model}</h4>
-              <span class="px-2 py-0.5 rounded font-bold text-[10px] ${m.status === 'Available' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+          <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden text-xs shadow-sm flex flex-col justify-between hover:shadow-md transition">
+            <!-- Product Photo -->
+            <div class="relative w-full h-44 bg-stone-100 overflow-hidden">
+              <img src="${m.imageUrl}" alt="${m.model}" class="w-full h-full object-cover">
+              <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded font-bold text-[10px] bg-[#1b4332]/90 text-white uppercase shadow-sm">
+                🚜 Farm Machinery
+              </span>
+              <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded font-bold text-[10px] ${m.status === 'Available' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
                 ${m.status}
               </span>
             </div>
-            <p class="text-stone-600">Base Daily Rate: <strong class="text-emerald-800 font-bold">₹${m.dailyRate}/day</strong></p>
-            <p class="text-stone-500">Weekly (-15%): <strong>₹${Math.round(m.dailyRate * 7 * 0.85)}</strong> · Monthly (-25%): <strong>₹${Math.round(m.dailyRate * 30 * 0.75)}</strong></p>
-            <div class="text-[11px] text-stone-500 pt-1 border-t space-y-0.5">
-              <p>Locality: <strong>${m.locality}</strong></p>
-              <p>Completed Bookings: <strong>${m.bookingsCount}</strong> · Condition: <strong>${m.condition}</strong></p>
+
+            <!-- Details -->
+            <div class="p-5 space-y-2.5 flex-1 flex flex-col justify-between">
+              <div>
+                <h4 class="font-bold text-stone-900 text-sm leading-snug">${m.model}</h4>
+                <p class="text-stone-600 mt-1">Base Daily Rate: <strong class="text-emerald-800 font-bold">₹${m.dailyRate}/day</strong></p>
+                
+                <div class="grid grid-cols-2 gap-1.5 bg-stone-50 p-2 rounded-lg border border-stone-100 my-2 text-[11px]">
+                  <div>
+                    <span class="text-stone-400 block text-[10px]">Weekly (-15%)</span>
+                    <strong class="text-stone-900">₹${Math.round(m.dailyRate * 7 * 0.85)}</strong>
+                  </div>
+                  <div>
+                    <span class="text-stone-400 block text-[10px]">Monthly (-25%)</span>
+                    <strong class="text-emerald-900">₹${Math.round(m.dailyRate * 30 * 0.75)}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-[11px] text-stone-500 pt-2 border-t border-stone-100 space-y-1">
+                <p>📍 Locality: <strong>${m.locality}</strong></p>
+                <p>Completed Bookings: <strong>${m.bookingsCount}</strong> · Condition: <strong>${m.condition}</strong></p>
+                <div class="pt-2 flex gap-2">
+                  <button onclick="window.__openRentalModal ? window.__openRentalModal('${m.id === 'M-1' ? 'mach-1' : m.id === 'M-2' ? 'mach-2' : 'mach-4'}') : null"
+                          class="flex-1 btn-forest py-2 rounded-lg font-bold text-xs text-center transition">
+                    🚜 Book Rental
+                  </button>
+                  <button onclick="window.__openItemView ? window.__openItemView('${m.id === 'M-1' ? 'mach-1' : m.id === 'M-2' ? 'mach-2' : 'mach-4'}') : null"
+                          class="px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-lg font-bold text-xs transition">
+                    View &rarr;
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         `).join('')}

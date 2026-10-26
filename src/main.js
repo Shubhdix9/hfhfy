@@ -104,6 +104,16 @@ async function bootstrapApp() {
     console.warn('Could not load Supabase listings, using baseline verified items:', err);
   }
 
+  // Load custom farmer listings persisted in localStorage
+  try {
+    const localSaved = JSON.parse(localStorage.getItem('krishi_custom_listings') || '[]');
+    if (Array.isArray(localSaved) && localSaved.length > 0) {
+      allItems = [...localSaved, ...allItems];
+    }
+  } catch (e) {
+    console.warn('Could not load custom farmer listings:', e);
+  }
+
   // 4. Initialize Google Maps
   const mapsApiKey = appConfig?.googleMaps?.apiKey || import.meta.env?.VITE_GOOGLE_MAPS_API_KEY || '';
   const mapId = appConfig?.googleMaps?.mapId || import.meta.env?.VITE_GOOGLE_MAP_ID || '';
@@ -1215,12 +1225,40 @@ window.__handleRoleNavigation = (role) => {
   navigateToSection(role);
 };
 
-// Callback when farmer publishes a new listing from recorded harvest
+// Callback when farmer publishes a new listing from recorded harvest or dedicated listing page
 function handleFarmerPublishListing(newListing) {
-  allItems.unshift(newListing);
+  const existingIdx = allItems.findIndex(i => i.id === newListing.id);
+  if (existingIdx >= 0) {
+    allItems[existingIdx] = newListing;
+  } else {
+    allItems.unshift(newListing);
+  }
   applyFiltersAndRender();
   showToast(`Published "${newListing.title}" to Live Marketplace!`, 'success');
 }
+
+// Global hook to view newly published farmer product directly on Buyer Marketplace Map
+window.__viewNewlyListedProductOnBuyerMap = (itemId) => {
+  navigateToSection('map');
+  setTimeout(() => {
+    if (getGoogleMap()) {
+      getGoogleMap().invalidateSize();
+    }
+    const item = allItems.find(i => i.id === itemId);
+    if (item) {
+      if (item.lat && item.lng && getGoogleMap()) {
+        getGoogleMap().setView([item.lat, item.lng], 14);
+      }
+      window.__selectListingCard(itemId);
+      const cardEl = document.getElementById(`listing-card-${itemId}`);
+      if (cardEl) {
+        cardEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }, 250);
+};
+
+window.__showToast = showToast;
 
 // Buyer Saved Listings & Farmers
 window.__toggleSaveListing = (itemId) => {
