@@ -1,0 +1,133 @@
+/* src/theme.css
+   KrishiSetu Earthy Agricultural Theme
+   Colors: Forest Green (#1b4332, #2d6a4f), Warm Cream (#fbf8f1, #f4f1ea), Charcoal (#1f2421, #0f172a), Earthy Amber (#b45309)
+   Strictly NO purple, NO violet, NO neon, NO excessive sci-fi gradients.
+*/
+
+:root {
+  --forest-900: #081c15;
+  --forest-800: #1b4332;
+  --forest-700: #2d6a4f;
+  --forest-600: #40916c;
+  --forest-500: #52b788;
+  --forest-100: #d8f3dc;
+  --forest-50: #f2fbf4;
+  
+  --earth-cream: #fbf8f1;
+  --earth-beige: #f4f1ea;
+  --earth-sand: #e9e4d4;
+  
+  --charcoal-900: #0f172a;
+  --charcoal-800: #1e293b;
+  --charcoal-700: #334155;
+  --charcoal-600: #475569;
+  
+  --amber-harvest: #b45309;
+  --amber-light: #fef3c7;
+}
+
+body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--earth-cream);
+  color: var(--charcoal-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Earthy Header Background */
+.agri-header {
+  background-color: var(--forest-800);
+  border-bottom: 2px solid var(--forest-700);
+}
+
+/* Clean Professional Cards */
+.agri-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.agri-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+/* Primary Forest Button */
+.btn-forest {
+  background-color: var(--forest-800);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.btn-forest:hover {
+  background-color: var(--forest-700);
+}
+
+/* Secondary Earth Button */
+.btn-earth {
+  background-color: var(--earth-beige);
+  color: var(--charcoal-800);
+  border: 1px solid #dcd7cb;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.btn-earth:hover {
+  background-color: var(--earth-sand);
+}
+
+/* Outline Forest Button */
+.btn-forest-outline {
+  background: transparent;
+  color: var(--forest-800);
+  border: 1.5px solid var(--forest-800);
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.btn-forest-outline:hover {
+  background-color: var(--forest-50);
+}
+
+/* Status Badges */
+.badge-active {
+  background-color: #dcfce7;
+  color: #166534;
+  font-weight: 700;
+}
+.badge-pending {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 700;
+}
+.badge-verified {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-weight: 700;
+}
+.badge-category {
+  background-color: var(--forest-100);
+  color: var(--forest-800);
+  font-weight: 700;
+}
+
+/* Nav Item Active State */
+.nav-active-earth {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Tab Active State */
+.tab-active {
+  border-bottom: 2px solid var(--forest-800);
+  color: var(--forest-800);
+  font-weight: 700;
+}
+
+/* Modals & Backdrops: Always top of stacking order, above Leaflet map tiles (z-400), controls (z-1000), and drawers (z-3000) */
+.modal-backdrop {
+  z-index: 99999 !important;
+}
