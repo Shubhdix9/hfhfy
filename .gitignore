@@ -8,6 +8,8 @@ dist/
 dist-ssr/
 *.local
 *.mp4
+!public/images/*.mp4
+public/video for the websites.mp4
 
 # Environment variables
 .env
