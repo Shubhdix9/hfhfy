@@ -128,7 +128,10 @@ async function bootstrapApp() {
   // 8. Render initial reviews
   renderReviewsList();
 
-  // 9. Update static translations
+  // 9. Render homepage continuous product showcase marquee
+  renderProductShowcase();
+
+  // 10. Update static translations
   updateTranslationsOnPage();
 
   // 10. Ensure background hero video streams from Cloudflare R2 (if configured) with local fallback
@@ -1040,6 +1043,88 @@ function renderReviewsList() {
     </div>
   `).join('');
 }
+
+/**
+ * Renders homepage continuous horizontal product showcase marquee
+ */
+function renderProductShowcase() {
+  const track = document.getElementById('productShowcaseTrack');
+  if (!track) return;
+
+  const showcaseItems = allItems.slice(0, 10);
+  if (showcaseItems.length === 0) return;
+
+  // Duplicate list to create a seamless infinite loop animation
+  const loopItems = [...showcaseItems, ...showcaseItems];
+
+  track.innerHTML = loopItems.map(item => {
+    const isSaved = savedListingIds.has(item.id);
+    const badgeBg = item.group === 'agrowaste' ? 'bg-emerald-100 text-emerald-800' :
+                    item.group === 'machinery' ? 'bg-stone-200 text-stone-800' :
+                    item.group === 'transport' ? 'bg-amber-100 text-amber-900' : 'bg-emerald-50 text-emerald-900';
+
+    const fallbackImg = item.group === 'agrowaste' ? 'https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?auto=format&fit=crop&w=400&q=80' :
+                        item.group === 'machinery' ? 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=400&q=80' :
+                        item.group === 'transport' ? '/images/indian-agri-truck.jpg' :
+                        'https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=400&q=80';
+    const photoUrl = item.imageUrl || fallbackImg;
+
+    return `
+      <div class="product-showcase-card flex-shrink-0 w-72 bg-white rounded-2xl border border-stone-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between group">
+        <!-- Thumbnail -->
+        <div class="relative w-full h-40 bg-stone-100 overflow-hidden">
+          <img src="${photoUrl}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${fallbackImg}'">
+          <div class="absolute top-2.5 left-2.5 flex gap-1.5">
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md ${badgeBg} shadow-xs uppercase">
+              ${item.group || item.type}
+            </span>
+          </div>
+          <button onclick="event.stopPropagation(); window.__toggleSaveListing('${item.id}')"
+                  title="${isSaved ? 'Saved' : 'Save'}"
+                  class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center text-xs shadow-xs hover:bg-white transition ${isSaved ? 'text-amber-500 font-bold' : 'text-stone-400'}">
+            ${isSaved ? '★' : '☆'}
+          </button>
+        </div>
+
+        <!-- Content -->
+        <div class="p-4 flex flex-col flex-1 justify-between space-y-3">
+          <div>
+            <h4 class="font-bold text-stone-900 text-sm leading-snug line-clamp-1" title="${item.title}">${item.title}</h4>
+            <p class="text-[11px] text-stone-500 mt-1 flex items-center gap-1">
+              <span>📍 ${item.locality}</span>
+            </p>
+          </div>
+
+          <div class="pt-2 border-t border-stone-100 flex items-center justify-between">
+            <div>
+              <span class="text-base font-black text-[#1b4332]">₹${item.price}</span>
+              <span class="text-[10px] text-stone-500 font-medium">${item.unit || ''}</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="window.__openItemView('${item.id}')"
+                      class="px-2.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-lg text-xs font-bold transition">
+                View &rarr;
+              </button>
+              <button onclick="window.__addItemToCart('${item.id}')"
+                      title="Add to Cart"
+                      class="px-2.5 py-1.5 btn-forest rounded-lg text-xs font-bold transition">
+                🛒 Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Global scroll controller for product showcase
+window.__scrollProductTrack = (delta) => {
+  const wrapper = document.getElementById('productShowcaseWrapper');
+  if (wrapper) {
+    wrapper.scrollBy({ left: delta, behavior: 'smooth' });
+  }
+};
 
 function updateTranslationsOnPage() {
   document.querySelectorAll('[data-i18n]').forEach(el => {

@@ -250,34 +250,38 @@
                 </div>
             </div>
 
-            <!-- Role Cards Section -->
-            <div class="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm space-y-6">
-                <div class="text-center max-w-xl mx-auto space-y-1">
-                    <h3 class="text-2xl font-bold text-stone-900">Designed for Every Agricultural Stakeholder</h3>
-                    <p class="text-xs text-stone-500">Select your role to access dedicated tools and workflows.</p>
+            <!-- Live Agricultural Products Showcase (Continuous Scrolling Showcase) -->
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-stone-200 shadow-sm space-y-5 overflow-hidden">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 pb-2 border-b border-stone-100">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-[#1b4332] rounded-full text-xs font-bold uppercase tracking-wider mb-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                            Live Marketplace Offerings
+                        </div>
+                        <h3 class="text-2xl font-bold text-stone-900">Featured Crops, Harvests & Farm Machinery</h3>
+                        <p class="text-xs text-stone-500 mt-0.5">Authentic farmer lots, certified seeds, tractors, and agricultural transport ready for booking</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="window.__scrollProductTrack(-320)" title="Scroll Left" class="w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 flex items-center justify-center font-bold text-sm transition">
+                            &larr;
+                        </button>
+                        <button onclick="window.__scrollProductTrack(320)" title="Scroll Right" class="w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 flex items-center justify-center font-bold text-sm transition">
+                            &rarr;
+                        </button>
+                        <button onclick="window.__navigateToSection('map')" class="btn-forest px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 ml-1">
+                            Explore All &rarr;
+                        </button>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-                    <div onclick="window.__navigateToSection('farmer')" class="p-4 bg-[#fbf8f1] hover:bg-[#f4f1ea] cursor-pointer rounded-xl border border-stone-200 transition space-y-1.5">
-                        <span class="text-2xl">👨‍🌾</span>
-                        <h4 class="font-bold text-stone-900 text-sm">Farmers</h4>
-                        <p class="text-stone-600 text-[11px]">Plots, crop cycles, activity log, harvest-to-listing generator, and expenses.</p>
+                <!-- Horizontal Scrolling Marquee Track Container -->
+                <div id="productShowcaseWrapper" class="relative overflow-x-auto no-scrollbar scroll-smooth py-2">
+                    <div id="productShowcaseTrack" class="product-marquee-track flex gap-4">
+                        <!-- Populated dynamically via src/main.js with rich product cards -->
                     </div>
-                    <div onclick="window.__navigateToSection('map')" class="p-4 bg-[#fbf8f1] hover:bg-[#f4f1ea] cursor-pointer rounded-xl border border-stone-200 transition space-y-1.5">
-                        <span class="text-2xl">🛒</span>
-                        <h4 class="font-bold text-stone-900 text-sm">Crop Buyers</h4>
-                        <p class="text-stone-600 text-[11px]">Map search, verified farmer produce, quotation requests, and direct orders.</p>
-                    </div>
-                    <div onclick="window.__navigateToSection('machinery')" class="p-4 bg-[#fbf8f1] hover:bg-[#f4f1ea] cursor-pointer rounded-xl border border-stone-200 transition space-y-1.5">
-                        <span class="text-2xl">🚜</span>
-                        <h4 class="font-bold text-stone-900 text-sm">Equipment Owners</h4>
-                        <p class="text-stone-600 text-[11px]">List machinery, configure rental discounts, manage bookings and schedules.</p>
-                    </div>
-                    <div onclick="window.__navigateToSection('fpo')" class="p-4 bg-[#fbf8f1] hover:bg-[#f4f1ea] cursor-pointer rounded-xl border border-stone-200 transition space-y-1.5">
-                        <span class="text-2xl">🌾</span>
-                        <h4 class="font-bold text-stone-900 text-sm">FPOs & Cooperatives</h4>
-                        <p class="text-stone-600 text-[11px]">Member directory, bulk lot aggregation, and collective input purchasing.</p>
-                    </div>
+                </div>
+                <div class="text-[11px] text-stone-400 text-right flex items-center justify-end gap-1.5">
+                    <span>⚡ Hover over any product to pause · Click <strong>View</strong> for verified field details</span>
                 </div>
             </div>
 

@@ -131,3 +131,28 @@ body {
 .modal-backdrop {
   z-index: 99999 !important;
 }
+
+/* Product Showcase Horizontal Marquee */
+@keyframes productMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.product-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: productMarquee 38s linear infinite;
+}
+
+.product-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
