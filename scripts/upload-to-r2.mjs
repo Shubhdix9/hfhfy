@@ -12,7 +12,12 @@ import { Upload } from '@aws-sdk/lib-storage';
 dotenv.config();
 dotenv.config({ path: '.env.local' });
 
-const SOURCE_VIDEO_PATH = path.resolve('public/video for the websites.mp4');
+const CANDIDATE_PATHS = [
+  path.resolve('public/images/video for the websites.mp4'),
+  path.resolve('public/hero-video.mp4'),
+  path.resolve('public/video for the websites.mp4')
+];
+const SOURCE_VIDEO_PATH = CANDIDATE_PATHS.find(p => fs.existsSync(p)) || CANDIDATE_PATHS[0];
 const TARGET_OBJECT_KEY = 'homepage-bg.mp4';
 const CONTENT_TYPE = 'video/mp4';
 const CACHE_CONTROL = 'public, max-age=31536000, immutable';

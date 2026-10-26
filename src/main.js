@@ -1177,6 +1177,20 @@ function updateAuthUI(user) {
   const triggerBtn = document.getElementById('authTriggerBtn');
   const userMenuDropdown = document.getElementById('userMenuDropdown');
 
+  // Sync login section active session banner
+  const sessionBanner = document.getElementById('authActiveSessionBanner');
+  const sessionName = document.getElementById('authActiveSessionName');
+  const sessionRole = document.getElementById('authActiveSessionRole');
+  if (sessionBanner) {
+    if (user) {
+      sessionBanner.classList.remove('hidden');
+      if (sessionName) sessionName.textContent = user.fullName;
+      if (sessionRole) sessionRole.textContent = `${user.roleLabel || user.role} · ${user.village || 'Jaipur'}`;
+    } else {
+      sessionBanner.classList.add('hidden');
+    }
+  }
+
   if (!authContainer || !triggerBtn) return;
 
   if (user) {
@@ -1221,15 +1235,13 @@ document.addEventListener('click', (e) => {
 
 window.__openAuthModal = (defaultTab = 'otp') => {
   document.getElementById('userMenuDropdown')?.classList.add('hidden');
-  const modal = document.getElementById('authModal');
-  if (!modal) return;
-  modal.classList.remove('hidden');
+  navigateToSection('login');
   window.__switchAuthTab(defaultTab === 'switch' ? 'quick' : defaultTab);
   clearAuthFeedback();
 };
 
 window.__closeAuthModal = () => {
-  document.getElementById('authModal')?.classList.add('hidden');
+  navigateToSection('home');
   clearAuthFeedback();
 };
 
