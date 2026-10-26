@@ -66,15 +66,9 @@
                             onchange="window.__handleRoleNavigation(this.value)"
                             class="bg-[#153427] text-white border border-[#2d6a4f] text-xs font-semibold rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400 cursor-pointer">
                         <option value="home">🌐 Public Platform</option>
-                        <option value="farmer">👨‍🌾 Farmer Panel</option>
-                        <option value="map">🛒 Buyer Marketplace</option>
-                        <option value="machinery">🚜 Machinery Owner</option>
-                        <option value="warehouse">🏪 Warehouse Operator</option>
-                        <option value="transporter">🚚 Transporter Panel</option>
-                        <option value="supplier">📦 Input Supplier</option>
-                        <option value="expert">🧑‍🔬 Agricultural Expert</option>
-                        <option value="fpo">🌾 FPO Manager</option>
-                        <option value="admin">🔒 Admin Console</option>
+                        <option value="farmer">👨‍🌾 Farmer Panel (किसान)</option>
+                        <option value="map">🛒 Buyer Marketplace (खरीदार)</option>
+                        <option value="admin">🔒 Admin Console (व्यवस्थापक)</option>
                     </select>
                 </div>
 
@@ -608,51 +602,10 @@
             </div>
 
             <!-- Proper Split-Screen Authentication Container -->
-            <div id="authModal" class="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[660px]">
+            <div id="authModal" class="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden grid grid-cols-1 lg:grid-cols-2 min-h-[680px]">
                 
-                <!-- LEFT COLUMN: Authentic Agricultural Image & Platform Trust Showcase (5 cols) -->
-                <div class="hidden lg:flex lg:col-span-5 relative bg-[#1b4332] text-white flex-col justify-between p-8 xl:p-10 overflow-hidden select-none">
-                    <!-- Background Image -->
-                    <img src="/images/farmer-login-bg.jpg" alt="Indian Farmer in Golden Wheat Field" class="absolute inset-0 w-full h-full object-cover object-top brightness-[0.88] contrast-[1.05]">
-                    <!-- Dark Gradient Scrim Overlay -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/60"></div>
-
-                    <!-- Top Brand Badge -->
-                    <div class="relative z-10 space-y-2">
-                        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-[11px] font-semibold text-emerald-200 border border-white/20">
-                            <span>🌱 KrishiSetu Agriculture Network</span>
-                        </div>
-                        <h3 class="text-2xl font-black text-white tracking-tight leading-snug">Connecting Indian Cultivators & Markets</h3>
-                        <p class="text-xs text-stone-200 leading-relaxed">Direct mandi linkage, equipment leasing, and transparent pricing for rural producers.</p>
-                    </div>
-
-                    <!-- Bottom Trust Points -->
-                    <div class="relative z-10 space-y-3 pt-6 border-t border-white/20 text-xs">
-                        <div class="flex items-center space-x-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
-                            <span class="text-stone-100 font-medium">Jamabandi land title verification</span>
-                        </div>
-                        <div class="flex items-center space-x-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
-                            <span class="text-stone-100 font-medium">Official AGMARKNET mandi price feeds</span>
-                        </div>
-                        <div class="flex items-center space-x-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
-                            <span class="text-stone-100 font-medium">Direct trade · Zero unofficial middlemen cuts</span>
-                        </div>
-                        <div class="flex items-center space-x-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
-                            <span class="text-stone-100 font-medium">Integrated Rajasthan logistics & hauling</span>
-                        </div>
-                        <div class="pt-2 text-[10px] text-emerald-200/90 flex items-center space-x-1">
-                            <span>📍</span>
-                            <span>Geospatial Anchor: JKLU Mahapura, Ajmer Road, Jaipur</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN: Authentication Portal Forms & Actions (7 cols) -->
-                <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between">
+                <!-- LEFT COLUMN: Authentication Portal Forms & Actions (Farmer, Buyer, Admin) -->
+                <div class="p-6 sm:p-10 flex flex-col justify-between">
                     <div>
                         <!-- Header -->
                         <div class="mb-5 border-b border-stone-100 pb-3">
@@ -660,7 +613,7 @@
                                 <span class="text-2xl">🌾</span>
                                 <div>
                                     <h3 class="text-xl font-bold text-[#1b4332]" id="authModalTitle">KrishiSetu Account Portal</h3>
-                                    <p class="text-xs text-stone-500">Secure access for Farmers, Buyers, Transporters & Agri-Enterprises</p>
+                                    <p class="text-xs text-stone-500">Dedicated access for Farmers, Commercial Buyers & Administration</p>
                                 </div>
                             </div>
                         </div>
@@ -700,17 +653,13 @@
                             </button>
                         </div>
 
-                        <!-- Tab 1: Mobile OTP Login -->
+                        <!-- Tab 1: Mobile OTP Login (3 Panels Only) -->
                         <div id="authSectionOtp" class="space-y-4">
                             <div>
-                                <label class="block text-xs font-semibold text-stone-700 mb-1">Select Role / भूमिका चुनें</label>
+                                <label class="block text-xs font-semibold text-stone-700 mb-1">Select Panel / भूमिका चुनें</label>
                                 <select id="authOtpRoleSelect" class="w-full text-xs p-2.5 rounded-lg border border-stone-300 bg-stone-50 focus:bg-white focus:ring-1 focus:ring-emerald-500">
-                                    <option value="farmer">👨‍🌾 Farmer / किसान (Mahapura - Jaipur)</option>
-                                    <option value="buyer">🛒 Agri Buyer / खरीदार (Mandi Trader)</option>
-                                    <option value="machinery">🚜 Machinery Fleet Owner / यंत्र स्वामी</option>
-                                    <option value="transporter">🚚 Transporter / वाहन संचालक</option>
-                                    <option value="warehouse">🏪 Warehouse Operator / भंडारण</option>
-                                    <option value="fpo">🌾 FPO Manager / एफपीओ</option>
+                                    <option value="farmer">👨‍🌾 Farmer / किसान (Sell Crops, Seeds, Truckload Produce)</option>
+                                    <option value="buyer">🛒 Agri Buyer / खरीदार (Marketplace, Map, Orders & Checkout)</option>
                                     <option value="admin">🔒 Platform Administrator / व्यवस्थापक</option>
                                 </select>
                             </div>
@@ -753,18 +702,14 @@
                             </div>
                         </div>
 
-                        <!-- Tab 2: Email & Password -->
+                        <!-- Tab 2: Email & Password (3 Panels Only) -->
                         <div id="authSectionEmail" class="hidden space-y-4">
                             <div>
-                                <label class="block text-xs font-semibold text-stone-700 mb-1">Role / भूमिका</label>
+                                <label class="block text-xs font-semibold text-stone-700 mb-1">Panel Role / भूमिका</label>
                                 <select id="authEmailRoleSelect" class="w-full text-xs p-2.5 rounded-lg border border-stone-300 bg-stone-50 focus:bg-white focus:ring-1 focus:ring-emerald-500">
-                                    <option value="farmer">👨‍🌾 Farmer / किसान</option>
-                                    <option value="buyer">🛒 Agri Buyer / खरीदार</option>
-                                    <option value="machinery">🚜 Machinery Fleet Owner</option>
-                                    <option value="transporter">🚚 Transporter / वाहन संचालक</option>
-                                    <option value="warehouse">🏪 Warehouse Operator</option>
-                                    <option value="fpo">🌾 FPO Manager</option>
-                                    <option value="admin">🔒 Platform Administrator</option>
+                                    <option value="farmer">👨‍🌾 Farmer / किसान (Sell Crops, Seeds, Truckloads)</option>
+                                    <option value="buyer">🛒 Agri Buyer / खरीदार (Marketplace, Map & Orders)</option>
+                                    <option value="admin">🔒 Platform Administrator / व्यवस्थापक</option>
                                 </select>
                             </div>
                             <div>
@@ -783,7 +728,7 @@
                             </button>
                         </div>
 
-                        <!-- Tab 3: New User Registration -->
+                        <!-- Tab 3: New User Registration (3 Panels Only) -->
                         <div id="authSectionRegister" class="hidden space-y-3">
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
@@ -794,12 +739,9 @@
                                 <div>
                                     <label class="block text-xs font-semibold text-stone-700 mb-1">Role *</label>
                                     <select id="regRole" class="w-full text-xs p-2 border border-stone-300 rounded-lg bg-stone-50">
-                                        <option value="farmer">👨‍🌾 Farmer (किसान)</option>
-                                        <option value="buyer">🛒 Buyer (खरीदार)</option>
-                                        <option value="machinery">🚜 Machinery Owner</option>
-                                        <option value="transporter">🚚 Transporter</option>
-                                        <option value="warehouse">🏪 Warehouse Operator</option>
-                                        <option value="fpo">🌾 FPO Manager</option>
+                                        <option value="farmer">👨‍🌾 Farmer (किसान - Sell Produce & Seeds)</option>
+                                        <option value="buyer">🛒 Buyer (खरीदार - Purchase & Sourcing)</option>
+                                        <option value="admin">🔒 Platform Administrator</option>
                                     </select>
                                 </div>
                             </div>
@@ -839,56 +781,32 @@
                             </button>
                         </div>
 
-                        <!-- Tab 4: Quick Role Switcher (One-Click Demo Profiles) -->
+                        <!-- Tab 4: Quick Role Switcher (3 Panels Only: Farmer, Buyer, Admin) -->
                         <div id="authSectionQuick" class="hidden space-y-3">
-                            <p class="text-xs text-stone-600 mb-2">Switch instantly between role personas verified in the Jaipur / JKLU rural cluster:</p>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-left">
+                            <p class="text-xs text-stone-600 mb-2">Switch instantly between the 3 core platform panels:</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-left">
                                 <button type="button" onclick="window.__quickLogin('farmer')"
-                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                        class="p-3.5 rounded-2xl border-2 border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex flex-col items-start space-y-1 text-xs">
                                     <span class="text-2xl">👨‍🌾</span>
                                     <div>
-                                        <p class="font-bold text-stone-900">Ramesh Kumar</p>
-                                        <p class="text-[11px] text-stone-500">Farmer · Mahapura (4.5 Ac)</p>
+                                        <p class="font-bold text-stone-900">Farmer Panel</p>
+                                        <p class="text-[11px] text-stone-500">Sell Crops, Seeds, Truckloads & Set Payout UPI</p>
                                     </div>
                                 </button>
                                 <button type="button" onclick="window.__quickLogin('buyer')"
-                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                        class="p-3.5 rounded-2xl border-2 border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex flex-col items-start space-y-1 text-xs">
                                     <span class="text-2xl">🛒</span>
                                     <div>
-                                        <p class="font-bold text-stone-900">Priya Sharma</p>
-                                        <p class="text-[11px] text-stone-500">Agri Buyer · Jaipur Mills</p>
-                                    </div>
-                                </button>
-                                <button type="button" onclick="window.__quickLogin('machinery')"
-                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
-                                    <span class="text-2xl">🚜</span>
-                                    <div>
-                                        <p class="font-bold text-stone-900">Sukhdev Gurjar</p>
-                                        <p class="text-[11px] text-stone-500">Machinery Owner · 50HP</p>
-                                    </div>
-                                </button>
-                                <button type="button" onclick="window.__quickLogin('transporter')"
-                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
-                                    <span class="text-2xl">🚚</span>
-                                    <div>
-                                        <p class="font-bold text-stone-900">Mohan Lal Gurjar</p>
-                                        <p class="text-[11px] text-stone-500">Transporter · Eicher 2.5T</p>
-                                    </div>
-                                </button>
-                                <button type="button" onclick="window.__quickLogin('warehouse')"
-                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
-                                    <span class="text-2xl">🏪</span>
-                                    <div>
-                                        <p class="font-bold text-stone-900">Kailash Choudhary</p>
-                                        <p class="text-[11px] text-stone-500">Warehouse · Cold Store</p>
+                                        <p class="font-bold text-stone-900">Buyer Panel</p>
+                                        <p class="text-[11px] text-stone-500">Crop Marketplace, Live Map & QR Checkout</p>
                                     </div>
                                 </button>
                                 <button type="button" onclick="window.__quickLogin('admin')"
-                                        class="p-3 rounded-2xl border border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex items-center space-x-2.5 text-xs">
+                                        class="p-3.5 rounded-2xl border-2 border-stone-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition flex flex-col items-start space-y-1 text-xs">
                                     <span class="text-2xl">🔒</span>
                                     <div>
-                                        <p class="font-bold text-stone-900">Platform Admin</p>
-                                        <p class="text-[11px] text-stone-500">Full Audits & Moderation</p>
+                                        <p class="font-bold text-stone-900">Admin Panel</p>
+                                        <p class="text-[11px] text-stone-500">Platform Supervision, Orders & Disputes</p>
                                     </div>
                                 </button>
                             </div>
@@ -904,6 +822,44 @@
                         <span>Rajasthan Land Records Protected</span>
                     </div>
                 </div>
+
+                <!-- RIGHT COLUMN: Half Side Image (/images/image.png) -->
+                <div class="hidden lg:flex relative bg-[#1b4332] text-white flex-col justify-between p-8 xl:p-10 overflow-hidden select-none">
+                    <!-- Background Image -->
+                    <img src="/images/image.png" alt="KrishiSetu Agriculture Network" class="absolute inset-0 w-full h-full object-cover object-center brightness-[0.92] contrast-[1.05]">
+                    <!-- Dark Gradient Scrim Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/60"></div>
+
+                    <!-- Top Brand Badge -->
+                    <div class="relative z-10 space-y-2">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-[11px] font-semibold text-emerald-200 border border-white/20">
+                            <span>🌱 KrishiSetu Agriculture Network</span>
+                        </div>
+                        <h3 class="text-2xl font-black text-white tracking-tight leading-snug">Connecting Indian Cultivators & Markets</h3>
+                        <p class="text-xs text-stone-200 leading-relaxed">Direct mandi linkage, truckload trade, and transparent UPI pricing for rural producers.</p>
+                    </div>
+
+                    <!-- Bottom Trust Points -->
+                    <div class="relative z-10 space-y-3 pt-6 border-t border-white/20 text-xs">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+                            <span class="text-stone-100 font-medium">Farmer Direct Payouts via Instant UPI QR</span>
+                        </div>
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+                            <span class="text-stone-100 font-medium">Jamabandi land title verification</span>
+                        </div>
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+                            <span class="text-stone-100 font-medium">Direct mandi trade · Zero unofficial broker cuts</span>
+                        </div>
+                        <div class="pt-2 text-[10px] text-emerald-200/90 flex items-center space-x-1">
+                            <span>📍</span>
+                            <span>Geospatial Anchor: JKLU Mahapura, Ajmer Road, Jaipur</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 

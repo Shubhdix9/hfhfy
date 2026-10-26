@@ -817,18 +817,22 @@ window.__payOnlineCart = async () => {
   const totalAmount = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
   const titles = cart.map(i => i.title).join(', ');
 
+  // Direct farmer settlement using active farmer UPI ID
+  const farmerUpiId = localStorage.getItem('krishisetu_farmer_upi_id') || 'ramesh.farmer@upi';
+  const farmerName = localStorage.getItem('krishisetu_farmer_name') || 'Ramesh Kumar (Farmer)';
+
   await openPaymentGatewayModal({
     amount: totalAmount,
     itemTitle: titles,
-    buyerName: 'Farmer / Buyer',
-    sellerUpiId: 'krishisetu.escrow@upi',
-    sellerName: 'KrishiSetu Escrow',
+    buyerName: 'Agri Buyer',
+    sellerUpiId: farmerUpiId,
+    sellerName: farmerName,
     onSuccess: (verifiedPayment) => {
       // Clear cart on verified payment
       cart = [];
       updateCartBadge();
       renderCartView();
-      showToast(`Payment of ₹${totalAmount} verified! Receipt: ${verifiedPayment.receiptId}`, 'success');
+      showToast(`Payment of ₹${totalAmount.toLocaleString('en-IN')} verified! Receipt: ${verifiedPayment.receiptId}`, 'success');
     },
     onFailure: (err) => {
       showToast('Payment was not completed: ' + err.message, 'error');

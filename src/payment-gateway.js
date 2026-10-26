@@ -88,7 +88,8 @@ function renderPaymentCheckoutUI(orderData, onSuccess, onFailure) {
             ${gateway === 'cashfree' ? 'Cashfree PG Gateway' : 'Direct NPCI UPI Gateway'}
           </span>
           <h4 class="text-base font-bold text-gray-900 mt-1">Order #${orderId.slice(-8)}</h4>
-          <p class="text-[11px] text-gray-500">Payee: <strong>${upi.payeeName}</strong></p>
+          <p class="text-[11px] text-gray-600 mt-0.5">🌾 Farmer / Payee: <strong class="text-stone-900">${upi.payeeName}</strong></p>
+          <p class="text-[11px] text-emerald-800 font-medium mt-0.5">Direct Settlement: <code class="bg-emerald-50 text-emerald-900 border border-emerald-200 px-1.5 py-0.5 rounded font-mono font-bold">${upi.payeeVpa}</code></p>
         </div>
         <div class="text-right">
           <span class="text-xs text-gray-500 block">Total Payable</span>
@@ -109,8 +110,8 @@ function renderPaymentCheckoutUI(orderData, onSuccess, onFailure) {
         <div class="inline-block p-2 bg-white rounded-xl shadow-sm border border-gray-100">
           <img src="${upi.qrCodeUrl}" alt="Scan to pay via any UPI App" class="w-48 h-48 mx-auto rounded-lg">
         </div>
-        <p class="text-xs font-bold text-gray-700 mt-2">Scan with Google Pay, PhonePe, Paytm, or BHIM</p>
-        <p class="text-[11px] text-gray-500 mt-0.5">UPI ID: <code class="bg-gray-200 px-1 py-0.5 rounded font-mono text-gray-800">${upi.payeeVpa}</code></p>
+        <p class="text-xs font-bold text-gray-800 mt-2">Scan with Google Pay, PhonePe, Paytm, or BHIM</p>
+        <p class="text-[11px] text-gray-600 mt-0.5">Payment transfers directly to Farmer: <code class="bg-gray-200 px-1.5 py-0.5 rounded font-mono font-bold text-gray-800">${upi.payeeVpa}</code></p>
       </div>
 
       <!-- Mobile 1-Click UPI Deep Links -->

@@ -162,6 +162,43 @@ export function renderFarmerPanel(containerId, onPublishListing) {
           <span class="text-[11px] font-semibold text-stone-500 uppercase">Total Farm Costs</span>
           <p class="text-xl font-bold text-stone-700 mt-0.5">₹${totalCost.toLocaleString('en-IN')}</p>
           <span class="text-[10px] text-emerald-700 font-semibold">Net Margin: ₹${netMargin.toLocaleString('en-IN')}</span>
+      </div>
+
+      <!-- Farmer Direct Payout UPI Settings (Instant Bank Settlement via UPI QR) -->
+      <div class="bg-gradient-to-r from-[#1b4332] via-[#2d6a4f] to-[#1b4332] text-white p-6 rounded-2xl shadow-sm border border-emerald-700/60 flex flex-col md:flex-row justify-between md:items-center gap-6">
+        <div class="space-y-1.5 max-w-xl">
+          <div class="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-emerald-800/90 text-emerald-200 text-[11px] font-bold border border-emerald-600/40">
+            <span>⚡ Instant Payout Settlement</span>
+          </div>
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>💳</span> <span>Farmer Payout UPI Settings (किसान बैंक यूपीआई खाता)</span>
+          </h3>
+          <p class="text-xs text-emerald-100/90 leading-relaxed">
+            Enter your UPI ID below. When buyers purchase your harvest, seeds, or truckload produce, the platform generates a dynamic scannable QR code linked directly to your UPI ID for immediate payment settlement.
+          </p>
+          <div id="farmerActiveUpiDisplay" class="pt-1 text-xs text-emerald-200 font-medium flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Active Settlement Account: <strong class="text-white font-mono bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30" id="farmerUpiBadgeText">${getActiveFarmerUpi()}</strong></span>
+          </div>
+        </div>
+
+        <div class="bg-black/20 p-4 rounded-xl border border-white/15 backdrop-blur-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-xs text-stone-400 font-bold">UPI:</span>
+            <input type="text"
+                   id="farmerPayoutUpiInput"
+                   value="${getActiveFarmerUpi()}"
+                   placeholder="e.g. 9829012345@upi or name@bank"
+                   class="pl-11 pr-3 py-2.5 bg-white text-stone-900 font-mono font-bold text-xs rounded-xl outline-none focus:ring-2 focus:ring-emerald-400 w-full sm:w-60 shadow-inner">
+          </div>
+          <button type="button" onclick="window.__saveFarmerUpiId()"
+                  class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold rounded-xl text-xs transition shadow-md whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>💾</span> <span>Save UPI</span>
+          </button>
+          <button type="button" onclick="window.__previewFarmerQr()"
+                  class="px-3.5 py-2.5 bg-white/15 hover:bg-white/25 text-white font-semibold rounded-xl text-xs transition border border-white/25 whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>📲</span> <span>Test My QR</span>
+          </button>
         </div>
       </div>
 
@@ -1012,4 +1049,63 @@ window.__submitNewConsultation = (e) => {
 
   document.getElementById('harvestToListingModal').classList.add('hidden');
   renderConsultationsTab();
+};
+
+export function getActiveFarmerUpi() {
+  if (typeof localStorage !== 'undefined') {
+    return localStorage.getItem('krishisetu_farmer_upi_id') || 'ramesh.farmer@upi';
+  }
+  return 'ramesh.farmer@upi';
+}
+
+window.__saveFarmerUpiId = () => {
+  const input = document.getElementById('farmerPayoutUpiInput');
+  const val = input ? input.value.trim() : '';
+  if (!val || !val.includes('@')) {
+    alert('Please enter a valid Indian UPI ID (e.g. 9829012345@upi or ramesh@okhdfcbank)');
+    return;
+  }
+  localStorage.setItem('krishisetu_farmer_upi_id', val);
+  const badge = document.getElementById('farmerUpiBadgeText');
+  if (badge) badge.textContent = val;
+  if (window.__showToast) {
+    window.__showToast(`Payout UPI ID updated to ${val}! Buyers will scan your QR code on checkout.`, 'success');
+  } else {
+    alert(`Payout UPI ID successfully updated to: ${val}`);
+  }
+};
+
+window.__previewFarmerQr = () => {
+  const upi = getActiveFarmerUpi();
+  const upiUri = `upi://pay?pa=${upi}&pn=${encodeURIComponent('Ramesh Kumar (Farmer)')}&cu=INR&tn=${encodeURIComponent('KrishiSetu Mandi Payout')}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=8&data=${encodeURIComponent(upiUri)}`;
+
+  const modal = document.getElementById('paymentGatewayModal');
+  const container = document.getElementById('paymentModalContent');
+  if (modal && container) {
+    container.innerHTML = `
+      <div class="space-y-4 text-center">
+        <div class="pb-3 border-b border-stone-200">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase bg-emerald-100 text-emerald-800">
+            🌾 Farmer Direct QR Preview
+          </span>
+          <h4 class="text-base font-bold text-stone-900 mt-1">Your Direct Payout UPI QR Code</h4>
+          <p class="text-xs text-stone-500">Test scan this QR code with any Indian UPI App</p>
+        </div>
+        <div class="bg-stone-50 p-4 rounded-2xl border border-stone-200 inline-block shadow-sm">
+          <img src="${qrUrl}" alt="Farmer Payout QR Code" class="w-52 h-52 mx-auto rounded-xl">
+          <p class="text-xs font-bold text-stone-800 mt-2 font-mono">${upi}</p>
+          <p class="text-[10px] text-emerald-700 font-semibold mt-0.5">Payee: Ramesh Kumar (Farmer)</p>
+        </div>
+        <p class="text-xs text-stone-600 max-w-sm mx-auto">
+          When buyers check out your harvest or produce, the platform automatically generates this dynamic QR code so payment settles directly into your UPI account.
+        </p>
+        <button onclick="document.getElementById('paymentGatewayModal').classList.add('hidden')"
+                class="w-full bg-[#1b4332] hover:bg-[#2d6a4f] text-white font-bold py-3 rounded-xl text-xs transition">
+          Close Preview
+        </button>
+      </div>
+    `;
+    modal.classList.remove('hidden');
+  }
 };
